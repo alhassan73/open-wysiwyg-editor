@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Open WYSIWYG Editor — Playground</title>
+    <meta
+      name="description"
+      content="Accessible (WCAG 2.2 AA, ATAG 2.0), RTL-first, CSP-safe rich text editor for vanilla JS and every framework. MIT."
+    />
+    <link rel="stylesheet" href="../../packages/editor/dist/style.min.css" />
+    <link rel="stylesheet" href="./demo.css" />
+    <script src="../../packages/editor/dist/open-wysiwyg-editor.global.js" defer></script>
+    <script src="./demo.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="wrap hero">
+      <h1>Open WYSIWYG Editor</h1>
+      <p class="lead">
+        Accessible, Arabic/RTL-first, CSP-safe rich text editing for vanilla JS and every framework.
+        MIT — no license key, no telemetry.
+      </p>
+      <ul class="badges" aria-label="Highlights">
+        <li>WCAG 2.2 AA</li><li>ATAG 2.0</li><li>Strict CSP + Trusted Types</li><li>RTL / Arabic</li><li>Headless option</li>
+      </ul>
+      <nav aria-label="Demos">
+        <a href="#full">Full editor</a> · <a href="#headless">Headless</a> · <a href="#arabic">Arabic</a> ·
+        <a href="#install">Install</a>
+      </nav>
+    </header>
+
+    <main id="main" class="wrap">
+      <section id="full" aria-labelledby="full-h">
+        <h2 id="full-h">Full editor</h2>
+        <p>
+          One call — <code>createEditor({ element })</code> — gives you everything below. Press
+          <kbd>Alt+F10</kbd> for the toolbar and <kbd>Alt+0</kbd> for all shortcuts.
+        </p>
+
+        <fieldset class="controls">
+          <legend>Options</legend>
+          <label>Interface language
+            <select id="opt-lang">
+              <option value="en">English</option>
+              <option value="ar">العربية</option>
+            </select>
+          </label>
+          <label>Theme
+            <select id="opt-theme">
+              <option value="auto">Match system</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+          <label>Toolbar
+            <select id="opt-toolbar">
+              <option value="full">Full (default)</option>
+              <option value="minimal">Minimal + custom button</option>
+              <option value="none">None</option>
+            </select>
+          </label>
+          <label class="inline"><input type="checkbox" id="opt-readonly" /> Read-only</label>
+          <label class="inline"><input type="checkbox" id="opt-html" /> Keep extra HTML (HtmlSupport)</label>
+          <label class="inline"><input type="checkbox" id="opt-limit" /> Limit to 1,000 characters</label>
+        </fieldset>
+
+        <div class="actions" role="group" aria-label="Content">
+          <button type="button" id="load-sample">Load sample</button>
+          <button type="button" id="load-unsafe">Load unsafe HTML</button>
+          <button type="button" id="clear">Clear</button>
+        </div>
+
+        <label class="editor-label" for="editor">Article</label>
+        <textarea id="editor" name="article"></textarea>
+
+        <h3 id="output-h">Output</h3>
+        <div class="tabs" role="tablist" aria-labelledby="output-h">
+          <button role="tab" id="tab-html" aria-selected="true" aria-controls="out" tabindex="0">HTML</button>
+          <button role="tab" id="tab-json" aria-selected="false" aria-controls="out" tabindex="-1">JSON</button>
+          <button role="tab" id="tab-text" aria-selected="false" aria-controls="out" tabindex="-1">Text</button>
+        </div>
+        <pre id="out" role="tabpanel" aria-labelledby="tab-html" tabindex="0"></pre>
+      </section>
+
+      <section id="headless" aria-labelledby="headless-h">
+        <h2 id="headless-h">Headless — bring your own UI</h2>
+        <p>Same engine, no built-in interface. These four buttons are the page's own markup:</p>
+        <div id="headless-toolbar" class="mini-toolbar" role="toolbar" aria-label="Comment formatting" aria-controls="headless-editor">
+          <button type="button" data-cmd="bold" aria-pressed="false" tabindex="0"><b>B</b><span class="sr-only"> Bold</span></button>
+          <button type="button" data-cmd="italic" aria-pressed="false" tabindex="-1"><i>I</i><span class="sr-only"> Italic</span></button>
+          <button type="button" data-cmd="bulletList" aria-pressed="false" tabindex="-1">• List</button>
+          <button type="button" data-cmd="undo" tabindex="-1">Undo</button>
+        </div>
+        <div id="headless-editor" class="headless-box"></div>
+        <pre class="code"><code>const editor = createEditor({ element, ui: false, ariaLabel: "Comment" });
+boldButton.onclick = () =&gt; editor.chain().focus().toggleBold().run();
+editor.subscribe(() =&gt; boldButton.setAttribute("aria-pressed", editor.isActive("bold")));</code></pre>
+      </section>
+
+      <section id="arabic" aria-labelledby="arabic-h" lang="ar" dir="rtl">
+        <h2 id="arabic-h">محرر باللغة العربية</h2>
+        <p>واجهة عربية كاملة، واتجاه من اليمين إلى اليسار، وعدّ صحيح للكلمات.</p>
+        <div id="editor-ar"></div>
+      </section>
+
+      <section id="install" aria-labelledby="install-h">
+        <h2 id="install-h">Install</h2>
+        <pre class="code"><code>npm install open-wysiwyg-editor     # or: pnpm add open-wysiwyg-editor</code></pre>
+        <pre class="code"><code>import { createEditor } from "open-wysiwyg-editor";
+import "open-wysiwyg-editor/style.css";
+
+const editor = createEditor({
+  element: document.querySelector("#editor"), // a &lt;div&gt; or a &lt;textarea&gt; inside a form
+  onUpdate: (e) =&gt; save(e.getHTML()),
+});</code></pre>
+        <p>
+          No bundler? Use <code>dist/open-wysiwyg-editor.global.js</code> from a CDN and call
+          <code>OpenWysiwygEditor.createEditor()</code> — that is exactly what this page does.
+        </p>
+      </section>
+    </main>
+
+    <footer class="wrap footer">
+      <p>
+        MIT License · <a href="https://github.com/alhassan73/open-wysiwyg-editor">Source on GitHub</a> ·
+        Served locally with <code>script-src 'self'; style-src 'self'; require-trusted-types-for 'script'</code>.
+      </p>
+    </footer>
+  </body>
+</html>

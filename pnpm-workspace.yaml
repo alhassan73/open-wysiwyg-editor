@@ -1,0 +1,10 @@
+packages:
+  - packages/*
+  - apps/*
+
+# Inter-package deps use plain semver ranges (not `workspace:`) so npm workspaces work too;
+# this makes pnpm link them locally the same way npm does.
+linkWorkspacePackages: true
+
+allowBuilds:
+  esbuild: true

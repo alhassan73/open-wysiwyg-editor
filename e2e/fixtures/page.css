@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 16px;
+  font-family: system-ui, sans-serif;
+  background: #fff;
+  color: #111;
+}
+main {
+  max-width: 900px;
+  margin: 0 auto;
+}
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+#submit {
+  margin-top: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #111;
+    color: #eee;
+  }
+}
