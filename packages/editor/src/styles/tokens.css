@@ -1,0 +1,96 @@
+/*
+ * Design tokens. Everything lives in the `owe` cascade layer, so any unlayered host CSS wins
+ * without !important. Override tokens on .owe (or :root) to theme the editor.
+ * Contrast: text ≥ 4.5:1, borders/focus/states ≥ 3:1 against --owe-bg (WCAG 1.4.3 / 1.4.11).
+ */
+@layer owe {
+  .owe,
+  .owe-content-root {
+    --owe-font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Arabic", Tahoma, sans-serif;
+    --owe-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --owe-font-size: 1rem;
+    --owe-line-height: 1.6;
+    --owe-radius: 8px;
+    --owe-radius-sm: 6px;
+    --owe-space: 8px;
+    --owe-target: 32px; /* ≥ 24px (WCAG 2.5.8); 32px is comfortable */
+
+    --owe-bg: #ffffff;
+    --owe-surface: #f6f7f9;
+    --owe-surface-2: #eceef2;
+    --owe-text: #1b1f24;
+    --owe-muted: #57606a; /* 6.4:1 on white */
+    --owe-border: #8c959f; /* 3.1:1 on white */
+    --owe-border-subtle: #d0d7de;
+    --owe-accent: #0b57d0; /* 6.6:1 on white */
+    --owe-on-accent: #ffffff;
+    --owe-accent-soft: #d3e3fd;
+    --owe-focus: #0b57d0;
+    --owe-danger: #b3261e;
+    --owe-warning: #8a5300;
+    --owe-success: #146c2e;
+    --owe-selection: #b4d5fe;
+    --owe-code-bg: #f3f4f6;
+    --owe-mark: #fff2a8;
+    --owe-shadow: 0 8px 24px rgb(0 0 0 / 0.14), 0 2px 6px rgb(0 0 0 / 0.08);
+    --owe-z-popover: 1000;
+
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .owe:not([data-theme="light"]),
+    .owe-content-root:not([data-theme="light"]) {
+      --owe-bg: #16191d;
+      --owe-surface: #1f2329;
+      --owe-surface-2: #2a2f36;
+      --owe-text: #e6e9ed;
+      --owe-muted: #a8b1bb;
+      --owe-border: #7d8590;
+      --owe-border-subtle: #3a4049;
+      --owe-accent: #8ab4f8;
+      --owe-on-accent: #0b1a33;
+      --owe-accent-soft: #1f3a66;
+      --owe-focus: #8ab4f8;
+      --owe-danger: #f2b8b5;
+      --owe-warning: #f6c66b;
+      --owe-success: #8bd6a0;
+      --owe-selection: #264f78;
+      --owe-code-bg: #22272e;
+      --owe-mark: #5c4b00;
+      --owe-shadow: 0 8px 24px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.4);
+      color-scheme: dark;
+    }
+  }
+
+  .owe[data-theme="dark"],
+  .owe-content-root[data-theme="dark"] {
+    --owe-bg: #16191d;
+    --owe-surface: #1f2329;
+    --owe-surface-2: #2a2f36;
+    --owe-text: #e6e9ed;
+    --owe-muted: #a8b1bb;
+    --owe-border: #7d8590;
+    --owe-border-subtle: #3a4049;
+    --owe-accent: #8ab4f8;
+    --owe-on-accent: #0b1a33;
+    --owe-accent-soft: #1f3a66;
+    --owe-focus: #8ab4f8;
+    --owe-danger: #f2b8b5;
+    --owe-warning: #f6c66b;
+    --owe-success: #8bd6a0;
+    --owe-selection: #264f78;
+    --owe-code-bg: #22272e;
+    --owe-mark: #5c4b00;
+    --owe-shadow: 0 8px 24px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.4);
+    color-scheme: dark;
+  }
+
+  @media (prefers-contrast: more) {
+    .owe {
+      --owe-border: currentColor;
+      --owe-border-subtle: var(--owe-border);
+      --owe-muted: var(--owe-text);
+    }
+  }
+}

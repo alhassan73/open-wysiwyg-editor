@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # Supply-chain cooldown: don't adopt releases younger than a week.
+    cooldown:
+      default-days: 7
+    groups:
+      prosemirror:
+        patterns: ["prosemirror-*"]
+      dev:
+        dependency-type: development
