@@ -22,7 +22,7 @@ jobs:
         pm: [pnpm, npm]
         node: [20, 24]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
         if: matrix.pm == 'pnpm'
         with:
@@ -44,7 +44,7 @@ jobs:
     name: e2e (Chromium · Firefox · WebKit) + axe
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v5
         with:
           node-version: 24
@@ -63,7 +63,7 @@ jobs:
     name: dependency licenses
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v5
         with:
           node-version: 24
