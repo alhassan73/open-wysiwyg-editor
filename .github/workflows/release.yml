@@ -18,6 +18,10 @@ jobs:
       id-token: write # npm Trusted Publishing (OIDC) + provenance — no NPM_TOKEN secret
     steps:
       - uses: actions/checkout@v5
+      # changeset publish picks pnpm because pnpm-lock.yaml exists
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
       - uses: actions/setup-node@v5
         with:
           node-version: 24
