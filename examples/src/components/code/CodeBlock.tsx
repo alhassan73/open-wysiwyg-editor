@@ -52,20 +52,21 @@ export function CodeBlock({
         className,
       )}
     >
-      {title ? (
-        <figcaption className="flex items-center gap-3 border-b border-code-border bg-code-bar py-1.5 ps-4 pe-1.5 text-caption">
-          <span className="min-w-0 flex-1 truncate font-bold">{title}</span>
-          <span className="font-mono text-code-foreground/75">{LABEL[lang]}</span>
-          <CopyButton text={text} />
-        </figcaption>
-      ) : null}
-      <div className="relative">
+      {/* Always a header bar, so the copy button never covers the code. */}
+      <figcaption className="flex items-center gap-3 border-b border-code-border bg-code-bar py-1 ps-4 pe-1 text-caption">
+        {title ? <span className="min-w-0 flex-1 truncate font-bold">{title}</span> : null}
+        <span className={cn("font-mono text-code-foreground/75", !title && "flex-1")}>
+          {LABEL[lang]}
+        </span>
+        <CopyButton text={text} />
+      </figcaption>
+      <div>
         <div
           role="region"
           tabIndex={0}
           aria-label={`${title ?? LABEL[lang]} code`}
           className={cn(
-            "rounded-[inherit] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+            "[scrollbar-color:var(--code-border)_transparent] [scrollbar-width:thin] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
             maxHeight ? "max-h-72 overflow-auto" : "overflow-x-auto",
           )}
         >
@@ -88,7 +89,6 @@ export function CodeBlock({
             </code>
           </pre>
         </div>
-        {title ? null : <CopyButton text={text} className="absolute end-2 top-2" />}
       </div>
     </figure>
   );

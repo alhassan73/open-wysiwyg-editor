@@ -126,7 +126,7 @@
   /* Behind white text in the wordmark: every stop >= 4.7:1. */
   --wm-grad: linear-gradient(90deg, #0057d9, #0073c2 55%, #008276);
 
-  --header-bg: rgb(16 17 18 / 0.8);
+  --header-bg: rgb(16 17 18 / 0.6);
   --shadow-elevated: 0 24px 60px rgb(0 0 0 / 0.45);
   --glow:
     radial-gradient(55% 60% at 12% 0%, rgb(0 102 255 / 0.3), transparent 70%),
@@ -182,7 +182,7 @@
   --brand-teal: #0e9f8f;
   --gradient-text: linear-gradient(90deg, #0050cc, #00709f 55%, #0b7f73);
 
-  --header-bg: rgb(247 248 250 / 0.8);
+  --header-bg: rgb(247 248 250 / 0.7);
   --shadow-elevated: 0 24px 60px rgb(30 40 80 / 0.12);
   --glow:
     radial-gradient(55% 60% at 12% 0%, rgb(0 102 255 / 0.16), transparent 70%),
@@ -510,4 +510,12 @@
   .tok-op {
     color: var(--tok-op);
   }
+}
+
+/* Theme switch: ThemeToggle grows the new theme as a circle (clip-path on the new snapshot), so the
+   browser's default cross-fade is turned off. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }

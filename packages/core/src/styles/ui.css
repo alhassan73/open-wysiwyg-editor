@@ -212,6 +212,12 @@
 
   /* ---- dialogs ------------------------------------------------------------------------------- */
   .owe-dialog {
+    /* Centered explicitly: CSS resets (Tailwind preflight, normalize) set margin: 0 on every element,
+       which removes the browser's margin: auto centering of a modal <dialog>. */
+    position: fixed;
+    inset: 50% auto auto 50%;
+    translate: -50% -50%;
+    margin: 0;
     inline-size: min(440px, calc(100vw - 32px));
     max-block-size: calc(100vh - 32px);
     padding: 0;

@@ -14,6 +14,13 @@ import {
 } from "react";
 import { CodeBlock } from "@/components/code/CodeBlock";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DIR } from "@/i18n/config";
 import { onColor } from "@/lib/color";
@@ -215,15 +222,15 @@ export function PlaygroundClient({ text }: { text: Record<Locale, PlaygroundText
               <label htmlFor={`${id}-lang`} className="text-small text-muted-foreground">
                 {t("language")}
               </label>
-              <select
-                id={`${id}-lang`}
-                value={lang}
-                onChange={(e) => changeLang(e.target.value as Locale)}
-                className="h-11 rounded-md border border-input bg-background px-3 text-small font-bold text-foreground"
-              >
-                <option value="en">{names("names.en")} (LTR)</option>
-                <option value="ar">{names("names.ar")} (RTL)</option>
-              </select>
+              <Select value={lang} onValueChange={(value) => changeLang(value as Locale)}>
+                <SelectTrigger id={`${id}-lang`} className="min-w-40">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="en">{names("names.en")} (LTR)</SelectItem>
+                  <SelectItem value="ar">{names("names.ar")} (RTL)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex min-h-11 items-center gap-2.5">
               <input

@@ -8,6 +8,7 @@ linkWorkspacePackages: true
 
 allowBuilds:
   '@parcel/watcher': false
+  '@swc/core': false
   esbuild: true
 
 minimumReleaseAgeExclude:

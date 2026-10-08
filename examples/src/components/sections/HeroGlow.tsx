@@ -2,7 +2,10 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
-/** Decorative hero background: a slow-drifting blue/cyan/teal glow, two orbs that parallax with scroll, a dot grid. */
+/**
+ * Decorative hero background: a slow-drifting blue/cyan/teal glow, two orbs that parallax with scroll, a dot grid.
+ * The orbs are radial gradients, not blur() filters: large animated blurs crash WebKit on Linux.
+ */
 export function HeroGlow() {
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
@@ -14,11 +17,11 @@ export function HeroGlow() {
       <div className="absolute inset-x-0 top-0 h-176 animate-glow-drift bg-glow" />
       <motion.div
         style={{ y: down }}
-        className="absolute -top-28 start-[6%] size-112 rounded-full bg-primary/15 blur-3xl"
+        className="absolute -top-28 start-[6%] size-112 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_15%,transparent),transparent)]"
       />
       <motion.div
         style={{ y: up }}
-        className="absolute end-[4%] top-40 size-96 rounded-full bg-brand-teal/10 blur-3xl"
+        className="absolute end-[4%] top-40 size-96 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--brand-teal)_10%,transparent),transparent)]"
       />
       <div className="absolute inset-0 [background-image:radial-gradient(var(--border)_1px,transparent_1px)] [background-size:26px_26px] [mask-image:radial-gradient(ellipse_70%_55%_at_50%_0%,#000,transparent)]" />
     </div>

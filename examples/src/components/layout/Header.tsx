@@ -79,7 +79,7 @@ export function Header() {
   return (
     <header
       data-compact={compact ? "" : undefined}
-      className="sticky top-0 z-40 border-b border-transparent bg-header backdrop-blur-xl backdrop-saturate-150 transition-colors data-compact:border-border"
+      className="sticky top-0 z-40 border-b border-transparent bg-header backdrop-blur-2xl backdrop-saturate-150 transition-colors data-compact:border-border"
     >
       <div
         className={cn(

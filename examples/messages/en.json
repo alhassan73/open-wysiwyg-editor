@@ -52,7 +52,7 @@
   },
   "Features": {
     "eyebrow": "Features",
-    "title": "Everything a writer expects",
+    "title": "Everything you need to write, built in",
     "description": "And the things your users, your security team and your auditors ask for.",
     "items": [
       {
@@ -119,9 +119,7 @@
     "github": "GitHub",
     "newTab": "(opens in a new tab)",
     "worksWith": "Works with",
-    "marquee": "Supported frameworks",
-    "pause": "Pause animation",
-    "play": "Play animation"
+    "marquee": "Supported frameworks"
   },
   "Install": {
     "eyebrow": "Install",

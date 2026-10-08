@@ -70,7 +70,7 @@ const editor = createEditor({
   const stepCode = [step1, step2, step3];
 
   return (
-    <div className={cn(CONTAINER, "pb-20 md:pb-28")}>
+    <div className={cn(CONTAINER, "pt-12 pb-20 md:pt-16 md:pb-28")}>
       {/* Three columns on desktop. The columns share three grid rows (subgrid), so the numbers, the texts
           and the code blocks line up, and the code blocks stretch to one height. */}
       <ol
