@@ -1,0 +1,56 @@
+{
+  "name": "@open-wysiwyg-editor/astro",
+  "version": "1.0.0",
+  "description": "Astro component for open-wysiwyg-editor: <RichTextEditor name value />, works with plain form posts. Accessible (WCAG 2.2 AA), RTL-first, CSP-safe.",
+  "license": "MIT",
+  "author": "alhassan-ahmed",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./RichTextEditor.astro": "./RichTextEditor.astro",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "RichTextEditor.astro"
+  ],
+  "keywords": [
+    "astro",
+    "astro-component",
+    "withastro",
+    "wysiwyg",
+    "rich-text-editor",
+    "editor",
+    "accessibility",
+    "a11y",
+    "rtl",
+    "arabic"
+  ],
+  "dependencies": {
+    "open-wysiwyg-editor": "^1.0.0"
+  },
+  "peerDependencies": {
+    "astro": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "astro": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://alhassan73.github.io/open-wysiwyg-editor/",
+  "bugs": {
+    "url": "https://github.com/alhassan73/open-wysiwyg-editor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alhassan73/open-wysiwyg-editor.git",
+    "directory": "packages/astro"
+  }
+}

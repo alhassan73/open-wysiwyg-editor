@@ -11,7 +11,7 @@ const arg = (name) => {
   return i > -1 ? process.argv[i + 1] : undefined;
 };
 const port = Number(arg("port") ?? process.env.PORT ?? 4317);
-const defaultPage = arg("page") ?? "/e2e/fixtures/index.html";
+const defaultPage = arg("page") ?? "/test/e2e/fixtures/index.html";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",

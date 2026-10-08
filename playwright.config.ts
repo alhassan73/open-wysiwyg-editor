@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "e2e",
+  testDir: "test/e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
@@ -17,7 +17,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "node scripts/serve-e2e.mjs",
-    url: "http://localhost:4317/e2e/fixtures/index.html",
+    url: "http://localhost:4317/test/e2e/fixtures/index.html",
     reuseExistingServer: !process.env.CI,
   },
 });

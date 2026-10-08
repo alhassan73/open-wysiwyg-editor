@@ -1,0 +1,126 @@
+{
+  "name": "open-wysiwyg-editor",
+  "version": "1.0.0",
+  "description": "Accessible (WCAG 2.2 AA / ATAG 2.0), RTL-first, CSP-safe rich text editor for any website: plain JavaScript, HTML forms, the <owe-editor> web component, and React, Next.js, Vue, Nuxt, Angular, Svelte, Solid and Astro. MIT, no license key, no telemetry.",
+  "license": "MIT",
+  "author": "alhassan-ahmed",
+  "type": "module",
+  "sideEffects": [
+    "*.css",
+    "./dist/element.js",
+    "./dist/element.cjs",
+    "./dist/open-wysiwyg-editor.global.js"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/open-wysiwyg-editor.global.js",
+  "jsdelivr": "./dist/open-wysiwyg-editor.global.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./headless": {
+      "import": {
+        "types": "./dist/headless.d.ts",
+        "default": "./dist/headless.js"
+      },
+      "require": {
+        "types": "./dist/headless.d.cts",
+        "default": "./dist/headless.cjs"
+      }
+    },
+    "./element": {
+      "import": {
+        "types": "./dist/element.d.ts",
+        "default": "./dist/element.js"
+      },
+      "require": {
+        "types": "./dist/element.d.cts",
+        "default": "./dist/element.cjs"
+      }
+    },
+    "./style.css": "./dist/style.css",
+    "./style.min.css": "./dist/style.min.css",
+    "./content.min.css": "./dist/content.min.css",
+    "./content.css": "./dist/content.css",
+    "./global": "./dist/open-wysiwyg-editor.global.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "wysiwyg",
+    "rich-text-editor",
+    "editor",
+    "prosemirror",
+    "accessibility",
+    "a11y",
+    "wcag",
+    "atag",
+    "rtl",
+    "arabic",
+    "web-component",
+    "custom-element",
+    "vanilla-js",
+    "react",
+    "nextjs",
+    "preact",
+    "vue",
+    "nuxt",
+    "angular",
+    "svelte",
+    "solid",
+    "astro",
+    "html-forms",
+    "csp",
+    "trusted-types"
+  ],
+  "scripts": {
+    "build": "tsup && node scripts/build-css.mjs",
+    "prepack": "npm run build && node scripts/copy-readme.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "dompurify": "^3.4.16",
+    "prosemirror-commands": "^1.7.2",
+    "prosemirror-dropcursor": "^1.8.4",
+    "prosemirror-gapcursor": "^1.4.1",
+    "prosemirror-history": "^1.5.1",
+    "prosemirror-inputrules": "^1.5.1",
+    "prosemirror-keymap": "^1.2.3",
+    "prosemirror-model": "^1.25.12",
+    "prosemirror-schema-list": "^1.5.1",
+    "prosemirror-state": "^1.4.4",
+    "prosemirror-tables": "^1.8.5",
+    "prosemirror-transform": "^1.12.2",
+    "prosemirror-view": "^1.42.6"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.1",
+    "tsup": "^8.5.1",
+    "vitest": "^5.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://alhassan73.github.io/open-wysiwyg-editor/",
+  "bugs": {
+    "url": "https://github.com/alhassan73/open-wysiwyg-editor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alhassan73/open-wysiwyg-editor.git",
+    "directory": "packages/core"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [],
+    "experimentalDecorators": false,
+    "useDefineForClassFields": false,
+    "declaration": true,
+    "noEmit": false
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial",
+    "strictTemplates": true,
+    "strictInjectionParameters": true
+  },
+  "include": ["src"]
+}

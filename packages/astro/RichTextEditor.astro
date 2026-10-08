@@ -1,0 +1,32 @@
+---
+// Renders <owe-editor>. The initial HTML travels in the escaped `value` attribute, so content that
+// came from users can't run before the editor sanitizes it. The editor itself starts in the browser.
+import type { HTMLAttributes } from "astro/types";
+
+export interface Props extends HTMLAttributes<"div"> {
+  /** Initial content as HTML. */
+  value?: string;
+  /** Form field name: the HTML is submitted with the surrounding <form>. */
+  name?: string;
+  placeholder?: string;
+  /** Accessible name (or point a <label for> at the element's id). */
+  label?: string;
+  readonly?: boolean;
+  disabled?: boolean;
+  /** UI language, e.g. "ar". Defaults to <html lang>. */
+  language?: string;
+  /** Base direction of the content. */
+  dir?: "ltr" | "rtl" | "auto";
+  /** Toolbar items separated by spaces ("bold italic | link"), or "none". */
+  toolbar?: string;
+}
+
+const { value = "", ...attributes } = Astro.props;
+---
+
+<owe-editor value={value} {...attributes}></owe-editor>
+
+<script>
+  import "open-wysiwyg-editor/element";
+  import "open-wysiwyg-editor/style.css";
+</script>

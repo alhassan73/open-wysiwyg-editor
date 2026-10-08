@@ -1,0 +1,63 @@
+{
+  "name": "@open-wysiwyg-editor/angular",
+  "version": "1.0.0",
+  "description": "Angular standalone component for open-wysiwyg-editor with ngModel and reactive forms support. Accessible (WCAG 2.2 AA), RTL-first, CSP-safe, SSR-safe.",
+  "license": "MIT",
+  "author": "alhassan-ahmed",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./style.css": "./style.css",
+    "./style.min.css": "./style.min.css",
+    "./content.css": "./content.css",
+    "./content.min.css": "./content.min.css"
+  },
+  "keywords": [
+    "angular",
+    "angular-component",
+    "ngmodel",
+    "reactive-forms",
+    "wysiwyg",
+    "rich-text-editor",
+    "editor",
+    "accessibility",
+    "a11y",
+    "rtl",
+    "arabic"
+  ],
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json -c tsconfig.json && node ../../scripts/copy-styles.mjs dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "open-wysiwyg-editor": "^1.0.0",
+    "tslib": "^2.8.1"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=21.0.0",
+    "@angular/forms": ">=21.0.0"
+  },
+  "devDependencies": {
+    "@angular/common": "~21.2.25",
+    "@angular/compiler": "~21.2.25",
+    "@angular/compiler-cli": "~21.2.25",
+    "@angular/core": "~21.2.25",
+    "@angular/forms": "~21.2.25",
+    "@angular/platform-browser": "~21.2.25",
+    "ng-packagr": "~21.2.7",
+    "rxjs": "^7.8.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://alhassan73.github.io/open-wysiwyg-editor/",
+  "bugs": {
+    "url": "https://github.com/alhassan73/open-wysiwyg-editor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alhassan73/open-wysiwyg-editor.git",
+    "directory": "packages/angular"
+  }
+}

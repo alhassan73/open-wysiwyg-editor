@@ -13,8 +13,11 @@ high/critical issues within 14 days. Fixed issues are published as GitHub Securi
 
 | Version | Supported |
 | ------- | --------- |
-| latest minor of the current major | ✅ |
-| previous major | security fixes for 6 months after a new major |
+| 1.x (`open-wysiwyg-editor` and every `@open-wysiwyg-editor/*` package) | ✅ |
+| 0.x | ❌ |
+
+All packages share one version number and are released together, so a fix ships for all of them at once.
+When a new major version is released, the previous major gets security fixes for 6 months.
 
 ## Security model (read this before deploying)
 

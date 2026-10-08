@@ -1,9 +1,0 @@
-{
-  "name": "playground",
-  "private": true,
-  "version": "0.0.0",
-  "description": "Demo page — served with a strict CSP + Trusted Types to prove the editor needs no unsafe directives.",
-  "scripts": {
-    "dev": "node ../../scripts/serve-e2e.mjs --page /apps/playground/index.html --port 5173"
-  }
-}

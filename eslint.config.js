@@ -3,7 +3,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["**/dist/**", "_site/**", "playwright-report/**", "test-results/**"] },
+  { ignores: ["**/dist/**", "**/.angular/**", "_site/**", "playwright-report/**", "test-results/**"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -26,7 +26,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/*.test.ts", "e2e/**", "apps/**"],
+    files: ["**/*.test.ts", "test/**", "examples/**"],
     rules: { "no-restricted-properties": "off" },
   },
 );

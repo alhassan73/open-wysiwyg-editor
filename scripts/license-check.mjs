@@ -1,10 +1,14 @@
 // Verifies every runtime dependency (transitively) of published packages uses an allowed license.
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 
 const ALLOWED = new Set(["MIT", "ISC", "BSD-2-Clause", "BSD-3-Clause", "Apache-2.0", "0BSD", "MPL-2.0", "BlueOak-1.0.0"]);
-const PACKAGES = ["packages/editor"];
+// Every published (non-private) package under packages/.
+const PACKAGES = readdirSync("packages", { withFileTypes: true })
+  .filter((d) => d.isDirectory() && existsSync(join("packages", d.name, "package.json")))
+  .map((d) => join("packages", d.name))
+  .filter((dir) => !JSON.parse(readFileSync(join(dir, "package.json"), "utf8")).private);
 
 /** Allowed when the SPDX expression has at least one allowed alternative (e.g. "(MPL-2.0 OR Apache-2.0)"). */
 const allowed = (expr) =>

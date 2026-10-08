@@ -1,8 +1,11 @@
-# Publishes packages/editor to npm when a version tag (v1.2.3) is pushed.
+# Publishes every package in packages/ to npm when a version tag (v1.2.3) is pushed.
 # Uses npm Trusted Publishing: GitHub proves the workflow's identity to npm (OIDC), so no npm
-# token or 2FA code is needed, and the package gets a provenance attestation. One-time setup on
-# npmjs.com → open-wysiwyg-editor → Settings → Trusted Publisher: GitHub Actions, user
-# `alhassan73`, repository `open-wysiwyg-editor`, workflow `release.yml`.
+# token or 2FA code is needed, and each package gets a provenance attestation.
+#
+# One-time setup, for EACH package on npmjs.com → package → Settings → Trusted Publisher:
+# GitHub Actions, user `alhassan73`, repository `open-wysiwyg-editor`, workflow `release.yml`.
+# A package must exist on npm before a trusted publisher can be added, so the first publish of
+# each new `@open-wysiwyg-editor/*` package is done by hand. The publish loop is scripts/publish.mjs.
 name: Release
 
 on:
@@ -26,25 +29,22 @@ jobs:
       - name: npm with Trusted Publishing support (11.5.1+)
         run: npm install -g npm@latest
       - run: npm ci
-      - name: Tag matches package version
-        run: test "v$(node -p "require('./packages/editor/package.json').version")" = "$GITHUB_REF_NAME"
-      - name: Skip versions already on npm (e.g. published by hand)
-        id: npm
-        run: echo "published=$(npm view "open-wysiwyg-editor@${GITHUB_REF_NAME#v}" version 2>/dev/null)" >> "$GITHUB_OUTPUT"
-      - if: steps.npm.outputs.published == ''
-        run: npm run check
-      - if: steps.npm.outputs.published == ''
-        run: npm run build
-      - if: steps.npm.outputs.published == ''
-        name: Bundle size budget
+      - name: Tag matches every package version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          test "$(node -p "require('./packages/core/package.json').version")" = "$version" \
+            || { echo "::error::packages/core version does not match tag $GITHUB_REF_NAME"; exit 1; }
+          for f in packages/*/package.json; do
+            node -e "const p=require('./$f'); if(!p.private && p.version!=='$version'){console.error('::error::'+p.name+' is '+p.version+', expected $version');process.exit(1)}"
+          done
+      - run: npm run check
+      - name: Bundle size budget
         run: node scripts/size-check.mjs
-      - if: steps.npm.outputs.published == ''
-        name: SBOM
+      - name: SBOM
         run: npm sbom --sbom-format cyclonedx --workspace open-wysiwyg-editor > sbom.cdx.json
-      - if: steps.npm.outputs.published == ''
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: sbom
           path: sbom.cdx.json
-      - if: steps.npm.outputs.published == ''
-        run: npm publish --workspace open-wysiwyg-editor --access public
+      - name: Publish packages not yet on npm
+        run: node scripts/publish.mjs

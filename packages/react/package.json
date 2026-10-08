@@ -1,0 +1,78 @@
+{
+  "name": "@open-wysiwyg-editor/react",
+  "version": "1.0.0",
+  "description": "React and Next.js component for open-wysiwyg-editor: an accessible (WCAG 2.2 AA), RTL-first, CSP-safe rich text editor. <RichTextEditor value onChange /> and useEditor().",
+  "license": "MIT",
+  "author": "alhassan-ahmed",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./style.css": "./dist/style.css",
+    "./style.min.css": "./dist/style.min.css",
+    "./content.css": "./dist/content.css",
+    "./content.min.css": "./dist/content.min.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "nextjs",
+    "wysiwyg",
+    "rich-text-editor",
+    "editor",
+    "accessibility",
+    "a11y",
+    "rtl",
+    "arabic"
+  ],
+  "scripts": {
+    "build": "tsup && node ../../scripts/copy-styles.mjs",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "open-wysiwyg-editor": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^30.1.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tsup": "^8.5.1",
+    "vitest": "^5.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://alhassan73.github.io/open-wysiwyg-editor/",
+  "bugs": {
+    "url": "https://github.com/alhassan73/open-wysiwyg-editor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alhassan73/open-wysiwyg-editor.git",
+    "directory": "packages/react"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "name": "@open-wysiwyg-editor/nuxt",
+  "version": "1.0.0",
+  "description": "Nuxt module for open-wysiwyg-editor: auto-imported <RichTextEditor v-model /> and styles. Accessible (WCAG 2.2 AA), RTL-first, CSP-safe.",
+  "license": "MIT",
+  "author": "alhassan-ahmed",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "vue",
+    "wysiwyg",
+    "rich-text-editor",
+    "editor",
+    "accessibility",
+    "a11y",
+    "rtl",
+    "arabic"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@open-wysiwyg-editor/vue": "^1.0.0",
+    "@nuxt/kit": "^4.0.0"
+  },
+  "peerDependencies": {
+    "nuxt": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "nuxt": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@nuxt/schema": "^4.6.0",
+    "tsup": "^8.5.1",
+    "vitest": "^5.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://alhassan73.github.io/open-wysiwyg-editor/",
+  "bugs": {
+    "url": "https://github.com/alhassan73/open-wysiwyg-editor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alhassan73/open-wysiwyg-editor.git",
+    "directory": "packages/nuxt"
+  }
+}

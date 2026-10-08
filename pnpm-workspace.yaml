@@ -1,10 +1,16 @@
 packages:
   - packages/*
-  - apps/*
+  - examples
 
 # Inter-package deps use plain semver ranges (not `workspace:`) so npm workspaces work too;
 # this makes pnpm link them locally the same way npm does.
 linkWorkspacePackages: true
 
 allowBuilds:
+  '@parcel/watcher': false
   esbuild: true
+
+minimumReleaseAgeExclude:
+  - preact@11.0.1
+  - solid-js@1.9.17
+  - vite@8.3.4

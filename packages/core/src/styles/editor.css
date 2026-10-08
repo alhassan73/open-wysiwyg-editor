@@ -1,0 +1,229 @@
+@layer owe {
+  /* ---- shell ---------------------------------------------------------------------------- */
+  owe-editor {
+    display: block;
+  }
+  .owe {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--owe-bg);
+    color: var(--owe-text);
+    border: 1px solid var(--owe-border-subtle);
+    border-radius: var(--owe-radius);
+    font-family: var(--owe-font);
+    min-inline-size: 0;
+  }
+  .owe:focus-within {
+    border-color: color-mix(in srgb, var(--owe-focus) 45%, var(--owe-border-subtle));
+  }
+  /* 2px gradient edge along the bottom, following the card's curve; brighter while editing.
+     Popups are positioned children, so nothing here clips them. */
+  .owe::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    padding-block-end: 2px;
+    border-radius: inherit;
+    background: var(--owe-gradient);
+    -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .owe:focus-within::after {
+    opacity: 1;
+  }
+  .owe-body {
+    position: relative;
+    flex: 1;
+    min-block-size: 0;
+  }
+
+  /* ---- editing area (ProseMirror requirements + ours) ----------------------------------- */
+  .owe-content {
+    position: relative;
+    min-block-size: 8em;
+    padding: var(--owe-pad-y) var(--owe-pad-x);
+    outline: none;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    white-space: break-spaces;
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0;
+    caret-color: var(--owe-caret);
+    /* Keep the caret clear of the sticky toolbar when scrolling (WCAG 2.4.11). */
+    scroll-padding-block: 4em;
+  }
+  .owe-content:focus-visible {
+    outline: none; /* the shell shows focus via :focus-within (3:1 border) */
+  }
+  .owe-content ::selection {
+    background: var(--owe-selection);
+    color: inherit;
+  }
+  .owe[data-theme="dark"] .owe-content ::selection {
+    color: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    .owe:not([data-theme="light"]) .owe-content ::selection {
+      color: #fff;
+    }
+  }
+  .owe-content pre {
+    white-space: pre-wrap;
+  }
+  .owe-content li {
+    position: relative;
+  }
+  .ProseMirror-hideselection *::selection {
+    background: transparent;
+  }
+  .ProseMirror-hideselection {
+    caret-color: transparent;
+  }
+  .owe-content [draggable][contenteditable="false"] {
+    user-select: text;
+  }
+  .owe-content .ProseMirror-selectednode {
+    outline: 3px solid var(--owe-focus);
+    outline-offset: 2px;
+  }
+  .owe-content li.ProseMirror-selectednode {
+    outline: none;
+  }
+  .owe-content li.ProseMirror-selectednode::after {
+    content: "";
+    position: absolute;
+    inset-block: -2px;
+    inset-inline: -32px -2px;
+    border: 2px solid var(--owe-focus);
+    pointer-events: none;
+  }
+  .owe-content img.ProseMirror-separator {
+    display: inline !important;
+    border: none !important;
+    margin: 0 !important;
+  }
+
+  /* placeholder (also exposed as aria-placeholder) */
+  .owe-content .owe-placeholder::before {
+    content: attr(data-placeholder);
+    color: var(--owe-muted);
+    pointer-events: none;
+    position: absolute;
+    inset-inline-start: var(--owe-pad-x);
+  }
+
+  /* gap cursor */
+  .ProseMirror-gapcursor {
+    display: none;
+    pointer-events: none;
+    position: absolute;
+  }
+  .ProseMirror-gapcursor::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -2px;
+    inline-size: 20px;
+    border-block-start: 2px solid var(--owe-text);
+    animation: owe-blink 1.1s steps(2, start) infinite;
+  }
+  .ProseMirror-focused .ProseMirror-gapcursor {
+    display: block;
+  }
+  @keyframes owe-blink {
+    to { visibility: hidden; }
+  }
+  .owe-dropcursor {
+    background: var(--owe-accent);
+  }
+
+  /* task items in the editor */
+  .owe-task-control {
+    display: inline-flex;
+    user-select: none;
+  }
+
+  /* tables in the editor */
+  .owe-content .tableWrapper {
+    overflow-x: auto;
+    margin-block-end: 0.85em;
+  }
+  .owe-content table {
+    margin-block-end: 0;
+  }
+  .owe-content :is(td, th) {
+    position: relative;
+  }
+  .owe-content .selectedCell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--owe-selection);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .owe-content .column-resize-handle {
+    position: absolute;
+    inset-inline-end: -2px;
+    inset-block: 0;
+    inline-size: 4px;
+    background: var(--owe-accent);
+    pointer-events: none;
+  }
+  .owe-content.resize-cursor {
+    cursor: col-resize;
+  }
+
+  /* ---- utilities -------------------------------------------------------------------------- */
+  .owe-sr-only {
+    position: absolute !important;
+    inline-size: 1px !important;
+    block-size: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  /* ---- user preferences -------------------------------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .owe *,
+    .owe *::before,
+    .owe *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .owe {
+      border-color: CanvasText;
+    }
+    .owe::after {
+      display: none;
+    }
+    .owe:focus-within {
+      outline: 2px solid Highlight;
+    }
+    .owe-content .ProseMirror-selectednode {
+      outline-color: Highlight;
+    }
+    .owe-content .selectedCell::after {
+      background: Highlight;
+      forced-color-adjust: none;
+    }
+    .owe-content .owe-placeholder::before {
+      color: GrayText;
+    }
+  }
+}
