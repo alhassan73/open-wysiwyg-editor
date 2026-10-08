@@ -114,6 +114,10 @@ test.describe("keyboard (WCAG 2.1.1 / 2.1.2, ATAG A.3.1)", () => {
   test("link dialog via Ctrl+K: focus moves in, is trapped, and returns", async ({ page }) => {
     await open(page);
     await content(page).locator("strong").dblclick();
+    // The editor syncs the DOM selection asynchronously; Ctrl+K before that would see no selection.
+    await page.waitForFunction(
+      () => !(window as unknown as { editor: { state: { selection: { empty: boolean } } } }).editor.state.selection.empty,
+    );
     await page.keyboard.press(`${MOD}+K`);
     const dialog = page.getByRole("dialog", { name: "Insert link" });
     await expect(dialog).toBeVisible();
@@ -225,7 +229,14 @@ test.describe("security in real engines", () => {
   // attributes were blocked (formatting lost) and reported. They must survive, silently.
   test("inline-style formatting survives load and paste under strict CSP", async ({ page }) => {
     await open(page);
-    type Win = { editor: { setContent(h: string): void; getHTML(): string; view: { pasteHTML(h: string): boolean } } };
+    type Win = {
+      editor: {
+        setContent(h: string): void;
+        getHTML(): string;
+        commands: { focus(position: "end"): boolean };
+        view: { pasteHTML(h: string): boolean };
+      };
+    };
     const loaded = await page.evaluate(() => {
       const { editor } = window as unknown as Win;
       editor.setContent(
@@ -237,9 +248,10 @@ test.describe("security in real engines", () => {
     expect(loaded).toContain(`<span style="color: #b3261e">r</span>`);
     expect(loaded).toContain(`<mark style="background-color: #fff2a8">m</mark>`);
 
-    await content(page).locator("p").last().click();
     const pasted = await page.evaluate(() => {
       const { editor } = window as unknown as Win;
+      // Paste at the end. (A click syncs the selection asynchronously, which raced the paste.)
+      editor.commands.focus("end");
       // Google Docs bold/italic + a Word list paragraph.
       editor.view.pasteHTML(
         `<b id="docs-internal-guid-1" style="font-weight:normal"><span style="font-weight:700">gd-bold</span> <span style="font-style:italic">gd-italic</span></b>` +
