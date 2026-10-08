@@ -46,7 +46,7 @@ export function Hero() {
     <>
       <div className="relative isolate">
         <HeroGlow />
-        <div className={cn(CONTAINER, "pt-12 pb-20 md:pt-20 md:pb-28")}>
+        <div className={cn(CONTAINER, "pt-12 pb-16 md:pt-20 md:pb-20")}>
           <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
             <div className="flex flex-col items-start text-start">
               <Badge
@@ -118,9 +118,9 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Its own band, below the hero's background glow. */}
-      <div className="border-y bg-card/40">
-        <div style={after(6)} className={cn(CONTAINER, enter, "py-10 md:py-12")}>
+      {/* Below the hero's background glow, which fades out above it. */}
+      <div>
+        <div style={after(6)} className={cn(CONTAINER, enter, "pb-14 md:pb-16")}>
           <p className="mb-6 text-center text-small font-bold text-muted-foreground">
             {t("worksWith")}
           </p>

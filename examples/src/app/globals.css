@@ -519,3 +519,31 @@
   animation: none;
   mix-blend-mode: normal;
 }
+
+/* Every control shows the pointer (Tailwind v4 dropped it for buttons); disabled ones say so. */
+@layer base {
+  :is(
+    button,
+    select,
+    summary,
+    label[for],
+    [role="button"],
+    [role="tab"],
+    [role="radio"],
+    [role="checkbox"],
+    [role="switch"],
+    [role="option"],
+    [role="menuitem"],
+    [role="combobox"],
+    input:is([type="checkbox"], [type="radio"], [type="color"], [type="range"], [type="file"])
+  ):not(:disabled, [aria-disabled="true"], [data-disabled]) {
+    cursor: pointer;
+  }
+  :is(button, select, input, [role="button"], [role="tab"], [role="option"]):is(
+    :disabled,
+    [aria-disabled="true"],
+    [data-disabled]
+  ) {
+    cursor: not-allowed;
+  }
+}

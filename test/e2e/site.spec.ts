@@ -247,14 +247,16 @@ test("en: the live editor types, bolds and updates the HTML and JSON output", as
   const content = demoContent(page);
   await expect(content.locator("h2")).toHaveText("Write for everyone");
   await page.waitForLoadState("networkidle"); // the editor and its extensions are loaded
-  await content.click();
-  await page.keyboard.press("Control+End");
-  // The editor syncs the DOM selection asynchronously: type only once the caret is in the last block.
+  // Click into the first heading (the click places the caret there directly), go to its end, then
+  // type in a new paragraph below it.
+  const heading = content.locator("h2").first();
+  await heading.click();
   await page.waitForFunction(() => {
-    const last = document.querySelector("[data-testid=demo-editor] .owe-content")?.lastElementChild;
+    const h2 = document.querySelector("[data-testid=demo-editor] .owe-content h2");
     const node = getSelection()?.focusNode;
-    return !!last && !!node && last.contains(node);
+    return !!h2 && !!node && h2.contains(node);
   });
+  await page.keyboard.press("End");
   await page.keyboard.press("Enter");
   await page.keyboard.press("Control+b");
   await page.keyboard.type("Typed live");
