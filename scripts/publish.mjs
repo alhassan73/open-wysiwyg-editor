@@ -4,11 +4,11 @@
 // Run by .github/workflows/release.yml with npm Trusted Publishing (OIDC): no npm token or 2FA
 // code is needed, and every package gets a provenance attestation.
 //
-// One-time setup, for EACH package on npmjs.com → package → Settings → Trusted Publisher:
-// GitHub Actions, owner `alhassan73`, repository `open-wysiwyg-editor`, workflow `release.yml`.
-// A package must already exist on npm before a trusted publisher can be added, so the first
-// publish of each new `@open-wysiwyg-editor/*` package is done by hand (`npm publish --access
-// public`); after that, tags publish it automatically.
+// One-time setup: a package must already exist on npm before a trusted publisher can be added,
+// so the first publish of each new package is done by hand by running this script locally
+// (npm asks for your 2FA). Then `node scripts/setup-trust.mjs` adds the trusted publisher
+// (GitHub Actions, `alhassan73/open-wysiwyg-editor`, `release.yml`) to every package; after
+// that, tags publish automatically.
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";

@@ -65,6 +65,7 @@ has its own branch named after it (e.g. `0.1.1`, `0.2.0`) that keeps that releas
    they never share a name with a branch.
 
 Preview what would be published with `node scripts/publish.mjs --dry-run` (after
-`npm run build`). Trusted Publishing must be configured for each package on npmjs.com, and a
-package must exist before that is possible, so the first publish of a new package is done by hand.
-See the header of `scripts/publish.mjs`.
+`npm run build`). Trusted Publishing must be configured for each package, and a package must
+exist on npm before that is possible. So a brand-new package is published once by hand
+(`node scripts/publish.mjs` locally; npm asks for your 2FA), then
+`node scripts/setup-trust.mjs` adds the GitHub Actions trusted publisher to every package.
