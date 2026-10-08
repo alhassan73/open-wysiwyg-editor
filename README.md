@@ -10,7 +10,7 @@
 
 An accessible rich text editor that works on **any website**: plain HTML/JS, React, Next.js, Preact, Vue, Nuxt, Angular, Svelte, Solid, Astro, WordPress and more. It's RTL-first, it runs under a strict Content Security Policy, and it ships its own TypeScript types. MIT licensed, with no license key, no telemetry and no cloud service.
 
-Built on [ProseMirror](https://prosemirror.net). Content is stored as HTML or JSON, and node and mark names match Tiptap's.
+Built on [ProseMirror](https://prosemirror.net). Content is stored as HTML or JSON.
 
 ## Features
 
@@ -23,7 +23,7 @@ Built on [ProseMirror](https://prosemirror.net). Content is stored as HTML or JS
 | **Security** | DOMPurify on every input · URL allow-list · Trusted Types · No `unsafe-inline` needed |
 | **Languages** | English and Arabic built in (add your own) · Mirrored UI in RTL · `dir="auto"` on every block |
 | **Everywhere** | `<owe-editor>` web component for plain HTML and forms · Packages for React, Next.js, Preact, Vue, Nuxt, Angular, Svelte, Solid and Astro |
-| **Your way** | Full UI by default · Headless mode for your own UI · Custom toolbar buttons · Extensions API · Theme with CSS variables |
+| **Your way** | Full UI by default · Headless mode for your own UI · Custom toolbar buttons · Extensions API · Brand it with one color or CSS variables |
 
 Every release is tested end to end in Chromium, Firefox and WebKit, under a strict CSP with Trusted Types and with axe-core accessibility checks.
 
@@ -432,11 +432,13 @@ Still sanitize on the server. To display saved HTML on a page that has no editor
 | `dir` | Base direction of the content (`ltr`, `rtl`, `auto`) |
 | `content-lang` | `lang` of the content (spellcheck and screen readers) |
 | `label` | Accessible name. Or point a `<label for>` at the element's `id` |
+| `theme` | `auto` (follows the system), `light` or `dark` |
+| `brand` | Brand color (any CSS color): buttons, links, focus ring and selection follow it |
 | `value` | Initial content as HTML (read once, when the editor is created) |
 | `language` | UI language, e.g. `ar` (read once). Defaults to `<html lang>` |
 | `toolbar` | Toolbar items separated by spaces (`"bold italic \| link"`), or `none` (read once) |
 
-`placeholder`, `readonly`, `disabled`, `dir`, `content-lang` and `label` follow later changes. `value`, `language` and `toolbar` are only read when the editor starts.
+`placeholder`, `readonly`, `disabled`, `dir`, `content-lang`, `label`, `theme` and `brand` follow later changes. `value`, `language` and `toolbar` are only read when the editor starts.
 
 | Property | Description |
 | --- | --- |
@@ -489,6 +491,8 @@ createEditor({
     items: { /* custom buttons, see below */ },
     statusbar: { elementPath: true, wordCount: true, characterCount: false }, // or false
     theme: "auto",         // "light" | "dark"
+    brand: "#e11d48",      // one color for buttons, links, focus and selection (see Styling)
+    tokens: { radius: "8px" }, // any design token, without the --owe- prefix (see Styling)
     stickyToolbar: true,
     shortcuts: { toolbar: "Alt-F10", help: "Alt-0", find: "Mod-f", link: "Mod-k" },
   },
@@ -520,7 +524,7 @@ editor.announce("Saved");                 // send a message to screen readers
 editor.destroy();
 ```
 
-The main entry also exports `getUI(editor)`, which returns `focusToolbar()`, `openDialog(kind)`, `openFind()`, `toggleSource()`, `isSourceMode()` and `update()`.
+The main entry also exports `getUI(editor)`, which returns `focusToolbar()`, `openDialog(kind)`, `openFind()`, `toggleSource()`, `isSourceMode()`, `update()` and `setTheme({ theme, brand, tokens })` (see [Styling](#styling)).
 
 ### Commands
 
@@ -708,15 +712,267 @@ Untranslated labels fall back to English, and plurals use `Intl.PluralRules`. Th
 
 Each framework package ships the same files under its own name, for example `@open-wysiwyg-editor/vue/style.css` and `@open-wysiwyg-editor/vue/content.css`, because package managers like pnpm don't expose the core package to your app.
 
-All rules are in `@layer owe`, so any of your own CSS outside a layer overrides them. To theme the editor, set the design tokens:
+All rules are in `@layer owe`, so any of your own CSS outside a layer overrides them.
+
+### One color
+
+Pick your brand color and the whole editor follows it, in light and dark: the pressed toolbar buttons, the dialog buttons, links, the focus ring, the caret, the text selection and the gradient edge of the card.
+
+```ts
+createEditor({ element, ui: { brand: "#e11d48" } });
+```
+
+```html
+<owe-editor brand="#e11d48" theme="dark"></owe-editor>
+```
+
+```css
+.owe { --owe-brand: #e11d48; }
+```
+
+All three do the same thing. `brand` and the attribute take any CSS color. They also pick black or white for the text on brand-colored buttons (`--owe-on-brand`), by contrast, when the color is a hex, `rgb()`, `hsl()` or basic named color. With plain CSS, set `--owe-on-brand` yourself if white doesn't read well on your color. `--owe-brand` can be set on `.owe`, on a wrapper or on `:root`.
+
+Everything else is derived from the brand with `color-mix()`, so you only override what you want to change:
+
+| Token | Derived as |
+| --- | --- |
+| `--owe-primary` | The brand. Pressed toolbar buttons, primary dialog buttons, the current find match |
+| `--owe-primary-hover` | `--owe-primary` mixed 15% toward black |
+| `--owe-accent` | Text and link color. The brand mixed 30% toward black in light, 40% toward white in dark |
+| `--owe-accent-soft` | The brand at 18% over `--owe-bg` |
+| `--owe-focus`, `--owe-caret` | `--owe-accent` |
+| `--owe-selection` | The brand at 22% opacity in light, 45% in dark |
+| `--owe-on-accent` | `--owe-on-brand` |
+| `--owe-gradient` | `linear-gradient(90deg, var(--owe-brand), var(--owe-brand-2))` |
+
+Setting one of these tokens yourself always wins over the derived value. `ui.brand` also sets `--owe-brand-2` to a lighter tint of the brand, so the card edge fades from your color. With plain CSS the second stop stays `#00b8ff`: set `--owe-brand-2` to the same color as `--owe-brand` for a solid edge.
+
+The editor can't pick your colors for you. `--owe-accent` keeps 4.5:1 on white for typical brands, but a very pale brand (yellow, light cyan) or a very dark one in dark mode may need an explicit `--owe-accent`. Pressed buttons need 3:1 against the toolbar (WCAG 1.4.11): for a very dark brand in dark mode, set `--owe-btn-active-bg: var(--owe-accent)` and `--owe-btn-active-color` to a dark color.
+
+### Design tokens
+
+Set any token on `.owe` in your own CSS, or pass it as `ui.tokens` without the `--owe-` prefix (`tokens: { bg: "#0b0d10", radius: "8px" }`). Tokens set from JavaScript are applied through the CSSOM, so they work under a strict CSP. Unknown names are ignored, and so are values that contain `;`, `{`, `}`, `<` or `\`, or that call `url()`, `image()`, `image-set()` or `src()`. In TypeScript the names are the `ThemeToken` type.
+
+| Token | Light | Dark | Styles |
+| --- | --- | --- | --- |
+| `--owe-brand` | `#0066ff` | same | The one brand color (see above) |
+| `--owe-brand-2` | `#00b8ff` | same | Second color of the gradient edge |
+| `--owe-on-brand` | `#ffffff` | same | Text and icons on brand fills |
+| `--owe-primary` | brand | brand | Solid fills: pressed buttons, primary buttons |
+| `--owe-primary-hover` | brand, 15% darker | same | Hover on those fills |
+| `--owe-accent` | brand, 30% darker (`#003c9e`) | brand, 40% lighter (`#75a9ff`) | Links, checked menu items, the current path item |
+| `--owe-accent-soft` | `#d1e3ff` | `#132744` | A brand tint for your own UI. The editor itself doesn't use it |
+| `--owe-focus` | accent | accent | Focus ring, selected image and table outlines |
+| `--owe-caret` | accent | accent | Text caret |
+| `--owe-selection` | brand, 22% opacity | brand, 45% opacity | Selected text and table cells |
+| `--owe-gradient` | brand to brand-2 | same | Bottom edge of the card |
+| `--owe-bg` | `#ffffff` | `#17191b` | Card and editing area |
+| `--owe-chrome` | `#fafbfc` | `#131517` | Toolbar, find bar and status bar |
+| `--owe-surface` | `#f4f6f8` | `#1e2124` | Menus and dialogs |
+| `--owe-surface-2` | `#f1f3f5` | `#25282b` | Hover backgrounds, keys in the shortcut list |
+| `--owe-field-bg` | `#ffffff` | `#101214` | Inputs and selects |
+| `--owe-code-bg` | `#f4f6f8` | `#0f1112` | Code, the source view |
+| `--owe-text` | `#101112` | `#ffffff` | Headings and UI text |
+| `--owe-body` | `#1b1f24` | `#dcdedf` | Paragraph text |
+| `--owe-text-2` | `#3d434a` | `#c3c7cb` | Quotes |
+| `--owe-muted` | `#54595f` | `#a1a7ad` | Placeholder, hints, shortcuts, status bar |
+| `--owe-icon` | `#3a3f45` | `#d2d4d5` | Toolbar icons |
+| `--owe-border` | `#8a929a` | `#6b7279` | Input and swatch borders (3:1 on the card) |
+| `--owe-border-subtle` | `#e3e6ea` | `#25282b` | Card edge and dividers |
+| `--owe-popup-border` | `#d5d9de` | `#33383d` | Menu and dialog edge |
+| `--owe-danger` | `#b3261e` | `#f2b8b5` | Errors and destructive buttons |
+| `--owe-warning` | `#8a5300` | `#f6c66b` | Find-match outline |
+| `--owe-success` | `#146c2e` | `#8bd6a0` | For your own success messages. The editor itself doesn't use it |
+| `--owe-mark` | `#fff2a8` | `#6b4e00` | `<mark>` and find matches |
+| `--owe-shadow` | soft grey shadow | black shadow | Menus and dialogs |
+| `--owe-backdrop` | `rgb(16 17 18 / 0.45)` | `rgb(4 5 16 / 0.65)` | Behind dialogs |
+| `--owe-font` | `system-ui, "Segoe UI", "Noto Sans Arabic", …` | same | UI and content typeface. No web fonts are bundled |
+| `--owe-font-mono` | `ui-monospace, Menlo, Consolas, …` | same | Code and the status bar |
+| `--owe-font-size`, `--owe-line-height` | `1rem`, `1.65` | same | Content text |
+| `--owe-radius` | `24px` | same | The card |
+| `--owe-radius-sm`, `-md`, `-lg` | `10px`, `12px`, `16px` | same | Controls, menus, dialogs |
+| `--owe-btn-size` | `40px` | same | Toolbar button size |
+| `--owe-target` | `32px` | same | Minimum height of menu items, the status bar and small controls |
+| `--owe-pad-x`, `--owe-pad-y` | `clamp(16px, 4vw, 32px)`, `28px` | same | Padding of the editing area |
+| `--owe-z-popover` | `1000` | same | `z-index` of menus and tooltips |
+
+In dark mode the editor uses the dark column when the system prefers dark, or when `theme` is `dark`. `theme: "light"` turns that off.
+
+### Button tokens
+
+These restyle the buttons, the toolbar and the card without touching any selector. They have no default value declared, so you can set them on `.owe` or on any element around it, such as `:root` or your dashboard wrapper. The default in the table is what the editor uses when you don't set them.
+
+| Token | Default | Styles |
+| --- | --- | --- |
+| `--owe-btn-color` | `--owe-icon` | Toolbar button icon and text |
+| `--owe-btn-bg` | `transparent` | Toolbar button background |
+| `--owe-btn-hover-color` | `--owe-text` | Button and path item text on hover |
+| `--owe-btn-hover-bg` | `--owe-surface-2` | Hover background of buttons, menu items and path items |
+| `--owe-btn-active-color` | `--owe-on-accent` | Text and icon of a pressed or toggled button |
+| `--owe-btn-active-bg` | `--owe-primary` | Background of a pressed or toggled button |
+| `--owe-btn-active-hover-bg` | `--owe-btn-active-bg`, 15% darker | Hover on a pressed button |
+| `--owe-btn-radius` | `--owe-radius-sm` | Corners of buttons, menu items and path items |
+| `--owe-btn-primary-bg` | `--owe-primary` | Primary button in dialogs (Insert, Apply) |
+| `--owe-btn-primary-color` | `--owe-on-accent` | Text of the primary button |
+| `--owe-btn-primary-hover-bg` | `--owe-primary-hover` | Primary button on hover |
+| `--owe-toolbar-bg` | `--owe-chrome` | Toolbar, find bar and status bar background |
+| `--owe-toolbar-border` | `--owe-border-subtle` | Lines between toolbar, content and status bar |
+| `--owe-editor-border` | `--owe-border-subtle` | Border of the card |
+| `--owe-editor-radius` | `--owe-radius` | Corners of the card, toolbar and status bar |
+
+A dark toolbar over a light editing area, with smaller corners:
 
 ```css
 .owe {
-  --owe-accent: #0b57d0;
-  --owe-font: "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --owe-radius: 10px;
+  --owe-toolbar-bg: #0f172a;
+  --owe-toolbar-border: #0f172a;
+  --owe-btn-color: #e2e8f0;
+  --owe-btn-hover-bg: #1e293b;
+  --owe-btn-hover-color: #ffffff;
+  --owe-btn-radius: 6px;
+  --owe-editor-radius: 8px;
 }
 ```
+
+Windows High Contrast (`forced-colors`) and `prefers-contrast: more` still take over where they must: pressed buttons use the system highlight colors whatever you set.
+
+### Match your dashboard
+
+Point the tokens at the variables your design system already defines. Put the CSS after the editor's stylesheet, or anywhere, because your unlayered CSS beats `@layer owe`. Because the tokens read your variables when they are used, the colors follow your light and dark themes without any script.
+
+Tell the editor when your dashboard is dark as well: set `theme` to `dark` (`<owe-editor theme="dark">`, `ui.theme` or `setTheme()`). That switches the parts that are derived from the brand for dark backgrounds (links, selection), the highlight color and `color-scheme`, so scrollbars and native controls match. With `theme` left on `auto`, the editor follows the system setting.
+
+**shadcn/ui** (Tailwind v4 variables):
+
+```css
+.owe {
+  --owe-brand: var(--primary);
+  --owe-brand-2: var(--primary);
+  --owe-on-brand: var(--primary-foreground);
+  --owe-bg: var(--card);
+  --owe-text: var(--card-foreground);
+  --owe-body: var(--card-foreground);
+  --owe-chrome: var(--muted);
+  --owe-surface: var(--popover);
+  --owe-surface-2: var(--accent);
+  --owe-field-bg: var(--background);
+  --owe-muted: var(--muted-foreground);
+  --owe-icon: var(--foreground);
+  --owe-border-subtle: var(--border);
+  --owe-popup-border: var(--border);
+  /* --owe-border draws input outlines, which need 3:1; shadcn's --border is much lighter */
+  --owe-border: color-mix(in oklab, var(--foreground) 45%, var(--card));
+  --owe-radius: var(--radius);
+  --owe-radius-sm: calc(var(--radius) - 2px);
+  --owe-font: inherit;
+}
+```
+
+**Bootstrap 5.3** (`data-bs-theme` switches light and dark):
+
+```css
+.owe {
+  --owe-brand: var(--bs-primary);
+  --owe-brand-2: var(--bs-primary);
+  --owe-accent: var(--bs-link-color);
+  --owe-bg: var(--bs-body-bg);
+  --owe-chrome: var(--bs-tertiary-bg);
+  --owe-surface: var(--bs-body-bg);
+  --owe-surface-2: var(--bs-secondary-bg);
+  --owe-field-bg: var(--bs-body-bg);
+  --owe-text: var(--bs-emphasis-color);
+  --owe-body: var(--bs-body-color);
+  --owe-muted: var(--bs-secondary-color);
+  --owe-icon: var(--bs-body-color);
+  --owe-border-subtle: var(--bs-border-color);
+  --owe-popup-border: var(--bs-border-color);
+  --owe-radius: var(--bs-border-radius-xl);
+  --owe-radius-sm: var(--bs-border-radius);
+  --owe-font: inherit;
+}
+```
+
+**Material UI** (v6 and later, with `createTheme({ cssVariables: true, colorSchemes: { dark: true } })`):
+
+```css
+.owe {
+  --owe-brand: var(--mui-palette-primary-main);
+  --owe-brand-2: var(--mui-palette-primary-main);
+  --owe-on-brand: var(--mui-palette-primary-contrastText);
+  --owe-accent: var(--mui-palette-primary-main);
+  --owe-bg: var(--mui-palette-background-paper);
+  --owe-chrome: var(--mui-palette-background-default);
+  --owe-surface: var(--mui-palette-background-paper);
+  --owe-field-bg: var(--mui-palette-background-paper);
+  --owe-text: var(--mui-palette-text-primary);
+  --owe-body: var(--mui-palette-text-primary);
+  --owe-muted: var(--mui-palette-text-secondary);
+  --owe-icon: var(--mui-palette-text-secondary);
+  --owe-border: var(--mui-palette-text-secondary);
+  --owe-border-subtle: var(--mui-palette-divider);
+  --owe-popup-border: var(--mui-palette-divider);
+  --owe-btn-hover-bg: var(--mui-palette-action-hover);
+  --owe-radius: calc(var(--mui-shape-borderRadius) * 3);
+  --owe-radius-sm: var(--mui-shape-borderRadius);
+  --owe-font: inherit;
+}
+```
+
+**A plain dark dashboard** with its own palette:
+
+```css
+.owe {
+  --owe-brand: #38bdf8;
+  --owe-on-brand: #0b1120; /* white is only 2:1 on this blue */
+  --owe-bg: #0f172a;
+  --owe-chrome: #0b1120;
+  --owe-surface: #1e293b;
+  --owe-surface-2: #263449;
+  --owe-field-bg: #0b1120;
+  --owe-text: #f8fafc;
+  --owe-body: #e2e8f0;
+  --owe-muted: #94a3b8;
+  --owe-icon: #cbd5e1;
+  --owe-border: #64748b;
+  --owe-border-subtle: #1e293b;
+  --owe-popup-border: #334155;
+  --owe-radius: 12px;
+}
+```
+
+Then switch the editor to its dark theme with `<owe-editor theme="dark">`, or the same from JavaScript, without any CSS. `brand` picks the dark text on this blue by itself:
+
+```ts
+createEditor({
+  element,
+  ui: {
+    theme: "dark",
+    brand: "#38bdf8",
+    tokens: { bg: "#0f172a", chrome: "#0b1120", surface: "#1e293b", radius: "12px" },
+  },
+});
+```
+
+### Changing the theme later
+
+`<owe-editor>` follows changes to its `theme` and `brand` attributes. For an editor you created with `createEditor()`, call `setTheme()` on its UI. It replaces the whole theme, so pass everything you want to keep:
+
+```ts
+import { getUI } from "open-wysiwyg-editor";
+
+getUI(editor)?.setTheme({ theme: "dark", brand: "#e11d48", tokens: { radius: "8px" } });
+```
+
+The framework components read `ui` once, when the editor starts, so call `setTheme()` when your own state changes:
+
+```tsx
+const { ref, editor } = useEditor({ ui: { brand } });
+useEffect(() => {
+  if (editor) getUI(editor)?.setTheme({ brand });
+}, [editor, brand]);
+```
+
+`applyTheme(element, { theme, brand, tokens })` is the function behind `setTheme()`. Use it on any element, for example the `.owe-content-root` that shows saved HTML. CSS variables also change at runtime: set `--owe-brand` on `.owe`, or on a wrapper, whenever you like.
 
 ## Extensions
 
@@ -815,14 +1071,14 @@ npm install
 npm run build      # builds every package
 npm run check      # lint + build + typecheck + unit tests
 npm run e2e        # end-to-end + axe tests in Chromium, Firefox and WebKit (Playwright)
-npm run dev        # serve the demo site locally
+npm run dev        # serve the website locally (http://localhost:3000/open-wysiwyg-editor/)
 ```
 
 Layout:
 
 ```
 README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md LICENSE
-examples/        the documentation website + live demo (deployed to GitHub Pages)
+examples/        the documentation website + live demo: one Next.js page in English and Arabic (deployed to GitHub Pages)
 test/e2e/        Playwright end-to-end + axe tests
 scripts/         serve-e2e, size-check, license-check, copy-styles, publish, render-banner
 packages/<name>/ core, react, next, preact, vue, nuxt, angular, svelte, solid, astro

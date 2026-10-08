@@ -1,0 +1,24 @@
+/**
+ * The page CSP requires Trusted Types for scripts, and a few Next/React internals pass plain strings to
+ * guarded sinks once the app navigates on the client:
+ * - Turbopack's runtime loads a linked route's JavaScript with `script.src = "<url>"`;
+ * - React creates a `<script>` element (the JSON-LD of the next page) through `div.innerHTML =
+ *   "<script></script>"`, then fills it with `innerHTML = json`.
+ * This "default" policy accepts exactly those, and nothing else:
+ * - script URLs only from the site's own build output (same origin, under /open-wysiwyg-editor/_next/static/);
+ * - HTML only if it is React's empty `<script></script>` or has no "<" at all. Text without "<" cannot create
+ *   an element or attribute anywhere, so it is inert in every HTML sink (JsonLdScript escapes "<").
+ * Anything else (other script URLs, real markup, script text) is still blocked. The editor uses its own
+ * named policy. The text is hashed into the CSP by scripts/export.mjs, so keep it deterministic.
+ */
+const SCRIPT =
+  'if(window.trustedTypes&&trustedTypes.createPolicy)trustedTypes.createPolicy("default",{' +
+  "createScriptURL:function(u){var x=new URL(u,location.href);" +
+  'if(x.origin===location.origin&&x.pathname.indexOf("/open-wysiwyg-editor/_next/static/")===0)return x.href;' +
+  'throw new TypeError("Blocked script URL: "+u)},' +
+  'createHTML:function(h){if(h==="<script>\\x3c/script>"||h.indexOf("<")===-1)return h;' +
+  'throw new TypeError("Blocked HTML")}})';
+
+export function TrustedTypesScript() {
+  return <script dangerouslySetInnerHTML={{ __html: SCRIPT }} />;
+}

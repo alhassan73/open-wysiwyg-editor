@@ -8,19 +8,19 @@ pnpm install                npm install
 pnpm run check              npm run check        # lint + build + typecheck + unit tests
 pnpm run build              npm run build        # every package, core first
 pnpm run e2e                npm run e2e          # Playwright (Chromium, Firefox, WebKit) + axe
-pnpm run dev                npm run dev          # demo site at http://localhost:5173
+pnpm run dev                npm run dev          # website at http://localhost:3000/open-wysiwyg-editor/
 ```
 
 ## Layout
 
-| Path | What |
-| --- | --- |
-| `packages/core` | `open-wysiwyg-editor`: engine, extensions, UI, styles, `<owe-editor>`, CDN build |
-| `packages/react`, `next`, `preact`, `vue`, `nuxt`, `angular`, `svelte`, `solid`, `astro` | `@open-wysiwyg-editor/*` framework packages |
-| `examples/` | Documentation website and live demo: Vite + React, multi-page, built into `_site/` by `npm run site` and deployed to GitHub Pages |
-| `test/e2e/` | Playwright + axe tests; fixtures in `test/e2e/fixtures` |
-| `scripts/` | `serve-e2e`, `size-check`, `license-check`, `copy-styles`, `publish`, `render-banner` |
-| `.github/assets/` | README banner and social preview (`node scripts/render-banner.mjs` regenerates the PNGs) |
+| Path                                                                                     | What                                                                                                                                                                                                         |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `packages/core`                                                                          | `open-wysiwyg-editor`: engine, extensions, UI, styles, `<owe-editor>`, CDN build                                                                                                                             |
+| `packages/react`, `next`, `preact`, `vue`, `nuxt`, `angular`, `svelte`, `solid`, `astro` | `@open-wysiwyg-editor/*` framework packages                                                                                                                                                                  |
+| `examples/`                                                                              | Documentation website and live demo: a single Next.js page in English (`/en/`) and Arabic (`/ar/`), with a language chooser at the root, exported to `_site/` by `npm run site` and deployed to GitHub Pages |
+| `test/e2e/`                                                                              | Playwright + axe tests; fixtures in `test/e2e/fixtures`                                                                                                                                                      |
+| `scripts/`                                                                               | `serve-e2e`, `size-check`, `license-check`, `copy-styles`, `publish`, `render-banner`                                                                                                                        |
+| `.github/assets/`                                                                        | README banner and social preview (`node scripts/render-banner.mjs` regenerates the PNGs)                                                                                                                     |
 
 Framework packages import the built core, so build core first (`npm run build` does this).
 Work on one package with `-w`:

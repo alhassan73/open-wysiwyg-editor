@@ -14,3 +14,4 @@ minimumReleaseAgeExclude:
   - preact@11.0.1
   - solid-js@1.9.17
   - vite@8.3.4
+  - lucide-react@1.53.0

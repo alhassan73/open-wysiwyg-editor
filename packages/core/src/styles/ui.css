@@ -1,10 +1,10 @@
 @layer owe {
   /* ---- toolbar ------------------------------------------------------------------------------ */
   .owe-toolbar-wrap {
-    border-block-end: 1px solid var(--owe-border-subtle);
-    background: var(--owe-chrome);
-    border-start-start-radius: calc(var(--owe-radius) - 1px);
-    border-start-end-radius: calc(var(--owe-radius) - 1px);
+    border-block-end: 1px solid var(--owe-toolbar-border, var(--owe-border-subtle));
+    background: var(--owe-toolbar-bg, var(--owe-chrome));
+    border-start-start-radius: calc(var(--owe-editor-radius, var(--owe-radius)) - 1px);
+    border-start-end-radius: calc(var(--owe-editor-radius, var(--owe-radius)) - 1px);
   }
   .owe-toolbar-wrap.owe-sticky {
     position: sticky;
@@ -22,7 +22,7 @@
     inline-size: 1px;
     block-size: 24px;
     margin-inline: 6px;
-    background: var(--owe-border-subtle);
+    background: var(--owe-toolbar-border, var(--owe-border-subtle));
   }
 
   /* ---- buttons ------------------------------------------------------------------------------ */
@@ -35,9 +35,9 @@
     min-block-size: var(--owe-btn-size);
     padding: 0 8px;
     border: 1px solid transparent;
-    border-radius: var(--owe-radius-sm);
-    background: transparent;
-    color: var(--owe-icon);
+    border-radius: var(--owe-btn-radius, var(--owe-radius-sm));
+    background: var(--owe-btn-bg, transparent);
+    color: var(--owe-btn-color, var(--owe-icon));
     font: inherit;
     font-size: 0.875rem;
     line-height: 1;
@@ -45,8 +45,8 @@
     transition: background-color 0.12s, color 0.12s;
   }
   .owe-btn:hover {
-    background: var(--owe-surface-2);
-    color: var(--owe-text);
+    background: var(--owe-btn-hover-bg, var(--owe-surface-2));
+    color: var(--owe-btn-hover-color, var(--owe-text));
   }
   .owe-btn:focus-visible,
   .owe-button:focus-visible,
@@ -62,22 +62,22 @@
   .owe-btn[aria-checked="true"],
   .owe-btn[aria-expanded="true"],
   .owe-btn.is-active {
-    background: var(--owe-primary);
-    color: var(--owe-on-accent);
+    background: var(--owe-btn-active-bg, var(--owe-primary));
+    color: var(--owe-btn-active-color, var(--owe-on-accent));
   }
   .owe-btn[aria-pressed="true"]:hover,
   .owe-btn[aria-checked="true"]:hover,
   .owe-btn[aria-expanded="true"]:hover,
   .owe-btn.is-active:hover {
-    background: var(--owe-primary-hover);
-    color: var(--owe-on-accent);
+    background: var(--owe-btn-active-hover-bg, color-mix(in oklab, var(--owe-btn-active-bg, var(--owe-primary)) 85%, black));
+    color: var(--owe-btn-active-color, var(--owe-on-accent));
   }
   .owe-btn[aria-disabled="true"] {
     opacity: 0.45;
     cursor: not-allowed;
   }
   .owe-btn[aria-disabled="true"]:hover {
-    background: transparent;
+    background: var(--owe-btn-bg, transparent);
   }
   .owe-btn-wide {
     min-inline-size: 9.5em;
@@ -109,7 +109,7 @@
     min-block-size: 38px;
     padding: 0 16px;
     border: 1px solid var(--owe-popup-border);
-    border-radius: var(--owe-radius-sm);
+    border-radius: var(--owe-btn-radius, var(--owe-radius-sm));
     background: var(--owe-surface-2);
     color: var(--owe-text);
     font: inherit;
@@ -122,13 +122,13 @@
     background: var(--owe-border-subtle);
   }
   .owe-button-primary {
-    background: var(--owe-primary);
-    border-color: var(--owe-primary);
-    color: var(--owe-on-accent);
+    background: var(--owe-btn-primary-bg, var(--owe-primary));
+    border-color: var(--owe-btn-primary-bg, var(--owe-primary));
+    color: var(--owe-btn-primary-color, var(--owe-on-accent));
   }
   .owe-button-primary:hover {
-    background: var(--owe-primary-hover);
-    border-color: var(--owe-primary-hover);
+    background: var(--owe-btn-primary-hover-bg, var(--owe-primary-hover));
+    border-color: var(--owe-btn-primary-hover-bg, var(--owe-primary-hover));
   }
   .owe-button-danger {
     color: var(--owe-danger);
@@ -162,7 +162,7 @@
     min-block-size: var(--owe-target);
     padding-block: 4px;
     padding-inline: 8px 12px;
-    border-radius: 8px;
+    border-radius: var(--owe-btn-radius, 8px);
     cursor: pointer;
     outline-offset: -2px;
   }
@@ -173,7 +173,7 @@
   }
   .owe-menu-item:focus,
   .owe-menu-item:hover {
-    background: var(--owe-surface-2);
+    background: var(--owe-btn-hover-bg, var(--owe-surface-2));
   }
   .owe-menu-item[aria-disabled="true"] {
     opacity: 0.45;
@@ -371,8 +371,8 @@
     flex-direction: column;
     gap: 6px;
     padding: 12px var(--owe-pad-x);
-    border-block-end: 1px solid var(--owe-border-subtle);
-    background: var(--owe-chrome);
+    border-block-end: 1px solid var(--owe-toolbar-border, var(--owe-border-subtle));
+    background: var(--owe-toolbar-bg, var(--owe-chrome));
     font-size: 0.875rem;
   }
   .owe-findbar[hidden] {
@@ -427,10 +427,10 @@
     justify-content: space-between;
     gap: 4px 16px;
     padding: 10px var(--owe-pad-x) 12px;
-    border-block-start: 1px solid var(--owe-border-subtle);
-    background: var(--owe-chrome);
-    border-end-start-radius: calc(var(--owe-radius) - 1px);
-    border-end-end-radius: calc(var(--owe-radius) - 1px);
+    border-block-start: 1px solid var(--owe-toolbar-border, var(--owe-border-subtle));
+    background: var(--owe-toolbar-bg, var(--owe-chrome));
+    border-end-start-radius: calc(var(--owe-editor-radius, var(--owe-radius)) - 1px);
+    border-end-end-radius: calc(var(--owe-editor-radius, var(--owe-radius)) - 1px);
     color: var(--owe-muted);
     font-family: var(--owe-font-mono);
     font-size: 0.8125rem;
@@ -457,15 +457,15 @@
     min-block-size: 24px;
     padding: 2px 6px;
     border: 0;
-    border-radius: 6px;
+    border-radius: var(--owe-btn-radius, 6px);
     background: transparent;
     color: inherit;
     font: inherit;
     cursor: pointer;
   }
   .owe-path-item:hover {
-    background: var(--owe-surface-2);
-    color: var(--owe-text);
+    background: var(--owe-btn-hover-bg, var(--owe-surface-2));
+    color: var(--owe-btn-hover-color, var(--owe-text));
   }
   .owe-path-item[aria-current] {
     color: var(--owe-accent);

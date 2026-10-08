@@ -5,6 +5,7 @@ import { createEditor, type EditorOptions } from "./editor";
 import type { Content, Editor } from "./core/editor";
 import { uid } from "./core/dom";
 import { forwardCallbacks } from "./integrations/shared";
+import { getUI, type UIOptions } from "./ui";
 
 export const EDITOR_TAG = "owe-editor";
 
@@ -21,15 +22,17 @@ export interface EditorElement extends HTMLElement {
   readonly form: HTMLFormElement | null;
 }
 
-const OBSERVED = ["placeholder", "readonly", "dir", "content-lang", "label"];
+const OBSERVED = ["placeholder", "readonly", "dir", "content-lang", "label", "theme", "brand"];
 
 /**
  * Defines `<owe-editor>` (or `tagName`). Safe to call more than once and on the server, where it
  * does nothing.
  *
  * Attributes: `name` (form field), `placeholder`, `readonly`, `disabled`, `dir`, `content-lang`,
- * `label` (accessible name, or use `<label for>`), plus `value`, `language` and `toolbar`
- * (space-separated items, or `none`), which are read when the editor is created.
+ * `label` (accessible name, or use `<label for>`), `theme` ("auto", "light" or "dark") and `brand`
+ * (any CSS color; the buttons, links, focus ring and selection follow it), plus `value`, `language`
+ * and `toolbar` (space-separated items, or `none`), which are read when the editor is created.
+ * All of these follow later changes except `value`, `language` and `toolbar`.
  * Initial content: the `value` attribute, else a `<template>` child, else the element's children.
  * Use `value` or `<template>` for server-rendered user content: neither runs before sanitizing.
  * Events: `input` on every change, `change` when it loses focus after a change.
@@ -101,8 +104,9 @@ export function defineEditorElement(tagName: string = EDITOR_TAG): CustomElement
       this.instance = null;
     }
 
-    attributeChangedCallback() {
+    attributeChangedCallback(name: string) {
       this.instance?.setOptions(this.runtimeOptions());
+      if (name === "theme" || name === "brand") this.applyTheme();
     }
 
     formDisabledCallback() {
@@ -119,7 +123,10 @@ export function defineEditorElement(tagName: string = EDITOR_TAG): CustomElement
       const toolbar = this.getAttribute("toolbar");
       const items: string[] | false | undefined =
         toolbar === null ? undefined : toolbar.trim() === "none" ? false : toolbar.trim().split(/\s+/);
-      const ui = options.ui === false || items === undefined ? options.ui : { ...options.ui, toolbar: items };
+      const ui =
+        options.ui === false
+          ? false
+          : { ...options.ui, ...(items === undefined ? null : { toolbar: items }), ...this.themeAttributes() };
       const labelledBy = this.internals?.labels?.[0] as HTMLElement | undefined;
       if (labelledBy && !labelledBy.id) labelledBy.id = uid("owe-label");
 
@@ -154,6 +161,21 @@ export function defineEditorElement(tagName: string = EDITOR_TAG): CustomElement
       this.committedHTML = this.instance.getHTML();
       this.initialHTML ||= this.committedHTML;
       this.setFormValue(this.committedHTML);
+    }
+
+    /** The `theme` and `brand` attributes that are set (valid ones only); they win over `options.ui`. */
+    private themeAttributes(): Pick<UIOptions, "theme" | "brand"> {
+      const theme = this.getAttribute("theme");
+      const brand = this.getAttribute("brand");
+      return {
+        ...(theme === "auto" || theme === "light" || theme === "dark" ? { theme } : null),
+        ...(brand ? { brand } : null),
+      };
+    }
+
+    private applyTheme() {
+      const ui = this.instance && getUI(this.instance);
+      ui?.setTheme({ ...(this.options.ui || null), ...this.themeAttributes() });
     }
 
     private setFormValue(html: string) {

@@ -9,3 +9,6 @@ _site/
 .angular/
 packages/*/dist/
 packages/core/README.md
+examples/.next/
+examples/out/
+examples/next-env.d.ts

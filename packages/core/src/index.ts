@@ -2,7 +2,7 @@
 export * from "./shared";
 export { createEditor, createHeadlessEditor } from "./editor";
 export type { EditorOptions } from "./editor";
-export { attachUI, getUI, BUILT_IN_ITEMS, DEFAULT_TOOLBAR, customItem } from "./ui";
+export { attachUI, getUI, BUILT_IN_ITEMS, DEFAULT_TOOLBAR, THEME_TOKENS, applyTheme, customItem } from "./ui";
 export type {
   UIOptions,
   EditorUI,
@@ -11,6 +11,9 @@ export type {
   ToolbarItem,
   ToolbarItemFactory,
   StatusbarOptions,
+  ThemeMode,
+  ThemeOptions,
+  ThemeToken,
 } from "./ui";
 export { formatShortcut, ariaShortcut } from "./ui/shortcuts";
 export {

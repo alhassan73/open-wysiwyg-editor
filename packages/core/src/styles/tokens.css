@@ -1,20 +1,41 @@
 /*
  * Design tokens. Everything lives in the `owe` cascade layer, so any unlayered host CSS wins
- * without !important. Override tokens on .owe (or :root) to theme the editor.
+ * without !important. Override tokens on .owe to theme the editor.
  * Contrast: text >= 4.5:1, borders/focus/states >= 3:1 against --owe-bg (WCAG 1.4.3 / 1.4.11).
  *
- * Tokens added in 1.0 (existing names keep working):
+ * One-color branding. Set --owe-brand (on .owe, a wrapper or :root) and the whole UI follows, in
+ * light and dark: every brand-dependent token below is derived from it with color-mix().
+ *   --owe-brand       brand color (default #0066ff)     --owe-brand-2   2nd stop of --owe-gradient (#00b8ff)
+ *   --owe-on-brand    text/icons on brand fills (#fff)  Pick a dark --owe-on-brand for light brands.
+ *   --owe-primary     solid fill = brand                --owe-primary-hover  primary mixed 15% toward black
+ *   --owe-accent      brand-tinted TEXT/link/focus color: brand mixed 30% toward black (light) or
+ *                     40% toward white (dark). Pale brands may need an explicit --owe-accent (4.5:1).
+ *   --owe-accent-soft brand 18% over --owe-bg           --owe-selection  brand at 22% (light) / 45% (dark)
+ *   --owe-focus, --owe-caret  follow --owe-accent       --owe-gradient   brand -> brand-2 (bottom edge)
+ * Overriding any of these directly still wins over the derivation.
+ *
+ * Button and surface tokens (no default is declared; the rules fall back to the value in brackets,
+ * so they can be set on .owe or on any ancestor):
+ *   --owe-btn-color (--owe-icon)            --owe-btn-bg (transparent)           --owe-btn-radius (--owe-radius-sm)
+ *   --owe-btn-hover-color (--owe-text)      --owe-btn-hover-bg (--owe-surface-2)
+ *   --owe-btn-active-color (--owe-on-accent) --owe-btn-active-bg (--owe-primary)  pressed / toggled buttons
+ *   --owe-btn-active-hover-bg (active-bg mixed 15% toward black)
+ *   --owe-btn-primary-bg (--owe-primary)    --owe-btn-primary-color (--owe-on-accent)
+ *   --owe-btn-primary-hover-bg (--owe-primary-hover)                             dialog primary buttons
+ *   --owe-toolbar-bg (--owe-chrome)         --owe-toolbar-border (--owe-border-subtle)  toolbar, find bar, status bar
+ *   --owe-editor-border (--owe-border-subtle) --owe-editor-radius (--owe-radius)  the card
+ *
+ * Other tokens (these are declared below, so set them on .owe):
  *   --owe-radius        card radius (24px)        --owe-radius-sm   inner controls (10px)
  *   --owe-radius-md     menus (12px)              --owe-radius-lg   dialogs (16px)
  *   --owe-btn-size      toolbar button (40px)     --owe-pad-x/-y    editing-area padding
  *   --owe-chrome        toolbar / status bar surface
  *   --owe-field-bg      inputs and source view    --owe-popup-border menu / dialog edge
  *   --owe-body          paragraph text            --owe-text-2      secondary text (quotes)
- *   --owe-icon          toolbar icon color        --owe-caret       caret color
- *   --owe-primary(-hover) solid fills: pressed buttons, primary buttons (white text, 4.8:1)
- *   --owe-gradient      bottom edge of the card   --owe-backdrop    dialog backdrop
- * --owe-accent is the TEXT/link/focus blue; --owe-primary is the FILL blue.
+ *   --owe-icon          toolbar icon color        --owe-backdrop    dialog backdrop
  * Set --owe-font (e.g. "Almarai", system-ui) to change the typeface; no web fonts are bundled.
+ * The JS options `ui.brand` and `ui.tokens` and the <owe-editor brand> attribute set these
+ * properties on the editor root, so they win over this file without any CSS.
  */
 @layer owe {
   .owe,
@@ -32,7 +53,6 @@
     --owe-btn-size: 40px;
     --owe-pad-x: clamp(16px, 4vw, 32px);
     --owe-pad-y: 28px;
-    --owe-gradient: linear-gradient(90deg, #0066ff, #9644ff, #af47c0);
 
     --owe-bg: #ffffff;
     --owe-chrome: #fafbfc;
@@ -47,26 +67,32 @@
     --owe-border: #8a929a; /* 3.2:1 on white */
     --owe-border-subtle: #e3e6ea;
     --owe-popup-border: #d5d9de;
-    --owe-accent: #0057d9; /* 6.2:1 on white */
-    --owe-on-accent: #ffffff;
-    --owe-primary: #0066ff;
-    --owe-primary-hover: #0057d9;
-    --owe-accent-soft: #d3e3fd;
-    --owe-focus: #0066ff;
-    --owe-caret: #0066ff;
     --owe-danger: #b3261e;
     --owe-warning: #8a5300;
     --owe-success: #146c2e;
-    --owe-selection: rgb(0 102 255 / 0.22);
     --owe-code-bg: #f4f6f8;
     --owe-mark: #fff2a8;
     --owe-shadow: 0 16px 40px rgb(16 17 18 / 0.16), 0 2px 8px rgb(16 17 18 / 0.08);
     --owe-backdrop: rgb(16 17 18 / 0.45);
     --owe-z-popover: 1000;
 
+    /* Brand-derived. --owe-brand / -brand-2 / -on-brand have no declaration here, so they can be set
+       on any ancestor; the fallbacks are the defaults. */
+    --owe-gradient: linear-gradient(90deg, var(--owe-brand, #0066ff), var(--owe-brand-2, #00b8ff));
+    --owe-on-accent: var(--owe-on-brand, #ffffff);
+    --owe-primary: var(--owe-brand, #0066ff); /* white on #0066ff: 4.8:1 */
+    --owe-primary-hover: color-mix(in oklab, var(--owe-primary) 85%, black);
+    --owe-accent: color-mix(in oklab, var(--owe-brand, #0066ff) 70%, black); /* 9.8:1 on white for #0066ff */
+    --owe-accent-soft: color-mix(in oklab, var(--owe-brand, #0066ff) 18%, var(--owe-bg));
+    --owe-focus: var(--owe-accent);
+    --owe-caret: var(--owe-accent);
+    --owe-selection: color-mix(in oklab, var(--owe-brand, #0066ff) 22%, transparent);
+
     color-scheme: light;
   }
 
+  /* Dark values are listed twice (OS preference, then an explicit data-theme="dark"). Brand-derived
+     tokens that read --owe-bg or --owe-accent (accent-soft, focus, caret, hover) follow on their own. */
   @media (prefers-color-scheme: dark) {
     .owe:not([data-theme="light"]),
     .owe-content-root:not([data-theme="light"]) {
@@ -83,19 +109,13 @@
       --owe-border: #6b7279;
       --owe-border-subtle: #25282b;
       --owe-popup-border: #33383d;
-      --owe-accent: #4d94ff;
-      --owe-on-accent: #ffffff;
-      --owe-primary: #0066ff;
-      --owe-primary-hover: #0057d9;
-      --owe-accent-soft: #14315e;
-      --owe-focus: #4d94ff;
-      --owe-caret: #5b9dff;
+      --owe-accent: color-mix(in oklab, var(--owe-brand, #0066ff) 60%, white); /* 7.5:1 on the dark card */
       --owe-danger: #f2b8b5;
       --owe-warning: #f6c66b;
       --owe-success: #8bd6a0;
-      --owe-selection: rgb(0 102 255 / 0.55);
+      --owe-selection: color-mix(in oklab, var(--owe-brand, #0066ff) 45%, transparent);
       --owe-code-bg: #0f1112;
-      --owe-mark: #4a35b8;
+      --owe-mark: #6b4e00; /* deep amber: body text stays 5.7:1 */
       --owe-shadow: 0 16px 40px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
       --owe-backdrop: rgb(4 5 16 / 0.65);
       color-scheme: dark;
@@ -117,19 +137,13 @@
     --owe-border: #6b7279;
     --owe-border-subtle: #25282b;
     --owe-popup-border: #33383d;
-    --owe-accent: #4d94ff;
-    --owe-on-accent: #ffffff;
-    --owe-primary: #0066ff;
-    --owe-primary-hover: #0057d9;
-    --owe-accent-soft: #14315e;
-    --owe-focus: #4d94ff;
-    --owe-caret: #5b9dff;
+    --owe-accent: color-mix(in oklab, var(--owe-brand, #0066ff) 60%, white);
     --owe-danger: #f2b8b5;
     --owe-warning: #f6c66b;
     --owe-success: #8bd6a0;
-    --owe-selection: rgb(0 102 255 / 0.55);
+    --owe-selection: color-mix(in oklab, var(--owe-brand, #0066ff) 45%, transparent);
     --owe-code-bg: #0f1112;
-    --owe-mark: #4a35b8;
+    --owe-mark: #6b4e00;
     --owe-shadow: 0 16px 40px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
     --owe-backdrop: rgb(4 5 16 / 0.65);
     color-scheme: dark;

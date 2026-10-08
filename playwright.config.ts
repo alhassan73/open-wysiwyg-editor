@@ -1,5 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// PORT picks another port when 4317 is taken (serve-e2e.mjs reads the same variable).
+const port = Number(process.env.PORT ?? 4317);
+
 export default defineConfig({
   testDir: "test/e2e",
   fullyParallel: true,
@@ -7,7 +10,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   use: {
-    baseURL: "http://localhost:4317",
+    baseURL: `http://localhost:${port}`,
     trace: "retain-on-failure",
   },
   projects: [
@@ -17,7 +20,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "node scripts/serve-e2e.mjs",
-    url: "http://localhost:4317/test/e2e/fixtures/index.html",
+    url: `http://localhost:${port}/test/e2e/fixtures/index.html`,
     reuseExistingServer: !process.env.CI,
   },
 });

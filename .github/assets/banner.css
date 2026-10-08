@@ -1,11 +1,11 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--card:#17191B;--bd:#25282B;--blue:#0066FF;--blue-t:#5B9DFF}
-html,body{background:#06071B}
+html,body{background:#050B1A}
 body{font-family:Almarai,system-ui,sans-serif;color:#fff;overflow:hidden;position:relative;
- background:radial-gradient(900px 600px at 82% 0%,rgba(150,68,255,.28),transparent 70%),
+ background:radial-gradient(900px 600px at 82% 0%,rgba(0,184,255,.24),transparent 70%),
  radial-gradient(800px 520px at 0% 110%,rgba(0,102,255,.30),transparent 70%),
- radial-gradient(500px 400px at 60% 110%,rgba(175,71,192,.22),transparent 70%),
- linear-gradient(135deg,#06071B 0%,#0c0d0e 60%,#101112 100%)}
+ radial-gradient(500px 400px at 60% 110%,rgba(20,200,180,.2),transparent 70%),
+ linear-gradient(135deg,#050B1A 0%,#0c0d0e 60%,#101112 100%)}
 body::before{content:"";position:absolute;inset:0;
  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
  background-size:40px 40px;-webkit-mask-image:radial-gradient(ellipse at 60% 40%,#000 10%,transparent 75%);mask-image:radial-gradient(ellipse at 60% 40%,#000 10%,transparent 75%)}
@@ -13,15 +13,15 @@ body::before{content:"";position:absolute;inset:0;
 .mark{display:flex;align-items:center;font-weight:800;letter-spacing:-.04em;line-height:1.1;position:relative}
 .sel{position:relative;display:inline-block;padding:0 .08em}
 .sel::before{content:"";position:absolute;inset:.12em 0 .06em;border-radius:.12em;
- background:linear-gradient(90deg,rgba(0,102,255,.6),rgba(150,68,255,.6),rgba(175,71,192,.6))}
+ background:linear-gradient(90deg,rgba(0,102,255,.62),rgba(0,184,255,.5) 60%,rgba(20,200,180,.45))}
 .sel span{position:relative}
-.caret{display:inline-block;width:.09em;height:.8em;margin-left:.06em;border-radius:.05em;background:linear-gradient(180deg,#5B9DFF,#9644FF);box-shadow:0 0 .3em rgba(91,157,255,.8)}
+.caret{display:inline-block;width:.09em;height:.8em;margin-left:.06em;border-radius:.05em;background:linear-gradient(180deg,#5B9DFF,#00B8FF);box-shadow:0 0 .3em rgba(91,157,255,.8)}
 .name{font-weight:700;color:#fff}
 .tag{color:rgba(255,255,255,.8);font-weight:400}
 .chips{display:flex;flex-wrap:wrap}
 .chip{border:1px solid #33383d;background:rgba(23,25,27,.85);border-radius:10px;color:rgba(255,255,255,.9);font-weight:700;white-space:nowrap}
 .chip.hot{border-color:rgba(91,157,255,.55);color:#cfe0ff;background:rgba(0,102,255,.16)}
-.editor{background:var(--card);border:1px solid var(--bd);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 90px rgba(150,68,255,.22);overflow:hidden;position:relative}
+.editor{background:var(--card);border:1px solid var(--bd);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 90px rgba(0,102,255,.28);overflow:hidden;position:relative}
 .bar{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bd);background:#131517}
 .ic{display:grid;place-items:center;border-radius:10px;color:rgba(255,255,255,.85)}
 .ic.on{background:var(--blue);color:#fff}
@@ -30,9 +30,9 @@ body::before{content:"";position:absolute;inset:0;
 .body{font-weight:400}
 .body .h{font-weight:800;letter-spacing:-.02em}
 .body .t{color:rgba(255,255,255,.75)}
-.body mark{background:linear-gradient(90deg,rgba(0,102,255,.65),rgba(150,68,255,.65));color:#fff;border-radius:.2em;padding:.02em .12em}
+.body mark{background:linear-gradient(90deg,rgba(0,102,255,.65),rgba(0,184,255,.5));color:#fff;border-radius:.2em;padding:.02em .12em}
 .body .ar{direction:rtl;text-align:right;font-weight:700;color:#fff}
-.body .ar mark{background:linear-gradient(270deg,rgba(0,102,255,.65),rgba(175,71,192,.65))}
+.body .ar mark{background:linear-gradient(270deg,rgba(0,102,255,.65),rgba(20,200,180,.5))}
 .cur{display:inline-block;width:3px;height:1.05em;background:var(--blue-t);vertical-align:-.15em;margin-left:3px}
 .ruler{position:absolute;left:0;right:0;top:0;height:22px;opacity:.5;
  background:repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 1px,transparent 1px 20px) top/100% 8px no-repeat,
@@ -41,7 +41,7 @@ body::before{content:"";position:absolute;inset:0;
 .fig b{color:var(--blue-t);font-weight:700}
 .chips{display:grid;grid-template-columns:repeat(5,auto);justify-content:start}
 .chip{text-align:center}
-.editor::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#0066FF,#9644FF,#AF47C0)}
+.editor::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#0066FF,#00B8FF 55%,#14C8B4)}
 .editor{display:flex;flex-direction:column}
 .body{flex:1}
 .foot{display:flex;justify-content:space-between;padding:14px 28px;border-top:1px solid var(--bd);font:400 16px/1 JBMono,monospace;color:rgba(255,255,255,.55);background:#131517;margin-bottom:3px}

@@ -18,15 +18,14 @@ import { createStatusbar, type StatusbarOptions } from "./statusbar";
 import { createSourceView } from "./source";
 import { setDisabled } from "./components";
 import { createTooltip } from "./tooltip";
+import { THEME_TOKENS, applyTheme, type ThemeMode, type ThemeOptions, type ThemeToken } from "./theme";
 
-export interface UIOptions {
+export interface UIOptions extends ThemeOptions {
   /** Toolbar layout: item names and "|" separators. `false` hides the toolbar. */
   toolbar?: string[] | false;
   /** Extra/overriding toolbar items, referenced by name in `toolbar`. */
   items?: Record<string, CustomItemSpec | ToolbarItemFactory>;
   statusbar?: StatusbarOptions | false;
-  /** Color theme. "auto" follows prefers-color-scheme. */
-  theme?: "auto" | "light" | "dark";
   /** Keep the toolbar visible while scrolling long documents. Default true. */
   stickyToolbar?: boolean;
   /** Keyboard shortcuts handled by the UI (set one to false to disable it). */
@@ -47,6 +46,8 @@ export interface EditorUI {
   isSourceMode(): boolean;
   /** Re-sync toolbar state (normally automatic). */
   update(): void;
+  /** Changes `theme`, `brand` and `tokens` while the editor is running. It replaces the whole theme. */
+  setTheme(theme: ThemeOptions): void;
   destroy(): void;
 }
 
@@ -67,7 +68,7 @@ export function attachUI(editor: Editor, options: UIOptions = {}): EditorUI {
     link: "Mod-k",
     ...options.shortcuts,
   };
-  if (options.theme && options.theme !== "auto") root.dataset.theme = options.theme;
+  applyTheme(root, options);
 
   const findBar = "setSearch" in editor.commands ? createFindBar(editor, tooltip) : null;
 
@@ -191,6 +192,7 @@ export function attachUI(editor: Editor, options: UIOptions = {}): EditorUI {
     toggleSource,
     isSourceMode: source.isOpen,
     update,
+    setTheme: (theme) => applyTheme(root, theme),
     destroy() {
       cancelAnimationFrame(frame);
       source.destroy();
@@ -208,5 +210,14 @@ export function attachUI(editor: Editor, options: UIOptions = {}): EditorUI {
   return ui;
 }
 
-export { BUILT_IN_ITEMS, DEFAULT_TOOLBAR, customItem };
-export type { CustomItemSpec, ItemContext, ToolbarItem, ToolbarItemFactory, StatusbarOptions };
+export { BUILT_IN_ITEMS, DEFAULT_TOOLBAR, THEME_TOKENS, applyTheme, customItem };
+export type {
+  CustomItemSpec,
+  ItemContext,
+  StatusbarOptions,
+  ThemeMode,
+  ThemeOptions,
+  ThemeToken,
+  ToolbarItem,
+  ToolbarItemFactory,
+};

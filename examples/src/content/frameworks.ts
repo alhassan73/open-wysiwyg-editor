@@ -1,129 +1,46 @@
-// Content for every framework page. Code is checked against packages/*/README.md and src.
-import { DOCS_B } from "./frameworks-b";
+// Framework data for the "Frameworks" section. Code stays English. The name, blurb, notes and most tab labels are translated and live in the messages,
+// as `Frameworks.items.<slug>`.
+// Every snippet was ported from the package READMEs and checked against packages/*/src.
+import type { Framework } from "@/types";
 
-export interface Code {
-  lang: string; // prism language: tsx, ts, markup, bash, css, json
-  label?: string; // file name or caption shown above the block
-  code: string;
-}
-export interface PropRow {
-  name: string;
-  type: string;
-  def?: string;
-  desc: string;
-}
-export interface PropsSpec {
-  title: string;
-  kind: "props" | "inputs" | "outputs" | "events" | "options" | "attributes" | "properties" | "members";
-  rows: PropRow[];
-}
-export interface Section {
-  id: string;
-  title: string;
-  text?: string[]; // paragraphs; `code` between backticks becomes inline code
-  code?: Code[];
-  props?: PropsSpec;
-  callout?: { tone: "info" | "warn" | "security"; title: string; text: string };
-}
-export interface FrameworkDoc {
-  slug: string;
-  lead: string;
-  requires?: string;
-  sections: Section[];
-  ssr: string[];
-  styling: { text: string[]; code?: Code[] };
-  links?: { label: string; href: string }[];
-}
+export const CDN_CSS = "https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1/dist/style.min.css";
+export const CDN_JS =
+  "https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1/dist/open-wysiwyg-editor.global.js";
+export const CDN_TAGS = `<link rel="stylesheet" href="${CDN_CSS}" />
+<script src="${CDN_JS}"></script>`;
 
-const reactRows = (cls: "className" | "class"): PropRow[] => [
-  { name: "value", type: "string", def: "none", desc: "Controlled HTML." },
-  { name: "defaultValue", type: "string | JSON", def: "none", desc: "Initial content (HTML or ProseMirror JSON) for an uncontrolled editor." },
-  { name: "onChange", type: "(html: string, editor: Editor) => void", def: "none", desc: "Called with the new HTML on every change." },
-  { name: "name", type: "string", def: "none", desc: "Form field name. Adds a hidden <input> that holds the HTML." },
-  { name: cls, type: "string", def: "none", desc: "Class on the wrapper <div>." },
-  { name: "id", type: "string", def: "none", desc: "id on the wrapper <div>." },
-  { name: "extensions", type: "AnyExtension[]", def: "[StarterKit]", desc: "Feature set. Read at mount." },
-  { name: "ui", type: "UIOptions | false", def: "built-in UI", desc: "Toolbar, items, status bar, theme, shortcuts. false = headless. Read at mount." },
-  { name: "editable", type: "boolean", def: "true", desc: "Allow editing. Updates live." },
-  { name: "autofocus", type: 'boolean | "start" | "end"', def: "false", desc: "Focus on mount." },
-  { name: "placeholder", type: "string | false", def: "none", desc: "Text shown when empty. Updates live." },
-  { name: "ariaLabel", type: "string", def: '"Rich text editor"', desc: "Accessible name of the editing area. Updates live." },
-  { name: "ariaLabelledBy", type: "string", def: "none", desc: "id of an element that labels the editor. Updates live." },
-  { name: "ariaDescribedBy", type: "string", def: "none", desc: "id of an element that describes the editor. Updates live." },
-  { name: "language", type: "string", def: "<html lang>, then first language", desc: 'UI language code ("en", "ar"). Read at mount.' },
-  { name: "languages", type: "EditorLanguage[]", def: "en, ar", desc: "Languages available to the UI. Read at mount." },
-  { name: "labels", type: "Partial<Labels>", def: "none", desc: "Override UI strings. Read at mount." },
-  { name: "dir", type: '"ltr" | "rtl" | "auto"', def: "auto per block", desc: "Base direction of the content. Updates live." },
-  { name: "contentLang", type: "string", def: "none", desc: "lang of the editing area (spellcheck, screen readers). Updates live." },
-  { name: "urlPolicy", type: "UrlPolicy", def: "http, https, mailto, tel; relative allowed", desc: "Allowed link and image URLs. Read at mount." },
-  { name: "inputRules", type: "boolean", def: "true", desc: "Markdown-style typing shortcuts. Read at mount." },
-  { name: "onCreate onUpdate onSelectionUpdate onFocus onBlur onDestroy onContentError", type: "callbacks", def: "none", desc: "Editor events. Always call the latest function." },
-];
-
-const RUNTIME_NOTE =
-  "Callbacks and the runtime options (`editable`, `placeholder`, `aria*`, `dir`, `contentLang`) follow every render. Everything else is read once at mount. To change those, give the component a new `key`.";
-
-export const DOCS: Record<string, FrameworkDoc> = {
-  react: {
+export const FRAMEWORKS: Framework[] = [
+  {
     slug: "react",
-    lead: "RichTextEditor and useEditor() for React 18 and newer, including Remix, Gatsby and Vite.",
+    name: "React",
+    pkg: "@open-wysiwyg-editor/react",
+    install: "npm install @open-wysiwyg-editor/react",
     requires: "React 18+",
-    sections: [
+    snippets: [
       {
-        id: "usage",
-        title: "Minimal usage",
-        code: [
-          {
-            lang: "tsx",
-            code: `import { RichTextEditor } from "@open-wysiwyg-editor/react";
+        id: "basicUsage",
+        lang: "tsx",
+        code: `import { useState } from "react";
+import { RichTextEditor } from "@open-wysiwyg-editor/react";
 import "@open-wysiwyg-editor/react/style.css";
 
-export function Notes() {
-  return <RichTextEditor defaultValue="<p>Hello</p>" onChange={(html) => console.log(html)} />;
-}`,
-          },
-        ],
-      },
-      {
-        id: "controlled",
-        title: "Controlled",
-        text: ["The editor loads `value` only when it differs from the HTML it last produced, so typing never resets the cursor."],
-        code: [
-          {
-            lang: "tsx",
-            code: `import { useState } from "react";
-import { RichTextEditor } from "@open-wysiwyg-editor/react";
-
 export function Article() {
-  const [html, setHtml] = useState("<p>Hello</p>");
-  return <RichTextEditor value={html} onChange={setHtml} />;
+  const [html, setHtml] = useState("<p>Hello <strong>world</strong></p>");
+  return <RichTextEditor value={html} onChange={setHtml} placeholder="Write something…" />;
 }`,
-          },
-        ],
       },
       {
         id: "forms",
-        title: "Forms and saving",
-        text: ["`name` keeps a hidden `<input>` in sync with the HTML, so the editor works in plain form posts and React 19 form actions."],
-        code: [
-          {
-            lang: "tsx",
-            code: `<form action={save}>
+        lang: "tsx",
+        code: `<form action={save}>
   <RichTextEditor name="body" defaultValue={post.body} />
   <button type="submit">Save</button>
 </form>`,
-          },
-        ],
-        callout: { tone: "security", title: "Sanitize on the server", text: "The editor sanitizes what it loads and produces, but anyone can post any string to your endpoint. Sanitize again before you store or render it." },
       },
       {
-        id: "toolbar",
-        title: "Custom toolbar",
-        text: ["`ui` takes the toolbar layout (item names and `\"|\"` separators), custom items, status bar, theme and more."],
-        code: [
-          {
-            lang: "tsx",
-            code: `<RichTextEditor
+        id: "customToolbar",
+        lang: "tsx",
+        code: `<RichTextEditor
   ui={{
     toolbar: ["bold", "italic", "link", "|", "bulletList", "orderedList", "|", "clear"],
     items: {
@@ -132,17 +49,11 @@ export function Article() {
     statusbar: false,
   }}
 />`,
-          },
-        ],
       },
       {
         id: "headless",
-        title: "Headless with useEditor",
-        text: ["Build your own UI. `ui: false` turns the built-in toolbar off. `editor` is `null` before mount and during server rendering."],
-        code: [
-          {
-            lang: "tsx",
-            code: `import { useEditor } from "@open-wysiwyg-editor/react";
+        lang: "tsx",
+        code: `import { useEditor } from "@open-wysiwyg-editor/react";
 
 export function Minimal() {
   const { ref, editor } = useEditor({ ui: false, content: "<p>Hello</p>" });
@@ -153,41 +64,22 @@ export function Minimal() {
     </>
   );
 }`,
-          },
-        ],
       },
-      {
-        id: "rtl",
-        title: "Arabic and RTL",
-        text: ["`language` sets the UI language (built in: `en`, `ar`). Without `dir`, each block follows its own text direction."],
-        code: [{ lang: "tsx", code: `<RichTextEditor language="ar" dir="rtl" contentLang="ar" />` }],
-      },
-      { id: "props", title: "Props", text: [RUNTIME_NOTE], props: { title: "RichTextEditor props", kind: "props", rows: reactRows("className") } },
     ],
-    ssr: [
-      "The component is SSR-safe. On the server it renders an empty container and the hidden input. The editor starts in the browser after hydration. `useEditor` returns `editor: null` until then.",
-      "`createEditor` itself needs a DOM, so call it only in effects.",
-    ],
-    styling: {
-      text: ["Import the stylesheet once. To show saved HTML outside the editor, use `content.css` and put the HTML in an element with the class `owe-content-root`."],
-      code: [{ lang: "ts", code: `import "@open-wysiwyg-editor/react/style.css"; // editor UI + content (or style.min.css)\nimport "@open-wysiwyg-editor/react/content.css"; // content only, for pages that show saved HTML` }],
-    },
   },
 
-  next: {
+  {
     slug: "next",
-    lead: "The React package with a \"use client\" banner. Use it straight from Server Components and wire it to Server Actions with `name`.",
-    requires: "Next.js App Router or Pages Router",
-    sections: [
+    name: "Next.js",
+    pkg: "@open-wysiwyg-editor/next",
+    install: "npm install @open-wysiwyg-editor/next",
+    requires: "Next.js 13.4+",
+    snippets: [
       {
-        id: "app-router",
-        title: "App Router",
-        text: ["Import the styles once, in the root layout, then use the editor in any Server Component, with no `\"use client\"` in your file."],
-        code: [
-          {
-            lang: "tsx",
-            label: "app/layout.tsx",
-            code: `import "@open-wysiwyg-editor/next/style.css";
+        id: "appLayoutTsx",
+        label: "app/layout.tsx",
+        lang: "tsx",
+        code: `import "@open-wysiwyg-editor/next/style.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -196,49 +88,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }`,
-          },
-          {
-            lang: "tsx",
-            label: "app/page.tsx (a Server Component)",
-            code: `import { RichTextEditor } from "@open-wysiwyg-editor/next";
-
-export default function Page() {
-  return <RichTextEditor defaultValue="<p>Hello</p>" placeholder="Write something…" />;
-}`,
-          },
-        ],
-        callout: { tone: "info", title: "Callbacks need a client component", text: "A Server Component cannot pass functions such as onChange. Use a client component for those, or use name with a Server Action." },
       },
       {
-        id: "controlled",
-        title: "Controlled, in a client component",
-        code: [
-          {
-            lang: "tsx",
-            label: "app/editor.tsx",
-            code: `"use client";
-
-import { useState } from "react";
-import { RichTextEditor } from "@open-wysiwyg-editor/next";
-
-export function ArticleEditor({ initial }: { initial: string }) {
-  const [html, setHtml] = useState(initial);
-  return <RichTextEditor value={html} onChange={setHtml} />;
-}`,
-          },
-        ],
-      },
-      {
-        id: "server-actions",
-        title: "Server Actions",
-        text: ["Give the editor a `name`. It keeps a hidden `<input>` in sync with the HTML, so the form posts it like any field."],
-        code: [
-          {
-            lang: "tsx",
-            label: "app/write/page.tsx (a Server Component)",
-            code: `import { RichTextEditor } from "@open-wysiwyg-editor/next";
+        id: "appWritePageTsx",
+        label: "app/write/page.tsx",
+        lang: "tsx",
+        code: `import { RichTextEditor } from "@open-wysiwyg-editor/next";
 import { savePost } from "./actions";
 
+// A Server Component: no "use client" needed.
 export default function Write() {
   return (
     <form action={savePost}>
@@ -247,11 +105,12 @@ export default function Write() {
     </form>
   );
 }`,
-          },
-          {
-            lang: "ts",
-            label: "app/write/actions.ts",
-            code: `"use server";
+      },
+      {
+        id: "appWriteActionsTs",
+        label: "app/write/actions.ts",
+        lang: "ts",
+        code: `"use server";
 
 import sanitizeHtml from "sanitize-html"; // or isomorphic-dompurify
 
@@ -259,79 +118,34 @@ export async function savePost(formData: FormData) {
   const body = sanitizeHtml(String(formData.get("body") ?? ""));
   // await db.post.create({ data: { body } });
 }`,
-          },
-        ],
-        callout: { tone: "security", title: "Always sanitize on the server", text: "The editor sanitizes what it loads and produces, but anyone can post any string to your action." },
       },
       {
-        id: "pages-router",
-        title: "Pages Router",
-        code: [
-          {
-            lang: "tsx",
-            label: "pages/_app.tsx",
-            code: `import type { AppProps } from "next/app";
-import "@open-wysiwyg-editor/next/style.css";
+        id: "controlled",
+        lang: "tsx",
+        code: `"use client";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}`,
-          },
-          {
-            lang: "tsx",
-            label: "pages/write.tsx",
-            code: `import { useState } from "react";
+import { useState } from "react";
 import { RichTextEditor } from "@open-wysiwyg-editor/next";
 
-export default function Write() {
-  const [html, setHtml] = useState("<p>Hello</p>");
-  return <RichTextEditor value={html} onChange={setHtml} name="body" />;
+export function ArticleEditor({ initial }: { initial: string }) {
+  const [html, setHtml] = useState(initial);
+  return <RichTextEditor value={html} onChange={setHtml} />;
 }`,
-          },
-        ],
       },
-      {
-        id: "display",
-        title: "Displaying saved HTML",
-        text: ["Use the content stylesheet and wrap the HTML in an element with the class `owe-content-root`."],
-        code: [
-          {
-            lang: "tsx",
-            label: "app/post/page.tsx",
-            code: `import "@open-wysiwyg-editor/next/content.css";
-
-export default async function Post() {
-  const html = await getSanitizedPostHtml(); // your own function; sanitize on the server
-  return <div className="owe-content-root" dangerouslySetInnerHTML={{ __html: html }} />;
-}`,
-          },
-        ],
-        callout: { tone: "warn", title: "dangerouslySetInnerHTML sanitizes nothing", text: "Sanitize the HTML on the server, when you save it or before you render it." },
-      },
-      { id: "props", title: "Props", text: ["Same props as the React package. " + RUNTIME_NOTE], props: { title: "RichTextEditor props", kind: "props", rows: reactRows("className") } },
     ],
-    ssr: [
-      "You do not need `dynamic(() => …, { ssr: false })`. On the server the component renders an empty container and the hidden input, and creates the editor in an effect after hydration, so nothing touches `window` or `document` while rendering.",
-      "`useEditor` returns `editor: null` until then.",
-    ],
-    styling: {
-      text: ["Import `style.css` once in `app/layout.tsx` or `pages/_app.tsx`. Pages that only show saved HTML use `content.css`."],
-      code: [{ lang: "ts", code: `import "@open-wysiwyg-editor/next/style.css";\nimport "@open-wysiwyg-editor/next/content.css";` }],
-    },
   },
 
-  preact: {
+  {
     slug: "preact",
-    lead: "The same API as the React package, on preact/hooks. Use `class` instead of `className`.",
+    name: "Preact",
+    pkg: "@open-wysiwyg-editor/preact",
+    install: "npm install @open-wysiwyg-editor/preact",
     requires: "Preact 10+",
-    sections: [
+    snippets: [
       {
-        id: "usage",
-        title: "Minimal usage",
-        code: [
-          {
-            lang: "tsx",
-            code: `import { useState } from "preact/hooks";
+        id: "basicUsage",
+        lang: "tsx",
+        code: `import { useState } from "preact/hooks";
 import { RichTextEditor } from "@open-wysiwyg-editor/preact";
 import "@open-wysiwyg-editor/preact/style.css";
 
@@ -339,31 +153,19 @@ export function Article() {
   const [html, setHtml] = useState("<p>Hello</p>");
   return <RichTextEditor value={html} onChange={setHtml} class="article-editor" />;
 }`,
-          },
-        ],
       },
       {
         id: "forms",
-        title: "Forms and saving",
-        text: ["`name` keeps a hidden `<input>` in sync with the HTML, so a plain form post receives it."],
-        code: [
-          {
-            lang: "tsx",
-            code: `<form method="post" action="/save">
+        lang: "tsx",
+        code: `<form method="post" action="/save">
   <RichTextEditor name="body" defaultValue={post.body} />
   <button type="submit">Save</button>
 </form>`,
-          },
-        ],
-        callout: { tone: "security", title: "Sanitize on the server", text: "Treat the posted HTML as untrusted and sanitize it again before you store or render it." },
       },
       {
         id: "headless",
-        title: "Headless with useEditor",
-        code: [
-          {
-            lang: "tsx",
-            code: `import { useEditor } from "@open-wysiwyg-editor/preact";
+        lang: "tsx",
+        code: `import { useEditor } from "@open-wysiwyg-editor/preact";
 
 export function Minimal() {
   const { ref, editor } = useEditor({ ui: false, content: "<p>Hello</p>" });
@@ -374,17 +176,491 @@ export function Minimal() {
     </>
   );
 }`,
-          },
-        ],
       },
-      { id: "props", title: "Props", text: [RUNTIME_NOTE], props: { title: "RichTextEditor props", kind: "props", rows: reactRows("class") } },
     ],
-    ssr: ["The component is SSR-safe. On the server it renders an empty container and the hidden input. The editor starts in the browser after hydration."],
-    styling: {
-      text: ["Import the stylesheet once. Use `content.css` to show saved HTML inside `owe-content-root`."],
-      code: [{ lang: "ts", code: `import "@open-wysiwyg-editor/preact/style.css";` }],
-    },
   },
 
-  ...DOCS_B,
-};
+  {
+    slug: "vue",
+    name: "Vue",
+    pkg: "@open-wysiwyg-editor/vue",
+    install: "npm install @open-wysiwyg-editor/vue",
+    requires: "Vue 3.3+",
+    snippets: [
+      {
+        id: "articleVue",
+        label: "Article.vue",
+        lang: "vue",
+        code: `<script setup lang="ts">
+import { ref } from "vue";
+import { RichTextEditor } from "@open-wysiwyg-editor/vue";
+import "@open-wysiwyg-editor/vue/style.css";
+
+const html = ref("<p>Hello <strong>world</strong></p>");
+</script>
+
+<template>
+  <RichTextEditor v-model="html" placeholder="Write something…" />
+</template>`,
+      },
+      {
+        id: "options",
+        lang: "vue",
+        code: `<RichTextEditor
+  v-model="html"
+  :options="{
+    language: 'ar',
+    ui: { toolbar: ['bold', 'italic', '|', 'link', '|', 'undo', 'redo'] },
+  }"
+/>`,
+      },
+      {
+        id: "forms",
+        lang: "vue",
+        code: `<form method="post" action="/save">
+  <RichTextEditor v-model="html" name="body" />
+  <button type="submit">Save</button>
+</form>`,
+      },
+      {
+        id: "editorAccess",
+        lang: "vue",
+        code: `<script setup lang="ts">
+import { ref } from "vue";
+import { RichTextEditor, type Editor } from "@open-wysiwyg-editor/vue";
+
+const html = ref("");
+const field = ref<{ editor: Editor | null } | null>(null);
+
+const onReady = (editor: Editor) => editor.focus();
+const bold = () => field.value?.editor?.commands.toggleBold();
+</script>
+
+<template>
+  <button type="button" @click="bold">Bold</button>
+  <RichTextEditor ref="field" v-model="html" @ready="onReady" />
+</template>`,
+      },
+    ],
+  },
+
+  {
+    slug: "nuxt",
+    name: "Nuxt",
+    pkg: "@open-wysiwyg-editor/nuxt",
+    install: "npm install @open-wysiwyg-editor/nuxt",
+    requires: "Nuxt 3+",
+    snippets: [
+      {
+        id: "nuxtConfigTs",
+        label: "nuxt.config.ts",
+        lang: "ts",
+        code: `export default defineNuxtConfig({
+  modules: ["@open-wysiwyg-editor/nuxt"],
+});`,
+      },
+      {
+        id: "pagesPostVue",
+        label: "pages/post.vue",
+        lang: "vue",
+        code: `<script setup lang="ts">
+const html = useState("post-html", () => "<p>Start writing…</p>");
+
+async function save() {
+  await $fetch("/api/posts", { method: "POST", body: { html: html.value } });
+}
+</script>
+
+<template>
+  <form @submit.prevent="save">
+    <RichTextEditor v-model="html" placeholder="Write something…" :options="{ language: 'ar' }" />
+    <button type="submit">Save</button>
+  </form>
+</template>`,
+      },
+      {
+        id: "moduleOptions",
+        lang: "ts",
+        code: `export default defineNuxtConfig({
+  modules: ["@open-wysiwyg-editor/nuxt"],
+  wysiwygEditor: {
+    css: true, // add the stylesheet to every page
+    componentName: "RichTextEditor",
+  },
+});`,
+      },
+    ],
+  },
+
+  {
+    slug: "angular",
+    name: "Angular",
+    pkg: "@open-wysiwyg-editor/angular",
+    install: "npm install @open-wysiwyg-editor/angular",
+    requires: "Angular 21+",
+    snippets: [
+      {
+        id: "angularJson",
+        label: "angular.json",
+        lang: "json",
+        code: `"styles": [
+  "node_modules/@open-wysiwyg-editor/angular/style.css",
+  "src/styles.css"
+]`,
+      },
+      {
+        id: "ngModel",
+        label: "ngModel",
+        lang: "ts",
+        code: `import { Component } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { RichTextEditorComponent } from "@open-wysiwyg-editor/angular";
+
+@Component({
+  selector: "app-post",
+  imports: [FormsModule, RichTextEditorComponent],
+  template: \`
+    <owe-rich-text-editor [(ngModel)]="html" placeholder="Write something…" />
+    <pre>{{ html }}</pre>
+  \`,
+})
+export class PostComponent {
+  html = "<p>Hello <strong>world</strong></p>";
+}`,
+      },
+      {
+        id: "reactiveForms",
+        lang: "ts",
+        code: `import { Component, inject } from "@angular/core";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { RichTextEditorComponent } from "@open-wysiwyg-editor/angular";
+
+@Component({
+  selector: "app-compose",
+  imports: [ReactiveFormsModule, RichTextEditorComponent],
+  template: \`
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <owe-rich-text-editor formControlName="body" />
+      <button>Save</button>
+    </form>
+  \`,
+})
+export class ComposeComponent {
+  form = inject(FormBuilder).nonNullable.group({
+    body: ["", [Validators.required, Validators.minLength(10)]],
+  });
+
+  save() {
+    console.log(this.form.getRawValue().body);
+  }
+}`,
+      },
+      {
+        id: "optionsAndEvents",
+        lang: "html",
+        code: `<owe-rich-text-editor
+  [(value)]="html"
+  [options]="{ language: 'ar', dir: 'rtl', autofocus: true }"
+  placeholder="اكتب هنا…"
+  (ready)="onReady($event)"
+/>`,
+      },
+    ],
+  },
+
+  {
+    slug: "svelte",
+    name: "Svelte",
+    pkg: "@open-wysiwyg-editor/svelte",
+    install: "npm install @open-wysiwyg-editor/svelte",
+    requires: "Svelte 3, 4 or 5",
+    snippets: [
+      {
+        id: "svelte5",
+        label: "Svelte 5",
+        lang: "svelte",
+        code: `<script lang="ts">
+  import { richText } from "@open-wysiwyg-editor/svelte";
+  import "@open-wysiwyg-editor/svelte/style.css";
+
+  let html = $state("<p>Hello <strong>world</strong></p>");
+</script>
+
+<div
+  use:richText={{
+    content: html,
+    placeholder: "Write something…",
+    onUpdate: (editor) => (html = editor.getHTML()),
+  }}
+></div>
+
+<pre>{html}</pre>`,
+      },
+      {
+        id: "svelte3And4",
+        lang: "svelte",
+        code: `<script lang="ts">
+  import { richText } from "@open-wysiwyg-editor/svelte";
+  import "@open-wysiwyg-editor/svelte/style.css";
+
+  let html = "<p>Hello <strong>world</strong></p>";
+</script>
+
+<div use:richText={{ content: html, onUpdate: (editor) => (html = editor.getHTML()) }} />
+
+<pre>{html}</pre>`,
+      },
+      {
+        id: "forms",
+        lang: "svelte",
+        code: `<form method="POST">
+  <div use:richText={{ content: html, onUpdate: (e) => (html = e.getHTML()) }}></div>
+  <input type="hidden" name="body" value={html} />
+  <button>Save</button>
+</form>`,
+      },
+    ],
+  },
+
+  {
+    slug: "solid",
+    name: "Solid",
+    pkg: "@open-wysiwyg-editor/solid",
+    install: "npm install @open-wysiwyg-editor/solid",
+    requires: "Solid 1.6+",
+    snippets: [
+      {
+        id: "basicUsage",
+        lang: "tsx",
+        code: `import { createSignal } from "solid-js";
+import { richText } from "@open-wysiwyg-editor/solid";
+import "@open-wysiwyg-editor/solid/style.css";
+
+richText; // keeps the import from being tree-shaken
+
+export default function App() {
+  const [html, setHtml] = createSignal("<p>Hello <strong>world</strong></p>");
+
+  return (
+    <>
+      <div
+        use:richText={{
+          content: html(),
+          placeholder: "Write something…",
+          onUpdate: (editor) => setHtml(editor.getHTML()),
+        }}
+      />
+      <pre>{html()}</pre>
+    </>
+  );
+}`,
+      },
+      {
+        id: "forms",
+        lang: "tsx",
+        code: `<form method="post">
+  <div use:richText={{ content: html(), onUpdate: (e) => setHtml(e.getHTML()) }} />
+  <input type="hidden" name="body" value={html()} />
+  <button>Save</button>
+</form>`,
+      },
+    ],
+  },
+
+  {
+    slug: "astro",
+    name: "Astro",
+    pkg: "@open-wysiwyg-editor/astro",
+    install: "npm install @open-wysiwyg-editor/astro",
+    requires: "Astro 4+",
+    snippets: [
+      {
+        id: "usage",
+        lang: "astro",
+        code: `---
+import { RichTextEditor } from "@open-wysiwyg-editor/astro";
+---
+
+<form method="post" action="/api/save">
+  <label for="body">Article</label>
+  <RichTextEditor id="body" name="body" value="<p>Hello <strong>world</strong></p>" />
+  <button>Save</button>
+</form>`,
+      },
+      {
+        id: "arabicAndToolbar",
+        lang: "astro",
+        code: `<RichTextEditor
+  name="body"
+  language="ar"
+  dir="rtl"
+  label="المحتوى"
+  toolbar="bold italic underline | link bulletList orderedList"
+/>`,
+      },
+      {
+        id: "readTheValue",
+        lang: "astro",
+        code: `<RichTextEditor id="body" name="body" />
+
+<script>
+  const field = document.querySelector<HTMLElement & { value: string }>("#body")!;
+  field.addEventListener("input", () => console.log(field.value));
+</script>`,
+      },
+    ],
+  },
+
+  {
+    slug: "web-component",
+    name: "Web component",
+    pkg: "open-wysiwyg-editor",
+    install: "npm install open-wysiwyg-editor",
+    requires: "Safari 16.4+ for forms",
+    snippets: [
+      {
+        id: "cdnNoBuildStep",
+        lang: "html",
+        code: `${CDN_TAGS}
+
+<owe-editor id="editor" placeholder="Write something…">
+  <template><p>Hello <strong>world</strong></p></template>
+</owe-editor>
+
+<script>
+  document.querySelector("#editor").addEventListener("input", (event) => {
+    console.log(event.target.value); // '<p dir="auto">Hello <strong>world</strong></p>'
+  });
+</script>`,
+      },
+      {
+        id: "bundler",
+        lang: "ts",
+        code: `import "open-wysiwyg-editor/element";
+import "open-wysiwyg-editor/style.css";`,
+      },
+      {
+        id: "inAForm",
+        lang: "html",
+        code: `<form method="post">
+  <label for="body">Article</label>
+  <owe-editor id="body" name="body">
+    <template><p>Draft…</p></template>
+  </owe-editor>
+  <button>Save</button>
+</form>`,
+      },
+      {
+        id: "properties",
+        lang: "ts",
+        code: `const el = document.querySelector("owe-editor");
+el.options = { language: "ar", ui: { stickyToolbar: false } }; // before it is added to the page
+el.value = "<p>New content</p>";
+el.editor?.commands.toggleBold();`,
+      },
+    ],
+  },
+
+  {
+    slug: "vanilla",
+    name: "Vanilla JS",
+    pkg: "open-wysiwyg-editor",
+    install: "npm install open-wysiwyg-editor",
+    snippets: [
+      {
+        id: "bundler",
+        lang: "ts",
+        code: `import { createEditor } from "open-wysiwyg-editor";
+import "open-wysiwyg-editor/style.css";
+
+const editor = createEditor({
+  element: "#editor", // or an HTMLElement
+  onUpdate: (editor) => console.log(editor.getHTML()),
+});`,
+      },
+      {
+        id: "cdn",
+        label: "CDN",
+        lang: "html",
+        code: `${CDN_TAGS}
+
+<div id="editor"><p>Hello <strong>world</strong></p></div>
+
+<script>
+  const editor = OpenWysiwygEditor.createEditor({
+    element: "#editor",
+    placeholder: "Write something…",
+  });
+  // editor.getHTML() → '<p dir="auto">Hello <strong>world</strong></p>'
+</script>`,
+      },
+      {
+        id: "textarea",
+        label: "Textarea",
+        lang: "html",
+        code: `<form method="post">
+  <label for="body">Article</label>
+  <textarea id="body" name="body"><p>Draft…</p></textarea>
+  <button>Save</button>
+</form>
+<script>
+  OpenWysiwygEditor.createEditor({ element: "#body" });
+</script>`,
+      },
+      {
+        id: "headless",
+        lang: "ts",
+        code: `import { createEditor, StarterKit } from "open-wysiwyg-editor/headless";
+
+const editor = createEditor({ element, extensions: [StarterKit] });
+boldButton.onclick = () => editor.chain().focus().toggleBold().run();
+editor.subscribe(() => {
+  boldButton.setAttribute("aria-pressed", String(editor.isActive("bold")));
+});`,
+      },
+    ],
+  },
+
+  {
+    slug: "others",
+    name: "Lit, Alpine, htmx…",
+    pkg: "open-wysiwyg-editor",
+    install: "npm install open-wysiwyg-editor",
+    snippets: [
+      {
+        id: "loadItOnce",
+        lang: "html",
+        code: CDN_TAGS,
+      },
+      {
+        id: "alpineJs",
+        label: "Alpine.js",
+        lang: "html",
+        code: `<owe-editor name="body" x-on:input="html = $event.target.value"></owe-editor>`,
+      },
+      {
+        id: "htmx",
+        label: "htmx",
+        lang: "html",
+        code: `<form hx-post="/articles" hx-swap="outerHTML">
+  <owe-editor name="body" value="&lt;p&gt;Hello&lt;/p&gt;"></owe-editor>
+  <button>Save</button>
+</form>`,
+      },
+      {
+        id: "lit",
+        label: "Lit",
+        lang: "ts",
+        code: `import "open-wysiwyg-editor/element";
+import "open-wysiwyg-editor/style.css";
+
+// html\`<owe-editor .value=\${this.html} @input=\${(e) => (this.html = e.target.value)}></owe-editor>\``,
+      },
+      {
+        id: "wordPressAndPHP",
+        lang: "html",
+        code: `<owe-editor name="body" value="<?php echo esc_attr( $html ); ?>"></owe-editor>`,
+      },
+    ],
+  },
+];

@@ -1,11 +1,16 @@
-// Static server for e2e tests. Every response carries a strict CSP with Trusted Types enforced,
-// so any inline script/style-attribute/eval/unsafe HTML sink in the editor fails the tests.
+// Static server for e2e tests.
+// - Test fixtures (anything outside /open-wysiwyg-editor/) are served with a strict CSP and Trusted Types
+//   enforced, so any inline script/style-attribute/eval/unsafe HTML sink in the editor fails the tests.
+// - The built docs site (<repo>/_site) is served under /open-wysiwyg-editor/, like GitHub Pages does. It
+//   gets no CSP header: its pages carry their own CSP <meta> tag, which is what runs in production.
 import { createServer } from "node:http";
-import { readFile } from "node:fs/promises";
-import { extname, join, normalize, resolve } from "node:path";
+import { readFile, stat } from "node:fs/promises";
+import { extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
+const siteRoot = resolve(root, "_site");
+const SITE_BASE = "/open-wysiwyg-editor/";
 const arg = (name) => {
   const i = process.argv.indexOf(`--${name}`);
   return i > -1 ? process.argv[i + 1] : undefined;
@@ -19,8 +24,15 @@ const TYPES = {
   ".mjs": "text/javascript; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".map": "application/json",
+  ".json": "application/json; charset=utf-8",
+  ".webmanifest": "application/manifest+json; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
   ".png": "image/png",
   ".svg": "image/svg+xml",
+  ".ico": "image/x-icon",
+  ".woff2": "font/woff2",
+  ".woff": "font/woff",
 };
 
 export const CSP = [
@@ -36,25 +48,72 @@ export const CSP = [
   "trusted-types open-wysiwyg-editor ProseMirrorClipboard",
 ].join("; ");
 
+/** Reads `file` if it is a regular file inside `base`; null otherwise (also blocks path traversal). */
+async function readInside(base, file) {
+  if (file !== base && !file.startsWith(base + sep)) throw new Error("outside");
+  const info = await stat(file).catch(() => null);
+  return info?.isFile() ? { path: file, body: await readFile(file) } : null;
+}
+
+async function find(base, rel) {
+  const file = resolve(base, "." + sep + rel);
+  if (file !== base && !file.startsWith(base + sep)) throw new Error("outside");
+  const info = await stat(file).catch(() => null);
+  if (info?.isDirectory()) return readInside(base, resolve(file, "index.html"));
+  return (
+    (await readInside(base, file)) ?? (extname(file) ? null : readInside(base, file + ".html"))
+  );
+}
+
 createServer(async (req, res) => {
   try {
-    const url = new URL(req.url ?? "/", `http://localhost:${port}`);
-    const path = normalize(join(root, decodeURIComponent(url.pathname === "/" ? defaultPage : url.pathname)));
-    if (!path.startsWith(root)) {
-      res.writeHead(403).end();
+    if (req.method !== "GET" && req.method !== "HEAD") {
+      res.writeHead(405, { Allow: "GET, HEAD" }).end();
       return;
     }
-    const body = await readFile(path);
-    res.writeHead(200, {
-      "Content-Type": TYPES[extname(path)] ?? "application/octet-stream",
-      "Content-Security-Policy": CSP,
+    const url = new URL(req.url ?? "/", `http://localhost:${port}`);
+    const pathname = decodeURIComponent(url.pathname === "/" ? defaultPage : url.pathname);
+    const isSite = pathname === SITE_BASE.slice(0, -1) || pathname.startsWith(SITE_BASE);
+
+    if (isSite && pathname === SITE_BASE.slice(0, -1)) {
+      res.writeHead(301, { Location: SITE_BASE + url.search }).end();
+      return;
+    }
+
+    let found;
+    let status = 200;
+    if (isSite) {
+      const rel = pathname.slice(SITE_BASE.length);
+      const dir = await stat(resolve(siteRoot, "." + sep + rel)).catch(() => null);
+      if (dir?.isDirectory() && !pathname.endsWith("/")) {
+        res.writeHead(301, { Location: pathname + "/" + url.search }).end(); // like GitHub Pages
+        return;
+      }
+      found = await find(siteRoot, rel);
+      if (!found) {
+        found = await find(siteRoot, "404.html");
+        status = 404;
+      }
+    } else {
+      found = await find(root, pathname.slice(1));
+    }
+    if (!found) {
+      res.writeHead(404).end("not found");
+      return;
+    }
+    res.writeHead(status, {
+      "Content-Type": TYPES[extname(found.path).toLowerCase()] ?? "application/octet-stream",
+      ...(isSite ? {} : { "Content-Security-Policy": CSP }),
       "X-Content-Type-Options": "nosniff",
       "Cache-Control": "no-store",
     });
-    res.end(body);
+    res.end(req.method === "HEAD" ? undefined : found.body);
   } catch {
     res.writeHead(404).end("not found");
   }
 }).listen(port, () =>
-  console.log(`Serving with strict CSP + Trusted Types on http://localhost:${port}${defaultPage}`),
+  console.log(
+    `Serving with strict CSP + Trusted Types on http://localhost:${port}${defaultPage}\n` +
+      `Serving the built site (_site) on http://localhost:${port}${SITE_BASE}`,
+  ),
 );

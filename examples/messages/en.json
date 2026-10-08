@@ -1,0 +1,771 @@
+{
+  "Header": {
+    "nav": "Main",
+    "home": "Open WYSIWYG Editor – home",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "close": "Close",
+    "menuDescription": "Site pages and project links",
+    "github": "GitHub repository",
+    "npm": "npm package"
+  },
+  "Shell": {
+    "skip": "Skip to content"
+  },
+  "ThemeToggle": {
+    "toggle": "Toggle color theme",
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
+  "CodeBlock": {
+    "copy": "Copy code",
+    "copied": "Copied"
+  },
+  "Cta": {
+    "title": "Ship an editor in five minutes",
+    "text": "Install, load the stylesheet, mount. Free and open source under the MIT license: no license key, no telemetry, no cloud service.",
+    "start": "Get started",
+    "github": "Star on GitHub",
+    "npm": "View on npm",
+    "newTab": "(opens in a new tab)"
+  },
+  "TrustStrip": {
+    "label": "Quality at a glance",
+    "stats": [
+      {
+        "value": "10 packages",
+        "label": "The core plus a ready-made package for every major framework"
+      },
+      {
+        "value": "WCAG 2.2 AA",
+        "label": "Checked with axe-core in every release"
+      },
+      {
+        "value": "Strict CSP",
+        "label": "No unsafe-inline, Trusted Types enforced"
+      },
+      {
+        "value": "MIT",
+        "label": "No license key, no telemetry, no cloud service"
+      }
+    ]
+  },
+  "Features": {
+    "eyebrow": "Features",
+    "title": "Everything a writer expects",
+    "description": "And the things your users, your security team and your auditors ask for.",
+    "items": [
+      {
+        "title": "Accessible, WCAG 2.2",
+        "text": "Fully keyboard operable with no trap, screen reader announcements, Windows High Contrast, reduced motion and a dark theme. Checked with axe-core on every release."
+      },
+      {
+        "title": "Your brand, in one color",
+        "text": "Set <code>ui.brand</code> and the buttons, links, focus ring and selection follow, in light and dark. Every button has its own tokens, so the editor fits any brand and any dashboard theme."
+      },
+      {
+        "title": "Secure by default",
+        "text": "DOMPurify on every input, a URL allow-list, Trusted Types and no <code>unsafe-inline</code>. It runs under a strict CSP."
+      },
+      {
+        "title": "RTL and Arabic, first-class",
+        "text": "English and Arabic built in, and you can add your own. The whole UI mirrors in RTL and every block has <code>dir=\"auto\"</code>."
+      },
+      {
+        "title": "Form-ready web component",
+        "text": "<code>'<'owe-editor name'>'</code> takes part in plain HTML forms, so a form post, htmx or Turbo works with no glue code."
+      },
+      {
+        "title": "Small and tree-shakable",
+        "text": "The whole editor, sanitizer and UI come to about 133 kB gzipped. Framework wrappers add around 1 kB."
+      },
+      {
+        "title": "Headless when you need it",
+        "text": "Use the full UI, or <code>ui: false</code> and <code>open-wysiwyg-editor/headless</code> for your own. Add toolbar buttons and write extensions."
+      },
+      {
+        "title": "Built on ProseMirror",
+        "text": "A strict document schema, transactions and undo history from ProseMirror, the proven toolkit for rich text editing."
+      }
+    ]
+  },
+  "Nav": {
+    "home": "Home",
+    "gettingStarted": "Getting started",
+    "frameworks": "Frameworks",
+    "api": "API",
+    "guides": "Guides"
+  },
+  "Footer": {
+    "home": "Open WYSIWYG Editor – home",
+    "about": "An accessible, RTL-first rich text editor for every framework. MIT licensed, with no license key and no telemetry.",
+    "sections": "Docs",
+    "project": "Project",
+    "packages": "Packages",
+    "allPackages": "All frameworks",
+    "changelog": "Changelog",
+    "license": "MIT license",
+    "security": "Security policy",
+    "issues": "Report an issue",
+    "authorName": "Alhassan Ahmed",
+    "legal": "© {year} {author} and contributors. Released under the <license>MIT License</license>.",
+    "credit": "Designed and built by <profile>{author}</profile>",
+    "builtOn": "Built on <link>ProseMirror</link>"
+  },
+  "Hero": {
+    "title": "A rich text editor that <em>works everywhere</em>.",
+    "sub": "Accessible, RTL-first and safe under a strict CSP. One small core and a ready-made package for every framework, from plain HTML forms to Next.js.",
+    "start": "Get started",
+    "github": "GitHub",
+    "newTab": "(opens in a new tab)",
+    "worksWith": "Works with",
+    "marquee": "Supported frameworks",
+    "pause": "Pause animation",
+    "play": "Play animation"
+  },
+  "Install": {
+    "eyebrow": "Install",
+    "title": "Up and running in three steps",
+    "description": "Install the core package, load the stylesheet and mount an editor. Using a framework? Its package does these steps for you.",
+    "steps": [
+      {
+        "title": "Install",
+        "text": "Use your package manager, or load one script from a CDN with no build step."
+      },
+      {
+        "title": "Load the styles",
+        "text": "Load the stylesheet once. It styles the editor, its UI and its content. All rules live in <code>@layer owe</code>, so your own unlayered CSS wins."
+      },
+      {
+        "title": "Render the editor",
+        "text": "<code>createEditor(options)</code> mounts the editor in the element you pass and returns an <code>editor</code>. Call it in the browser, after the element exists."
+      }
+    ],
+    "frameworkTitle": "Using a framework?",
+    "saveTitle": "Save the content",
+    "saveText": "Read the clean, sanitized HTML (or ProseMirror JSON) and load it back later.",
+    "showTitle": "Show saved HTML",
+    "showText": "On a page with no editor, load <code>content.css</code> and wrap the sanitized HTML in <code>owe-content-root</code>.",
+    "serverTitle": "Sanitize on the server",
+    "serverNote": "The browser is not a security boundary. Sanitize the HTML again on the server before you store it.",
+    "frameworkText": "Install its package instead of the core. It brings the core with it and re-exports the whole API. <link>Pick your framework</link>",
+    "tabs": {
+      "bundler": "Bundler",
+      "cdn": "CDN",
+      "js": "JavaScript",
+      "element": "'<'owe-editor'>'"
+    }
+  },
+  "Api": {
+    "eyebrow": "API reference",
+    "title": "Everything the core exports",
+    "description": "One page of options, methods and attributes. The framework packages re-export all of it.",
+    "cols": {
+      "option": "Option",
+      "type": "Type",
+      "def": "Default",
+      "desc": "Description",
+      "method": "Method",
+      "returns": "Returns",
+      "group": "Area",
+      "commands": "Commands",
+      "name": "Name",
+      "where": "Import"
+    },
+    "captions": {
+      "options": "createEditor options",
+      "ui": "ui options",
+      "callbacks": "Editor callbacks",
+      "methods": "Editor methods",
+      "commands": "Commands by area",
+      "attributes": "owe-editor attributes",
+      "properties": "owe-editor properties",
+      "events": "owe-editor events",
+      "entries": "Package entry points"
+    },
+    "scroll": "Scrollable table:",
+    "cards": {
+      "options": {
+        "title": "createEditor(options)",
+        "description": "Every option, with its default. All of them are optional."
+      },
+      "ui": {
+        "title": "ui options",
+        "description": "The built-in toolbar, status bar and theme. Pass <code>false</code> instead for a headless editor."
+      },
+      "callbacks": {
+        "title": "Callbacks",
+        "description": "Pass them as options. The framework packages always call the latest function."
+      },
+      "methods": {
+        "title": "Editor methods",
+        "description": "What <code>createEditor()</code> returns."
+      },
+      "commands": {
+        "title": "Commands",
+        "description": "Run them with <code>editor.commands.name()</code>, test them with <code>editor.can().name()</code> and combine them with <code>editor.chain()…run()</code>."
+      },
+      "attributes": {
+        "title": "Attributes",
+        "description": "<code>placeholder</code>, <code>readonly</code>, <code>disabled</code>, <code>dir</code>, <code>content-lang</code> and <code>label</code> follow later changes. <code>value</code>, <code>language</code> and <code>toolbar</code> are read when the editor starts."
+      },
+      "properties": {
+        "title": "Properties",
+        "description": "Set <code>options</code> before the element is added to the page."
+      },
+      "events": {
+        "title": "Events",
+        "description": "Both bubble, so you can listen on the form."
+      },
+      "entries": {
+        "title": "Entry points",
+        "description": "What each import path gives you."
+      }
+    },
+    "rows": {
+      "options": {
+        "element": "Container, CSS selector or textarea (hidden and kept in sync). Omit it to create the editor detached and append <code>editor.root</code> yourself.",
+        "content": "Initial content: HTML (always sanitized) or ProseMirror JSON.",
+        "extensions": "The feature set.",
+        "editable": "Allow editing.",
+        "autofocus": "Focus on creation.",
+        "placeholder": "Text shown when the editor is empty.",
+        "ariaLabel": "Accessible name and description of the editing area.",
+        "language": "UI language. Built in: <code>en</code>, <code>ar</code>.",
+        "languages": "Add or replace UI languages.",
+        "labels": "Override single UI strings.",
+        "dir": "Base direction of the content.",
+        "contentLang": "<code>lang</code> of the content, used for spellcheck and screen readers.",
+        "urlPolicy": "<code>'{' protocols, allowDataImages, allowRelative '}'</code>. Allowed link and image URLs.",
+        "inputRules": "Markdown-style shortcuts: <code># </code>, <code>* </code>, <code>1. </code>, <code>'>' </code>, fenced code, <code>**bold**</code>…",
+        "ui": "Toolbar, custom items, status bar, theme and shortcuts. <code>false</code> = headless."
+      },
+      "ui": {
+        "toolbar": "Item names and <code>\"|\"</code> separators. <code>false</code> hides the toolbar.",
+        "items": "Custom or overriding toolbar buttons, referenced by name in <code>toolbar</code>.",
+        "statusbar": "Status bar content. <code>characterCount</code> can take <code>'{' limit '}'</code>.",
+        "theme": "Color theme of the editor.",
+        "stickyToolbar": "Keep the toolbar visible while scrolling long documents.",
+        "shortcuts": "Key bindings of the built-in UI."
+      },
+      "callbacks": {
+        "onCreate": "The editor was created.",
+        "onUpdate": "The content changed.",
+        "onSelectionUpdate": "The selection changed.",
+        "onFocus": "The editing area gained or lost focus.",
+        "onDestroy": "The editor was destroyed.",
+        "onContentError": "Content could not be loaded."
+      },
+      "methods": {
+        "getHTML": "Clean, sanitized HTML. Save this.",
+        "getJSON": "ProseMirror JSON.",
+        "getText": "Plain text. Blocks are separated by <code>\\n\\n</code> by default.",
+        "setContent": "Load HTML or JSON. <code>emitUpdate</code> and <code>addToHistory</code> are off by default.",
+        "clearContent": "Empty the document.",
+        "isEmpty": "Read-only state flags.",
+        "setEditable": "Turn editing on or off.",
+        "setOptions": "Change the runtime options: <code>editable</code>, <code>placeholder</code>, <code>aria*</code>, <code>dir</code>, <code>contentLang</code>.",
+        "commands": "Run one command, e.g. <code>editor.commands.toggleBold()</code>.",
+        "can": "Would the command work here?",
+        "chain": "Several commands in one transaction and one undo step.",
+        "isActive": "Is a mark or node active, e.g. <code>isActive(\"heading\", '{' level: 2 '}')</code>.",
+        "getAttributes": "Attributes at the selection, e.g. a link''s <code>href</code>.",
+        "on": "Listen to an editor event. Returns an unsubscribe function.",
+        "subscribe": "Store-style subscription that fires on every change.",
+        "announce": "Send a message to screen readers.",
+        "focus": "Move focus in or out.",
+        "destroy": "Remove the editor and its listeners."
+      },
+      "attributes": {
+        "name": "Form field name. The form submits the editor''s HTML under it.",
+        "placeholder": "Placeholder text.",
+        "readonly": "Makes the content read-only.",
+        "disabled": "Disables the editor and leaves it out of the form.",
+        "dir": "Base direction of the content.",
+        "content": "<code>lang</code> of the content (spellcheck and screen readers).",
+        "label": "Accessible name. Or point a <code>'<'label for'>'</code> at the element''s <code>id</code>.",
+        "value": "Initial content as HTML. Read once, when the editor is created.",
+        "language": "UI language, e.g. <code>ar</code>. Read once. Defaults to <code>'<'html lang'>'</code>.",
+        "toolbar": "Toolbar items separated by spaces (<code>\"bold italic | link\"</code>), or <code>none</code>. Read once."
+      },
+      "properties": {
+        "editor": "The live editor, or <code>null</code> while the element is not in the document.",
+        "value": "The content as HTML. Setting it loads new content.",
+        "options": "More <code>createEditor()</code> options. Set it before the element is added to the page. Attributes win over it.",
+        "form": "The surrounding <code>'<'form'>'</code>, or <code>null</code>."
+      },
+      "events": {
+        "input": "On every change. <code>event.target.value</code> has the HTML.",
+        "change": "When the editor loses focus after a change."
+      },
+      "entries": {
+        "core": "The engine, every extension and the accessible UI.",
+        "headless": "The engine and extensions without UI code.",
+        "element": "Defines the <code>'<'owe-editor'>'</code> element.",
+        "styleCss": "Editor, UI and content styles (also <code>style.min.css</code>).",
+        "contentCss": "Content styles only, for pages that display saved HTML (also <code>content.min.css</code>).",
+        "globalJs": "A script tag build. Exposes <code>window.OpenWysiwygEditor</code> and defines <code>'<'owe-editor'>'</code>."
+      }
+    },
+    "commandGroups": {
+      "marks": "Marks",
+      "color": "Color",
+      "blocks": "Blocks",
+      "lists": "Lists",
+      "linksAndImages": "Links and images",
+      "tables": "Tables",
+      "layout": "Layout",
+      "find": "Find",
+      "general": "General"
+    },
+    "toc": "On this page"
+  },
+  "Frameworks": {
+    "eyebrow": "Frameworks",
+    "title": "Pick your framework",
+    "description": "Each package re-exports the whole core API and ships the stylesheets. Install one and you are done.",
+    "pickerLabel": "Framework",
+    "package": "Package",
+    "newTab": "(opens in a new tab)",
+    "terminal": "Terminal",
+    "notes": "Good to know",
+    "securityTitle": "Always sanitize on the server",
+    "security": "The editor sanitizes what it loads and produces, but that is not a security boundary: anyone can post any string to your API. Sanitize the HTML again with a library you trust before you store it or render it for other users.",
+    "requires": "Requires <ltr>{version}</ltr>",
+    "items": {
+      "react": {
+        "name": "React",
+        "blurb": "<code>RichTextEditor</code> and <code>useEditor()</code> for React 18+, Remix, Gatsby and Vite.",
+        "snippets": {
+          "basicUsage": "Basic usage",
+          "forms": "Forms",
+          "customToolbar": "Custom toolbar",
+          "headless": "Headless"
+        },
+        "notes": [
+          "SSR-safe: the server renders an empty container and the hidden input, and the editor starts in the browser.",
+          "<code>value</code> is loaded only when it differs from the HTML the editor last produced, so typing never moves the cursor.",
+          "Callbacks and the runtime options (<code>editable</code>, <code>placeholder</code>, <code>aria*</code>, <code>dir</code>, <code>contentLang</code>) follow every render. Everything else is read at mount: give the component a new <code>key</code> to change it."
+        ]
+      },
+      "next": {
+        "name": "Next.js",
+        "blurb": "The React package with a <code>\"use client\"</code> banner. Use it straight from Server Components and wire it to Server Actions with <code>name</code>.",
+        "snippets": {
+          "controlled": "Controlled (client)"
+        },
+        "notes": [
+          "Import the stylesheet once, in <code>app/layout.tsx</code> (or <code>pages/_app.tsx</code>).",
+          "A Server Component cannot pass functions such as <code>onChange</code>. Use a client component for those, or use <code>name</code> with a Server Action.",
+          "You do not need <code>dynamic(…, '{' ssr: false '}')</code>: nothing touches <code>window</code> or <code>document</code> while rendering."
+        ]
+      },
+      "preact": {
+        "name": "Preact",
+        "blurb": "The same API as the React package, on <code>preact/hooks</code>. Use <code>class</code> instead of <code>className</code>.",
+        "snippets": {
+          "basicUsage": "Basic usage",
+          "forms": "Forms",
+          "headless": "Headless"
+        },
+        "notes": [
+          "Props and options are the same as in the React package, with <code>class</code> for the wrapper.",
+          "SSR-safe: the server renders an empty container and the hidden input."
+        ]
+      },
+      "vue": {
+        "name": "Vue",
+        "blurb": "A <code>v-model</code> component for Vue 3.3+. Safe for server-side rendering.",
+        "snippets": {
+          "options": "Options",
+          "forms": "Forms",
+          "editorAccess": "Editor access"
+        },
+        "notes": [
+          "<code>options</code> takes everything <code>createEditor()</code> accepts except <code>element</code>. Callbacks and runtime options follow changes; the rest is read at mount, so remount with a new <code>:key</code>.",
+          "The editor starts in <code>onMounted</code>, so it works in Nuxt and Vite SSR without <code>'<'ClientOnly'>'</code>.",
+          "Events: <code>update:modelValue</code> (HTML) and <code>ready</code> (the editor). A template ref exposes <code>editor</code>."
+        ]
+      },
+      "nuxt": {
+        "name": "Nuxt",
+        "blurb": "A Nuxt module. It auto-imports <code>'<'RichTextEditor'>'</code> and adds the stylesheet. The component itself comes from the Vue package.",
+        "snippets": {
+          "moduleOptions": "Module options"
+        },
+        "notes": [
+          "No import and no <code>'<'ClientOnly'>'</code>: the server renders an empty container and the editor starts in the browser.",
+          "Set <code>css: false</code> to import the stylesheet yourself. Props, events and options are the Vue package''s."
+        ]
+      },
+      "angular": {
+        "name": "Angular",
+        "blurb": "A standalone component with <code>ngModel</code> and reactive forms support. It starts in the browser only and runs outside the zone.",
+        "snippets": {
+          "reactiveForms": "Reactive forms",
+          "optionsAndEvents": "Options and events"
+        },
+        "notes": [
+          "Inputs: <code>value</code> (two-way), <code>options</code>, <code>placeholder</code>, <code>readonly</code>. Outputs: <code>valueChange</code>, <code>ready</code>.",
+          "The control is marked touched on blur, and <code>disable()</code> makes the editor read-only.",
+          "It starts in <code>afterNextRender</code>, so it works with Angular SSR and hydration."
+        ]
+      },
+      "svelte": {
+        "name": "Svelte",
+        "blurb": "A <code>use:richText</code> action for Svelte 3, 4 and 5. Actions never run on the server, so it is safe in SvelteKit.",
+        "snippets": {
+          "svelte3And4": "Svelte 3 and 4",
+          "forms": "Forms"
+        },
+        "notes": [
+          "<code>content</code> goes in and <code>onUpdate</code> sends the HTML back. Outside changes load into the editor; its own HTML is not reloaded, so the cursor stays.",
+          "Pass any editor option except <code>element</code>. Runtime options apply live; the rest is read when the editor is created (wrap the element in <code>'{'#key …'}'</code> to recreate it)."
+        ]
+      },
+      "solid": {
+        "name": "Solid",
+        "blurb": "A <code>use:richText</code> directive for Solid 1.6+ and SolidStart. The object you pass is read reactively.",
+        "snippets": {
+          "basicUsage": "Basic usage",
+          "forms": "Forms"
+        },
+        "notes": [
+          "Keep the <code>richText;</code> line. TypeScript and Babel drop imports that look unused, and <code>use:richText</code> is only a reference to the function.",
+          "Directives only run in the browser, so there is nothing to guard with <code>isServer</code>."
+        ]
+      },
+      "astro": {
+        "name": "Astro",
+        "blurb": "An <code>.astro</code> component that renders <code>'<'owe-editor'>'</code>. It works with plain form posts and needs no UI framework.",
+        "snippets": {
+          "usage": "Usage",
+          "arabicAndToolbar": "Arabic and toolbar",
+          "readTheValue": "Read the value"
+        },
+        "notes": [
+          "The component imports its own script and styles, so there is nothing else to add.",
+          "The server renders only the <code>'<'owe-editor'>'</code> element, with the initial HTML in an escaped <code>value</code> attribute. The field works with a plain form post in <code>static</code> and <code>server</code> output."
+        ]
+      },
+      "web-component": {
+        "name": "Web component",
+        "blurb": "<code>'<'owe-editor'>'</code> is the full editor as an HTML tag. It is a form-associated custom element in the light DOM, so there is no Shadow DOM and it is CSP-safe.",
+        "snippets": {
+          "cdnNoBuildStep": "CDN, no build step",
+          "bundler": "Bundler",
+          "inAForm": "In a form",
+          "properties": "Properties"
+        },
+        "notes": [
+          "The form submits the editor''s HTML under <code>name</code>, and <code>form.reset()</code> restores the starting content. A <code>'<'label for'>'</code> pointing at its <code>id</code> becomes the accessible name.",
+          "Use the <code>value</code> attribute or a <code>'<'template'>'</code> child when the content comes from users: neither can run anything before the editor sanitizes it."
+        ]
+      },
+      "vanilla": {
+        "name": "Vanilla JS",
+        "blurb": "The core is one function, <code>createEditor(options)</code>. Use it with any bundler, or from a CDN with one script tag.",
+        "snippets": {
+          "bundler": "Bundler",
+          "headless": "Headless"
+        },
+        "notes": [
+          "Load the stylesheet once, call <code>createEditor()</code> in the browser after the element exists (it throws during server-side rendering), and call <code>editor.destroy()</code> when the element goes away.",
+          "On a <code>'<'textarea'>'</code> the editor hides the field and keeps its value in sync. The textarea''s <code>'<'label'>'</code> becomes the editor''s accessible name."
+        ]
+      },
+      "others": {
+        "name": "Lit, Alpine, htmx…",
+        "blurb": "Anything that can print HTML can use the <code>'<'owe-editor'>'</code> tag: Lit, Alpine.js, htmx, Turbo, Ember, Qwik, WordPress and PHP. It fires <code>input</code> and <code>change</code> and takes part in forms.",
+        "snippets": {
+          "loadItOnce": "Load it once",
+          "wordPressAndPHP": "WordPress and PHP"
+        },
+        "notes": [
+          "Load the CDN script and stylesheet once (or import <code>open-wysiwyg-editor/element</code> and <code>style.css</code>), then put the tag in your markup.",
+          "In Qwik, import the element inside a visible task so it never runs on the server. In WordPress, <code>esc_attr()</code> keeps user content from breaking out of the attribute."
+        ]
+      }
+    },
+    "installTitle": "Install",
+    "usageTitle": "Usage"
+  },
+  "Guides": {
+    "eyebrow": "Guides",
+    "title": "Ship it with confidence",
+    "description": "Accessibility, security, styling, theming and languages: the five things teams ask about before they ship an editor. Open one to read more.",
+    "a11y": {
+      "title": "Accessibility",
+      "summary": "WCAG 2.2 AA, keyboard shortcuts and the patterns it follows.",
+      "intro": "The editor targets WCAG 2.2 AA, ATAG 2.0 and WAI-ARIA authoring practices, and is checked with axe-core on every release.",
+      "shortcutsTitle": "Keyboard shortcuts",
+      "shortcutsCaption": "Keyboard shortcuts",
+      "colShortcut": "Shortcut",
+      "colAction": "Action",
+      "shortcuts": [
+        "Move focus to the toolbar",
+        "Return from the toolbar to the text",
+        "Open the list of keyboard shortcuts",
+        "Insert or edit a link",
+        "Find & replace",
+        "Bold / italic / underline",
+        "Highlight",
+        "Heading 1 to 6 / paragraph",
+        "Numbered, bulleted or task list"
+      ],
+      "patternsTitle": "Patterns it follows",
+      "patterns": [
+        {
+          "lead": "Toolbar.",
+          "text": "The ARIA toolbar pattern with one tab stop and a roving tabindex. Arrow keys, Home and End move between buttons, and the arrows follow the RTL direction. Buttons announce their pressed state and their shortcuts."
+        },
+        {
+          "lead": "Menus and dialogs.",
+          "text": "Menus follow the APG menu-button pattern. Dialogs are native <code>'<'dialog'>'</code> elements with labelled fields, inline error messages and focus returned to where you were."
+        },
+        {
+          "lead": "No keyboard trap.",
+          "text": "In the text, Tab indents lists and moves between table cells. Press Esc and then Tab to leave the editor."
+        },
+        {
+          "lead": "Announcements.",
+          "text": "Live regions announce results such as “2 of 5 matches” and “Link inserted”. <code>editor.announce()</code> sends your own messages."
+        },
+        {
+          "lead": "Visual accessibility.",
+          "text": "Focus is always visible. Windows High Contrast (<code>forced-colors</code>) and <code>prefers-reduced-motion</code> are honored, and there is a dark theme. At narrow widths and 400% zoom the toolbar wraps instead of scrolling sideways."
+        },
+        {
+          "lead": "Help for authors.",
+          "text": "Images prompt for alt text and offer a decorative option, tables get headers and a caption by default, and color pickers report contrast and warn below AA."
+        }
+      ],
+      "tipTitle": "Name every editor",
+      "tip": "Give each editor an accessible name: a <code>'<'label for'>'</code> on a textarea or <code>'<'owe-editor'>'</code>, or <code>ariaLabel</code> / <code>ariaLabelledBy</code>. Use <code>ariaDescribedBy</code> for help text, set <code>contentLang</code> for content in another language, and put <code>lang</code> and <code>dir</code> on the content you display from storage."
+    },
+    "security": {
+      "title": "Security",
+      "summary": "Strict CSP, Trusted Types and what to do on the server.",
+      "intro": "The editor works under a strict Content Security Policy with Trusted Types. This site itself runs under that policy.",
+      "layersTitle": "Layers of defence",
+      "layersCaption": "Security layers",
+      "colLayer": "Layer",
+      "colWhat": "What it does",
+      "layers": [
+        {
+          "name": "Input",
+          "text": "Every input path (initial content, <code>setContent</code>, paste, drop, source view) passes through DOMPurify. Script-capable elements are removed before parsing."
+        },
+        {
+          "name": "Model",
+          "text": "Only schema-known content survives, unless <code>HtmlSupport</code> is added, and even then its blocklist applies."
+        },
+        {
+          "name": "Output",
+          "text": "<code>getHTML()</code> is produced by a serializer that does not use the DOM. It validates tag and attribute names, escapes every value and checks every URL again."
+        },
+        {
+          "name": "URLs",
+          "text": "Allowed by default: <code>http</code>, <code>https</code>, <code>mailto</code> and <code>tel</code>, plus relative URLs. <code>data:</code> images are off unless <code>urlPolicy.allowDataImages</code> is set."
+        },
+        {
+          "name": "CSP",
+          "text": "Works under <code>script-src ''self''; style-src ''self''; require-trusted-types-for ''script''</code>. The live view never writes inline style strings."
+        },
+        {
+          "name": "Trusted Types",
+          "text": "Adds one policy named <code>open-wysiwyg-editor</code> to your <code>trusted-types</code> directive, or pass your own with <code>setTrustedTypesPolicy()</code>."
+        }
+      ],
+      "cspTitle": "A recommended policy",
+      "csp": "Add the editor''s policy name to <code>trusted-types</code>. Paste handling also uses ProseMirror''s <code>ProseMirrorClipboard</code> policy, so list that one too.",
+      "ttTitle": "Trusted Types",
+      "tt": "With <code>require-trusted-types-for ''script''</code>, every HTML sink needs a trusted value. The editor creates one policy and uses it everywhere.",
+      "serverTitle": "The browser is not a security boundary",
+      "server": "Never trust HTML that comes from the client. The editor cleans what it loads and produces, but anyone can post any string to your API. Sanitize again on the server, with a library you trust, before you store or render it for other users.",
+      "serverNote": "For initial content from users, use the <code>value</code> attribute or a <code>'<'template'>'</code> child on <code>'<'owe-editor'>'</code>, never raw children. Neither can run anything before the editor sanitizes it.",
+      "report": "Found a vulnerability? Please report it privately, see the <link>security policy</link>."
+    },
+    "styling": {
+      "title": "Styling",
+      "summary": "Cascade layers, the --owe-* design tokens and light and dark themes.",
+      "intro": "All editor rules live in <code>@layer owe</code>, so any CSS of your own outside a layer wins without <code>!important</code>. Theme the editor by setting design tokens.",
+      "filesTitle": "Stylesheets",
+      "files": "<code>open-wysiwyg-editor/style.css</code> has the editor, its UI and its content styles. <code>content.css</code> has only the content styles, for published pages: wrap the saved HTML in <code>'<'div class=\"owe-content-root\"'>'</code>. Each framework package ships the same files under its own name, for example <code>@open-wysiwyg-editor/vue/style.css</code>.",
+      "tokensTitle": "Design tokens",
+      "tokens": "Set tokens on <code>.owe</code> (or <code>:root</code>). This site themes the editor like this:",
+      "tokensCaption": "Common design tokens",
+      "colToken": "Token",
+      "colKind": "Type",
+      "colWhat": "What it controls",
+      "tokenRows": [
+        "UI and content font.",
+        "Base size of the content.",
+        "Corner radius of the editor and its controls.",
+        "Backgrounds of the content area, the toolbar and panels.",
+        "Text colors.",
+        "Borders. Keep <code>--owe-border</code> at 3:1 against the background.",
+        "The one brand color, the second color of the gradient edge, and the text on brand fills. See Theming below.",
+        "Derived from the brand: links and text, the fill of pressed buttons, and the focus ring."
+      ],
+      "themeTitle": "Light and dark",
+      "theme": "The editor ships a light and a dark token set. Set <code>ui.theme</code> to <code>light</code>, <code>dark</code> or <code>auto</code> (the default, which follows the system), and override tokens under <code>.owe[data-theme=\"dark\"]</code> for different values per theme."
+    },
+    "theming": {
+      "title": "Theming and brand colors",
+      "summary": "One brand color, button tokens, and recipes for shadcn/ui and your own dashboard.",
+      "intro": "Set one color and the whole editor follows it, in light and dark: pressed toolbar buttons, dialog buttons, links, the focus ring, the caret, the text selection and the gradient edge of the card. Try it with the brand color in the playground above.",
+      "oneTitle": "One color",
+      "one": "<code>ui.brand</code> takes any CSS color and picks black or white for the text on brand buttons by contrast. The <code>brand</code> attribute does the same on <code>'<'owe-editor'>'</code>. In plain CSS, set <code>--owe-brand</code> (and <code>--owe-on-brand</code> if white does not read well) on <code>.owe</code>, on a wrapper or on <code>:root</code>.",
+      "derivedTitle": "Derived tokens",
+      "derived": "Everything else comes from the brand with <code>color-mix()</code>. Set any of these yourself and yours wins.",
+      "derivedCaption": "Tokens derived from the brand",
+      "colToken": "Token",
+      "colDerived": "Derived as",
+      "derivedRows": [
+        "The brand. Pressed toolbar buttons and primary dialog buttons.",
+        "The primary color mixed 15% toward black.",
+        "Link and text color: the brand mixed 30% toward black in light, 40% toward white in dark.",
+        "The accent color.",
+        "The brand at 22% opacity in light, 45% in dark.",
+        "From <code>--owe-brand</code> to <code>--owe-brand-2</code>. <code>ui.brand</code> sets a lighter tint as the second color."
+      ],
+      "buttonsTitle": "Button tokens",
+      "buttons": "These restyle the buttons, the toolbar and the card without touching a selector. Set them on <code>.owe</code> or on any element around it, such as your dashboard wrapper. Unset, they use the default shown.",
+      "buttonsCaption": "Button and toolbar tokens",
+      "colDefault": "Default",
+      "colStyles": "Styles",
+      "buttonRows": [
+        "Toolbar button icon and text.",
+        "Toolbar button background.",
+        "Button on hover.",
+        "A pressed or toggled button.",
+        "The primary button in dialogs (Insert, Apply).",
+        "Corners of buttons and menu items.",
+        "Toolbar, find bar and status bar.",
+        "Border and corners of the card."
+      ],
+      "buttonsExample": "A dark toolbar over a light editing area, with smaller corners:",
+      "dashboardTitle": "Match your dashboard",
+      "dashboard": "Point the tokens at the variables your design system already defines, for example shadcn/ui as below. Your CSS outside a layer beats <code>@layer owe</code>, and the tokens read your variables when they are used, so the editor follows your light and dark themes without a script. Also set <code>theme</code> to <code>dark</code> when your dashboard is dark, so links, selection and native controls match.",
+      "laterTitle": "Changing the theme later",
+      "later": "<code>'<'owe-editor'>'</code> follows changes to its <code>theme</code> and <code>brand</code> attributes. For <code>createEditor()</code>, call <code>setTheme()</code> on its UI. It replaces the whole theme, so pass everything you want to keep. The playground above does exactly this.",
+      "contrastTitle": "Check the contrast",
+      "contrast": "The editor cannot choose colors for you. <code>--owe-accent</code> keeps 4.5:1 on white for typical brands, but a very pale brand needs an explicit <code>--owe-accent</code>, and pressed buttons need 3:1 against the toolbar."
+    },
+    "languages": {
+      "title": "Languages and RTL",
+      "summary": "English and Arabic built in, your own languages, and right-to-left content.",
+      "intro": "English and Arabic are built in. The UI mirrors itself in RTL languages, and every block in the content picks its own direction.",
+      "arabicTitle": "Arabic and RTL",
+      "arabic": "Set <code>language</code> for the interface and <code>dir</code> for the base direction of the content. Without <code>dir</code>, each text block gets <code>dir=\"auto\"</code>, so Arabic and English paragraphs each display correctly in the same document. Word and character counts segment words correctly in Arabic and CJK.",
+      "customTitle": "Add your own language",
+      "custom": "Pass <code>languages</code> to add or replace UI languages. Untranslated labels fall back to English. Override a few strings of an existing language with <code>labels</code>. The Arabic labels are exported as <code>arabicLabels</code>, a good starting point for another RTL language.",
+      "displayTitle": "Displaying RTL content",
+      "display": "When you show saved HTML, keep the <code>dir</code> attributes the editor wrote and wrap it in <code>owe-content-root</code>. Set <code>lang</code> on the container for content in another language so screen readers use the right voice."
+    },
+    "scroll": "Scrollable table:",
+    "read": "Read the guide"
+  },
+  "Playground": {
+    "eyebrow": "Playground",
+    "title": "Try it right here",
+    "description": "This is the real editor from <code>@open-wysiwyg-editor/next</code>. Type, format, switch language, pick a brand color, then watch the output below.",
+    "options": "Playground options",
+    "language": "Interface language",
+    "readonly": "Read-only",
+    "reset": "Reset sample",
+    "brand": "Brand color",
+    "brandHint": "One color themes the buttons, links, focus ring and selection.",
+    "custom": "Custom color",
+    "colors": {
+      "blue": "Blue",
+      "teal": "Teal",
+      "emerald": "Emerald",
+      "amber": "Amber",
+      "rose": "Rose",
+      "slate": "Slate"
+    },
+    "outputLabel": "Output format",
+    "tabs": {
+      "html": "HTML",
+      "json": "JSON",
+      "text": "Text",
+      "theme": "Theme"
+    },
+    "words": "{count, plural, one {{count} word} other {{count} words}}",
+    "characters": "{count, plural, one {{count} character} other {{count} characters}}",
+    "editorLabel": "Playground editor",
+    "sample": "<h2>Write for everyone</h2>\n<p>Format with <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike</s>, <code>code</code>, H<sub>2</sub>O, E = mc<sup>2</sup>, <mark>highlight</mark> and <a href=\"{repo}\">links</a>.</p>\n<h3>Markdown-style shortcuts</h3>\n<ol><li><p>Type <code>## </code> for a heading, <code>- </code> or <code>1. </code> for a list.</p></li><li><p>Type <code>**bold**</code> or <code>*italic*</code> inline.</p></li></ol>\n<ul data-type=\"taskList\"><li data-type=\"taskItem\" data-checked=\"true\"><p>Images ask for alternative text</p></li><li data-type=\"taskItem\" data-checked=\"false\"><p>Press Alt+0 for every keyboard shortcut</p></li></ul>\n<blockquote><p>Accessibility is a feature, not a follow-up.</p></blockquote>\n<table><caption>Tables have a caption and header row by default</caption><tr><th>Keys</th><th>Action</th></tr><tr><td><p>Alt+F10 / Escape</p></td><td><p>Go to the toolbar / back to the text</p></td></tr><tr><td><p>Escape, then Tab</p></td><td><p>Leave the editor, no keyboard trap</p></td></tr></table>\n<p dir=\"rtl\">ويدعم الكتابة من اليمين إلى اليسار في نفس المستند.</p>"
+  },
+  "Chooser": {
+    "choose": "Choose your language",
+    "language": "English"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "body": "This page does not exist or has moved.",
+    "home": "Back to the home page"
+  },
+  "Metadata": {
+    "title": "Open WYSIWYG Editor – Accessible RTL-first rich text editor",
+    "description": "Free, open-source rich text editor. Accessible (WCAG 2.2 AA), RTL-first, CSP-safe, MIT licensed. For plain JavaScript, React, Next.js, Vue, Angular, Svelte and more.",
+    "keywords": [
+      "WYSIWYG editor",
+      "rich text editor",
+      "open source",
+      "RTL",
+      "Arabic",
+      "accessible",
+      "WCAG 2.2",
+      "ProseMirror",
+      "React",
+      "Next.js",
+      "Preact",
+      "Vue",
+      "Nuxt",
+      "Angular",
+      "Svelte",
+      "Solid",
+      "Astro",
+      "web component",
+      "TypeScript",
+      "CSP",
+      "npm"
+    ],
+    "ogAlt": "Open WYSIWYG Editor: accessible, RTL-first rich text editor for every framework"
+  },
+  "LanguageSwitch": {
+    "names": {
+      "en": "English",
+      "ar": "العربية"
+    }
+  },
+  "Pages": {
+    "breadcrumb": "Breadcrumb",
+    "home": "Home",
+    "prev": "Previous",
+    "next": "Next",
+    "allFrameworks": "All frameworks",
+    "moreFrameworks": "More frameworks",
+    "gettingStarted": {
+      "title": "Getting started"
+    },
+    "frameworks": {
+      "title": "Frameworks"
+    },
+    "api": {
+      "title": "API reference"
+    },
+    "guides": {
+      "title": "Guides"
+    },
+    "framework": {
+      "title": "{name} rich text editor",
+      "description": "Use the Open WYSIWYG Editor with {name}: install {pkg}, copy the setup code and read the notes for production."
+    },
+    "guide": {
+      "description": "{summary} A guide for the Open WYSIWYG Editor."
+    }
+  }
+}

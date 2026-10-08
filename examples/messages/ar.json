@@ -1,0 +1,771 @@
+{
+  "Header": {
+    "nav": "التنقل الرئيسي",
+    "home": "Open WYSIWYG Editor – الصفحة الرئيسية",
+    "menu": "القائمة",
+    "openMenu": "فتح القائمة",
+    "close": "إغلاق",
+    "menuDescription": "صفحات الموقع وروابط المشروع",
+    "github": "مستودع GitHub",
+    "npm": "حزمة npm"
+  },
+  "Shell": {
+    "skip": "تخطَّ إلى المحتوى"
+  },
+  "ThemeToggle": {
+    "toggle": "تبديل مظهر الموقع",
+    "toLight": "التبديل إلى المظهر الفاتح",
+    "toDark": "التبديل إلى المظهر الداكن"
+  },
+  "CodeBlock": {
+    "copy": "نسخ الشيفرة",
+    "copied": "تم النسخ"
+  },
+  "Cta": {
+    "title": "أطلق محرّرك في خمس دقائق",
+    "text": "ثبّت، وحمّل ملف التنسيق، ثم ركّب. مجاني ومفتوح المصدر برخصة MIT: بلا مفتاح ترخيص ولا تتبّع ولا خدمة سحابية.",
+    "start": "ابدأ الآن",
+    "github": "ادعمنا على GitHub",
+    "npm": "عرض على npm",
+    "newTab": "(يفتح في تبويب جديد)"
+  },
+  "TrustStrip": {
+    "label": "الجودة في لمحة",
+    "stats": [
+      {
+        "value": "10 حزم",
+        "label": "النواة وحزمة جاهزة لكل إطار عمل رئيسي"
+      },
+      {
+        "value": "WCAG 2.2 AA",
+        "label": "يُفحص بأداة axe-core في كل إصدار"
+      },
+      {
+        "value": "CSP صارمة",
+        "label": "دون unsafe-inline، مع فرض Trusted Types"
+      },
+      {
+        "value": "MIT",
+        "label": "بلا مفتاح ترخيص ولا تتبّع ولا خدمة سحابية"
+      }
+    ]
+  },
+  "Features": {
+    "eyebrow": "الميزات",
+    "title": "كل ما يتوقعه الكاتب",
+    "description": "وما يطلبه مستخدموك وفريق الأمان لديك والمدقّقون.",
+    "items": [
+      {
+        "title": "متاح للجميع وفق WCAG 2.2",
+        "text": "يعمل بالكامل بلوحة المفاتيح دون فخّ، ويعلن لقارئات الشاشة، ويدعم التباين العالي في Windows وتقليل الحركة والوضع الداكن. ويُفحص بأداة axe-core في كل إصدار."
+      },
+      {
+        "title": "هويتك بلون واحد",
+        "text": "عيّن <code>ui.brand</code> فتتبعه الأزرار والروابط وحلقة التركيز والتحديد، في الوضعين الفاتح والداكن. ولكل زر رموزه الخاصة، فيناسب المحرّر أي هوية وأي سمة للوحة التحكم."
+      },
+      {
+        "title": "آمن افتراضيًا",
+        "text": "DOMPurify على كل مدخل، وقائمة مسموحة للروابط، وTrusted Types، دون <code>unsafe-inline</code>. ويعمل تحت سياسة CSP صارمة."
+      },
+      {
+        "title": "العربية وRTL في المقام الأول",
+        "text": "الإنجليزية والعربية مدمجتان ويمكنك إضافة لغاتك. تنعكس الواجهة كلها في RTL، ولكل كتلة <code>dir=\"auto\"</code>."
+      },
+      {
+        "title": "مكوّن ويب جاهز للنماذج",
+        "text": "يشارك <code>'<'owe-editor name'>'</code> في نماذج HTML العادية، فيعمل إرسال النموذج وhtmx وTurbo دون كود وسيط."
+      },
+      {
+        "title": "صغير وقابل للتجزئة",
+        "text": "يبلغ حجم المحرّر كاملًا مع المعقِّم والواجهة نحو 133 كيلوبايت مضغوطًا. وتضيف أغلفة أطر العمل نحو 1 كيلوبايت."
+      },
+      {
+        "title": "بلا واجهة عند الحاجة",
+        "text": "استخدم الواجهة الكاملة، أو <code>ui: false</code> و<code>open-wysiwyg-editor/headless</code> لتبني واجهتك. وأضف أزرارًا للشريط واكتب إضافات."
+      },
+      {
+        "title": "مبني على ProseMirror",
+        "text": "مخطط مستند صارم ومعاملات وسجل تراجع من ProseMirror، المجموعة المجرَّبة لتحرير النصوص الغنية."
+      }
+    ]
+  },
+  "Nav": {
+    "home": "الرئيسية",
+    "gettingStarted": "البدء",
+    "frameworks": "أطر العمل",
+    "api": "API",
+    "guides": "الأدلة"
+  },
+  "Footer": {
+    "home": "Open WYSIWYG Editor – الصفحة الرئيسية",
+    "about": "محرر نصوص غني سهل الوصول يدعم الكتابة من اليمين إلى اليسار، ويعمل مع كل أطر العمل. مرخَّص بموجب MIT، دون مفتاح ترخيص ودون أي تتبّع للمستخدمين.",
+    "sections": "التوثيق",
+    "project": "المشروع",
+    "packages": "الحزم",
+    "allPackages": "كل أطر العمل",
+    "changelog": "سجل التغييرات",
+    "license": "رخصة MIT",
+    "security": "سياسة الأمان",
+    "issues": "الإبلاغ عن مشكلة",
+    "authorName": "الحسن أحمد",
+    "legal": "© {year} {author} والمساهمون. منشور بموجب <license>رخصة MIT</license>.",
+    "credit": "تصميم وتطوير <profile>{author}</profile>",
+    "builtOn": "مبني على <link>ProseMirror</link>"
+  },
+  "Hero": {
+    "title": "محرّر نصوص غنيّ <em>يعمل في كل مكان</em>.",
+    "sub": "متاح للجميع، يضع العربية واتجاه RTL في المقام الأول، وآمن تحت سياسة CSP صارمة. نواة صغيرة وحزمة جاهزة لكل إطار عمل، من نماذج HTML العادية إلى Next.js.",
+    "start": "ابدأ الآن",
+    "github": "GitHub",
+    "newTab": "(يفتح في تبويب جديد)",
+    "worksWith": "يعمل مع",
+    "marquee": "أطر العمل المدعومة",
+    "pause": "إيقاف الحركة",
+    "play": "تشغيل الحركة"
+  },
+  "Install": {
+    "eyebrow": "التثبيت",
+    "title": "جاهز للعمل في ثلاث خطوات",
+    "description": "ثبّت الحزمة الأساسية، وحمّل ملف التنسيق، وركّب المحرّر. تستخدم إطار عمل؟ حزمته تتولى هذه الخطوات عنك.",
+    "steps": [
+      {
+        "title": "التثبيت",
+        "text": "استخدم مدير الحزم لديك، أو حمّل سكربتًا واحدًا من CDN دون أي خطوة بناء."
+      },
+      {
+        "title": "تحميل التنسيق",
+        "text": "حمّل ملف التنسيق مرة واحدة. فهو ينسّق المحرّر وواجهته ومحتواه. وكل قواعده داخل <code>@layer owe</code>، فيتغلّب عليها CSS الخاص بك خارج الطبقات."
+      },
+      {
+        "title": "عرض المحرّر",
+        "text": "تركّب <code>createEditor(options)</code> المحرّر داخل العنصر الذي تمرّره وتعيد كائن <code>editor</code>. استدعِها في المتصفح بعد وجود العنصر."
+      }
+    ],
+    "frameworkTitle": "تستخدم إطار عمل؟",
+    "saveTitle": "حفظ المحتوى",
+    "saveText": "اقرأ الـ HTML النظيف والمعقَّم (أو JSON بصيغة ProseMirror) وحمّله لاحقًا.",
+    "showTitle": "عرض HTML المحفوظ",
+    "showText": "في صفحة بلا محرّر، حمّل <code>content.css</code> وغلّف الـ HTML المعقَّم بـ <code>owe-content-root</code>.",
+    "serverTitle": "عقّم على الخادم",
+    "serverNote": "المتصفح ليس حدًّا أمنيًا. عقّم الـ HTML مرة أخرى على الخادم قبل تخزينه.",
+    "frameworkText": "ثبّت حزمته بدل النواة. فهي تجلب النواة معها وتعيد تصدير الواجهة كاملة. <link>اختر إطار العمل</link>",
+    "tabs": {
+      "bundler": "أداة بناء",
+      "cdn": "CDN",
+      "js": "JavaScript",
+      "element": "'<'owe-editor'>'"
+    }
+  },
+  "Api": {
+    "eyebrow": "مرجع الواجهة البرمجية",
+    "title": "كل ما تصدّره النواة",
+    "description": "صفحة واحدة للخيارات والدوال والسمات. وتعيد حزم أطر العمل تصدير كل ذلك.",
+    "cols": {
+      "option": "الخيار",
+      "type": "النوع",
+      "def": "الافتراضي",
+      "desc": "الوصف",
+      "method": "الدالة",
+      "returns": "تعيد",
+      "group": "المجال",
+      "commands": "الأوامر",
+      "name": "الاسم",
+      "where": "الاستيراد"
+    },
+    "captions": {
+      "options": "خيارات createEditor",
+      "ui": "خيارات ui",
+      "callbacks": "دوال استدعاء المحرّر",
+      "methods": "دوال المحرّر",
+      "commands": "الأوامر حسب المجال",
+      "attributes": "سمات owe-editor",
+      "properties": "خصائص owe-editor",
+      "events": "أحداث owe-editor",
+      "entries": "نقاط دخول الحزمة"
+    },
+    "scroll": "جدول قابل للتمرير:",
+    "cards": {
+      "options": {
+        "title": "createEditor(options)",
+        "description": "كل الخيارات مع قيمها الافتراضية. وجميعها اختيارية."
+      },
+      "ui": {
+        "title": "خيارات ui",
+        "description": "شريط الأدوات وشريط الحالة والسمة المدمجة. مرّر <code>false</code> بدلًا منها للحصول على محرّر بلا واجهة."
+      },
+      "callbacks": {
+        "title": "دوال الاستدعاء",
+        "description": "مرّرها ضمن الخيارات. وتستدعي حزم أطر العمل أحدث دالة دائمًا."
+      },
+      "methods": {
+        "title": "دوال المحرّر",
+        "description": "ما تعيده <code>createEditor()</code>."
+      },
+      "commands": {
+        "title": "الأوامر",
+        "description": "نفّذها بـ <code>editor.commands.name()</code> واختبرها بـ <code>editor.can().name()</code> واجمعها بـ <code>editor.chain()…run()</code>."
+      },
+      "attributes": {
+        "title": "السمات",
+        "description": "تتبع <code>placeholder</code> و<code>readonly</code> و<code>disabled</code> و<code>dir</code> و<code>content-lang</code> و<code>label</code> التغييرات اللاحقة. أما <code>value</code> و<code>language</code> و<code>toolbar</code> فتُقرأ عند بدء المحرّر."
+      },
+      "properties": {
+        "title": "الخصائص",
+        "description": "عيّن <code>options</code> قبل إضافة العنصر إلى الصفحة."
+      },
+      "events": {
+        "title": "الأحداث",
+        "description": "كلاهما يصعد في الشجرة (bubbles)، فيمكنك الاستماع على النموذج."
+      },
+      "entries": {
+        "title": "نقاط الدخول",
+        "description": "ما يوفّره كل مسار استيراد."
+      }
+    },
+    "rows": {
+      "options": {
+        "element": "الحاوية أو محدّد CSS أو textarea (يُخفى ويبقى متزامنًا). احذفه لإنشاء المحرّر منفصلًا وأضِف <code>editor.root</code> بنفسك.",
+        "content": "المحتوى الابتدائي: HTML (يُعقَّم دائمًا) أو JSON بصيغة ProseMirror.",
+        "extensions": "مجموعة الميزات.",
+        "editable": "السماح بالتحرير.",
+        "autofocus": "التركيز على المحرّر عند إنشائه.",
+        "placeholder": "نص يظهر حين يكون المحرّر فارغًا.",
+        "ariaLabel": "الاسم والوصف المتاحان لقارئات الشاشة لمنطقة التحرير.",
+        "language": "لغة الواجهة. المدمجة: <code>en</code> و<code>ar</code>.",
+        "languages": "إضافة لغات للواجهة أو استبدال الموجودة.",
+        "labels": "استبدال نصوص مفردة في الواجهة.",
+        "dir": "الاتجاه الأساسي للمحتوى.",
+        "contentLang": "قيمة <code>lang</code> للمحتوى، تُستخدم في التدقيق الإملائي وقارئات الشاشة.",
+        "urlPolicy": "<code>'{' protocols, allowDataImages, allowRelative '}'</code>. عناوين الروابط والصور المسموح بها.",
+        "inputRules": "اختصارات الكتابة بأسلوب Markdown: <code># </code> و<code>* </code> و<code>1. </code> و<code>'>' </code> والكود المحاط بعلامات، و<code>**bold**</code>…",
+        "ui": "شريط الأدوات والأزرار المخصّصة وشريط الحالة والسمة والاختصارات. <code>false</code> = بدون واجهة."
+      },
+      "ui": {
+        "toolbar": "أسماء العناصر والفواصل <code>\"|\"</code>. يُخفي <code>false</code> شريط الأدوات.",
+        "items": "أزرار مخصّصة أو بديلة لشريط الأدوات، يُشار إليها بالاسم في <code>toolbar</code>.",
+        "statusbar": "محتوى شريط الحالة. يمكن أن تأخذ <code>characterCount</code> القيمة <code>'{' limit '}'</code>.",
+        "theme": "سمة ألوان المحرّر.",
+        "stickyToolbar": "إبقاء شريط الأدوات ظاهرًا أثناء تمرير المستندات الطويلة.",
+        "shortcuts": "اختصارات لوحة المفاتيح للواجهة المدمجة."
+      },
+      "callbacks": {
+        "onCreate": "أُنشئ المحرّر.",
+        "onUpdate": "تغيّر المحتوى.",
+        "onSelectionUpdate": "تغيّر التحديد.",
+        "onFocus": "اكتسبت منطقة التحرير التركيز أو فقدته.",
+        "onDestroy": "دُمِّر المحرّر.",
+        "onContentError": "تعذّر تحميل المحتوى."
+      },
+      "methods": {
+        "getHTML": "HTML نظيف ومعقَّم. احفظ هذا.",
+        "getJSON": "JSON بصيغة ProseMirror.",
+        "getText": "نص عادي. تُفصل الكتل افتراضيًا بـ <code>\\n\\n</code>.",
+        "setContent": "تحميل HTML أو JSON. الخياران <code>emitUpdate</code> و<code>addToHistory</code> متوقفان افتراضيًا.",
+        "clearContent": "إفراغ المستند.",
+        "isEmpty": "مؤشرات حالة للقراءة فقط.",
+        "setEditable": "تفعيل التحرير أو إيقافه.",
+        "setOptions": "تغيير الخيارات الديناميكية: <code>editable</code> و<code>placeholder</code> و<code>aria*</code> و<code>dir</code> و<code>contentLang</code>.",
+        "commands": "تنفيذ أمر واحد، مثل <code>editor.commands.toggleBold()</code>.",
+        "can": "هل ينجح الأمر عند التحديد الحالي؟",
+        "chain": "عدة أوامر في معاملة واحدة وخطوة تراجع واحدة.",
+        "isActive": "هل العلامة أو العقدة مفعّلة، مثل <code>isActive(\"heading\", '{' level: 2 '}')</code>.",
+        "getAttributes": "سمات العنصر عند التحديد، مثل <code>href</code> للرابط.",
+        "on": "الاستماع إلى حدث في المحرّر. تعيد دالة لإلغاء الاشتراك.",
+        "subscribe": "اشتراك على نمط المخازن يُستدعى عند كل تغيير.",
+        "announce": "إرسال رسالة إلى قارئات الشاشة.",
+        "focus": "نقل التركيز إلى المحرّر أو منه.",
+        "destroy": "إزالة المحرّر ومستمعي الأحداث."
+      },
+      "attributes": {
+        "name": "اسم حقل النموذج. يرسل النموذج HTML المحرّر تحته.",
+        "placeholder": "نص الإرشاد حين يكون المحرّر فارغًا.",
+        "readonly": "يجعل المحتوى للقراءة فقط.",
+        "disabled": "يعطّل المحرّر ويستبعده من النموذج.",
+        "dir": "الاتجاه الأساسي للمحتوى.",
+        "content": "قيمة <code>lang</code> للمحتوى (التدقيق الإملائي وقارئات الشاشة).",
+        "label": "الاسم المتاح لقارئات الشاشة. أو اجعل <code>'<'label for'>'</code> يشير إلى <code>id</code> العنصر.",
+        "value": "المحتوى الابتدائي بصيغة HTML. يُقرأ مرة واحدة عند إنشاء المحرّر.",
+        "language": "لغة الواجهة، مثل <code>ar</code>. تُقرأ مرة واحدة. الافتراضي <code>'<'html lang'>'</code>.",
+        "toolbar": "عناصر شريط الأدوات مفصولة بمسافات (<code>\"bold italic | link\"</code>)، أو <code>none</code>. تُقرأ مرة واحدة."
+      },
+      "properties": {
+        "editor": "المحرّر الحي، أو <code>null</code> ما دام العنصر خارج المستند.",
+        "value": "المحتوى بصيغة HTML. تعيينه يحمّل محتوى جديدًا.",
+        "options": "خيارات إضافية لـ <code>createEditor()</code>. عيّنها قبل إضافة العنصر إلى الصفحة. وتتغلّب عليها السمات.",
+        "form": "عنصر <code>'<'form'>'</code> المحيط، أو <code>null</code>."
+      },
+      "events": {
+        "input": "عند كل تغيير. تحمل <code>event.target.value</code> الـ HTML.",
+        "change": "حين يفقد المحرّر التركيز بعد تغيير."
+      },
+      "entries": {
+        "core": "المحرّك وكل الإضافات والواجهة المتاحة.",
+        "headless": "المحرّك والإضافات دون كود الواجهة.",
+        "element": "يعرّف العنصر <code>'<'owe-editor'>'</code>.",
+        "styleCss": "تنسيقات المحرّر والواجهة والمحتوى (ومنه <code>style.min.css</code>).",
+        "contentCss": "تنسيقات المحتوى فقط، للصفحات التي تعرض HTML محفوظًا (ومنه <code>content.min.css</code>).",
+        "globalJs": "نسخة لوسم السكربت. تكشف <code>window.OpenWysiwygEditor</code> وتعرّف <code>'<'owe-editor'>'</code>."
+      }
+    },
+    "commandGroups": {
+      "marks": "علامات التنسيق",
+      "color": "الألوان",
+      "blocks": "الكتل",
+      "lists": "القوائم",
+      "linksAndImages": "الروابط والصور",
+      "tables": "الجداول",
+      "layout": "التخطيط",
+      "find": "البحث",
+      "general": "عام"
+    },
+    "toc": "في هذه الصفحة"
+  },
+  "Frameworks": {
+    "eyebrow": "أطر العمل",
+    "title": "اختر إطار العمل",
+    "description": "تعيد كل حزمة تصدير واجهة النواة بالكامل وتأتي بملفات التنسيق. ثبّت حزمة واحدة وانتهى الأمر.",
+    "pickerLabel": "إطار العمل",
+    "package": "الحزمة",
+    "newTab": "(يفتح في تبويب جديد)",
+    "terminal": "الطرفية",
+    "notes": "معلومات مفيدة",
+    "securityTitle": "عقّم دائمًا على الخادم",
+    "security": "يعقّم المحرّر ما يحمّله وما ينتجه، لكن هذا ليس حدًّا أمنيًا: يستطيع أي شخص إرسال أي نص إلى واجهتك البرمجية. عقّم الـ HTML مرة أخرى بمكتبة تثق بها قبل تخزينه أو عرضه لمستخدمين آخرين.",
+    "requires": "يتطلب <ltr>{version}</ltr>",
+    "items": {
+      "react": {
+        "name": "React",
+        "blurb": "المكوّن <code>RichTextEditor</code> والخطّاف <code>useEditor()</code> لـ React 18 فما فوق، ويعملان مع Remix وGatsby وVite.",
+        "snippets": {
+          "basicUsage": "الاستخدام الأساسي",
+          "forms": "النماذج",
+          "customToolbar": "شريط أدوات مخصّص",
+          "headless": "بدون واجهة"
+        },
+        "notes": [
+          "آمن مع التصيير على الخادم: يعرض الخادم حاوية فارغة والحقل المخفي، ويبدأ المحرّر في المتصفح.",
+          "لا تُحمَّل <code>value</code> إلا إذا اختلفت عن آخر HTML أنتجه المحرّر، فلا يتحرك المؤشّر أثناء الكتابة.",
+          "تتبع دوال الاستدعاء والخيارات الديناميكية (<code>editable</code> و<code>placeholder</code> و<code>aria*</code> و<code>dir</code> و<code>contentLang</code>) كل إعادة تصيير. أما الباقي فيُقرأ عند التركيب فقط، فأعطِ المكوّن <code>key</code> جديدًا لتغييره."
+        ]
+      },
+      "next": {
+        "name": "Next.js",
+        "blurb": "حزمة React مع <code>\"use client\"</code>، فتستخدمها مباشرة من مكوّنات الخادم، وتربطها بـ Server Actions عبر <code>name</code>.",
+        "snippets": {
+          "controlled": "متحكَّم به (عميل)"
+        },
+        "notes": [
+          "استورد ملف التنسيق مرة واحدة في <code>app/layout.tsx</code> (أو <code>pages/_app.tsx</code>).",
+          "لا يستطيع مكوّن الخادم تمرير دوال مثل <code>onChange</code>. استخدم مكوّن عميل لذلك، أو استخدم <code>name</code> مع Server Action.",
+          "لا تحتاج إلى <code>dynamic(…, '{' ssr: false '}')</code>، فلا شيء يلمس <code>window</code> أو <code>document</code> أثناء التصيير."
+        ]
+      },
+      "preact": {
+        "name": "Preact",
+        "blurb": "واجهة حزمة React نفسها فوق <code>preact/hooks</code>. استخدم <code>class</code> بدل <code>className</code>.",
+        "snippets": {
+          "basicUsage": "الاستخدام الأساسي",
+          "forms": "النماذج",
+          "headless": "بدون واجهة"
+        },
+        "notes": [
+          "الخصائص والخيارات هي نفسها في حزمة React، مع <code>class</code> للعنصر المحيط.",
+          "آمن مع التصيير على الخادم: يعرض الخادم حاوية فارغة والحقل المخفي."
+        ]
+      },
+      "vue": {
+        "name": "Vue",
+        "blurb": "مكوّن يدعم <code>v-model</code> لـ Vue 3.3 فما فوق، وآمن مع التصيير على الخادم.",
+        "snippets": {
+          "options": "الخيارات",
+          "forms": "النماذج",
+          "editorAccess": "الوصول إلى المحرّر"
+        },
+        "notes": [
+          "يقبل <code>options</code> كل ما يقبله <code>createEditor()</code> عدا <code>element</code>. تتبع دوال الاستدعاء والخيارات الديناميكية التغييرات، ويُقرأ الباقي عند التركيب، فأعد التركيب بـ <code>:key</code> جديد.",
+          "يبدأ المحرّر في <code>onMounted</code>، فيعمل في Nuxt وVite SSR دون <code>'<'ClientOnly'>'</code>.",
+          "الأحداث: <code>update:modelValue</code> (‏HTML) و<code>ready</code> (المحرّر). ويكشف مرجع القالب الخاصية <code>editor</code>."
+        ]
+      },
+      "nuxt": {
+        "name": "Nuxt",
+        "blurb": "وحدة Nuxt تستورد <code>'<'RichTextEditor'>'</code> تلقائيًا وتضيف ملف التنسيق. أما المكوّن نفسه فمن حزمة Vue.",
+        "snippets": {
+          "moduleOptions": "خيارات الوحدة"
+        },
+        "notes": [
+          "لا استيراد ولا <code>'<'ClientOnly'>'</code>: يعرض الخادم حاوية فارغة ويبدأ المحرّر في المتصفح.",
+          "اضبط <code>css: false</code> لتستورد ملف التنسيق بنفسك. الخصائص والأحداث والخيارات هي نفسها في حزمة Vue."
+        ]
+      },
+      "angular": {
+        "name": "Angular",
+        "blurb": "مكوّن مستقل يدعم <code>ngModel</code> والنماذج التفاعلية. يبدأ في المتصفح فقط ويعمل خارج الـ zone.",
+        "snippets": {
+          "reactiveForms": "النماذج التفاعلية",
+          "optionsAndEvents": "الخيارات والأحداث"
+        },
+        "notes": [
+          "المدخلات: <code>value</code> (ثنائي الاتجاه) و<code>options</code> و<code>placeholder</code> و<code>readonly</code>. المخرجات: <code>valueChange</code> و<code>ready</code>.",
+          "يُعلَّم الحقل بأنه «touched» عند فقدان التركيز، ويجعل <code>disable()</code> المحرّر للقراءة فقط.",
+          "يبدأ في <code>afterNextRender</code>، فيعمل مع Angular SSR والـ hydration."
+        ]
+      },
+      "svelte": {
+        "name": "Svelte",
+        "blurb": "أكشن <code>use:richText</code> لـ Svelte 3 و4 و5. لا تعمل الأكشنات على الخادم، فهو آمن في SvelteKit.",
+        "snippets": {
+          "svelte3And4": "Svelte 3 و4",
+          "forms": "النماذج"
+        },
+        "notes": [
+          "تدخل <code>content</code> ويُعيد <code>onUpdate</code> الـ HTML. تُحمَّل التغييرات الخارجية في المحرّر، أما HTML الذي أنتجه المحرّر نفسه فلا يُعاد تحميله، فيبقى المؤشّر في مكانه.",
+          "مرّر أي خيار للمحرّر عدا <code>element</code>. تُطبَّق الخيارات الديناميكية فورًا، ويُقرأ الباقي عند إنشاء المحرّر (غلّف العنصر بـ <code>'{'#key …'}'</code> لإعادة إنشائه)."
+        ]
+      },
+      "solid": {
+        "name": "Solid",
+        "blurb": "موجّه <code>use:richText</code> لـ Solid 1.6 فما فوق وSolidStart. يُقرأ الكائن الذي تمرّره بشكل تفاعلي.",
+        "snippets": {
+          "basicUsage": "الاستخدام الأساسي",
+          "forms": "النماذج"
+        },
+        "notes": [
+          "أبقِ السطر <code>richText;</code>. يحذف TypeScript وBabel الاستيرادات التي تبدو غير مستخدمة، بينما <code>use:richText</code> مجرد إشارة إلى الدالة.",
+          "لا تعمل الموجّهات إلا في المتصفح، فلا حاجة إلى حراسة بـ <code>isServer</code>."
+        ]
+      },
+      "astro": {
+        "name": "Astro",
+        "blurb": "مكوّن <code>.astro</code> يعرض <code>'<'owe-editor'>'</code>. يعمل مع إرسال النماذج العادي ولا يحتاج إلى أي إطار واجهات.",
+        "snippets": {
+          "usage": "الاستخدام",
+          "arabicAndToolbar": "العربية وشريط الأدوات",
+          "readTheValue": "قراءة القيمة"
+        },
+        "notes": [
+          "يستورد المكوّن السكربت والتنسيق بنفسه، فلا تحتاج إلى إضافة شيء آخر.",
+          "يعرض الخادم عنصر <code>'<'owe-editor'>'</code> فقط، وفي خاصية <code>value</code> المُهرَّبة يوجد الـ HTML الأولي. يعمل الحقل مع إرسال نموذج عادي في وضعي <code>static</code> و<code>server</code>."
+        ]
+      },
+      "web-component": {
+        "name": "Web component",
+        "blurb": "<code>'<'owe-editor'>'</code> هو المحرّر كاملًا في وسم HTML. عنصر مخصّص مرتبط بالنماذج ويعمل في الـ light DOM، فلا Shadow DOM وهو آمن مع CSP.",
+        "snippets": {
+          "cdnNoBuildStep": "من CDN بلا بناء",
+          "bundler": "مع أداة بناء",
+          "inAForm": "داخل نموذج",
+          "properties": "الخصائص"
+        },
+        "notes": [
+          "يُرسل النموذج HTML المحرّر تحت الاسم <code>name</code>، ويعيد <code>form.reset()</code> المحتوى الابتدائي. ويصبح <code>'<'label for'>'</code> الذي يشير إلى <code>id</code> العنصر اسمه المتاح لقارئات الشاشة.",
+          "استخدم خاصية <code>value</code> أو عنصر <code>'<'template'>'</code> حين يأتي المحتوى من المستخدمين، فلا يستطيع أيٌّ منهما تنفيذ شيء قبل أن يعقّمه المحرّر."
+        ]
+      },
+      "vanilla": {
+        "name": "JavaScript عادي",
+        "blurb": "النواة دالة واحدة هي <code>createEditor(options)</code>. استخدمها مع أي أداة بناء، أو من CDN بوسم سكربت واحد.",
+        "snippets": {
+          "bundler": "مع أداة بناء",
+          "headless": "بدون واجهة"
+        },
+        "notes": [
+          "حمّل ملف التنسيق مرة واحدة، واستدعِ <code>createEditor()</code> في المتصفح بعد وجود العنصر (يرمي خطأً أثناء التصيير على الخادم)، واستدعِ <code>editor.destroy()</code> عند إزالة العنصر.",
+          "عند الإنشاء على <code>'<'textarea'>'</code> يخفي المحرّر الحقل ويُبقي قيمته متزامنة. ويصبح <code>'<'label'>'</code> الخاص بالـ textarea اسم المحرّر المتاح لقارئات الشاشة."
+        ]
+      },
+      "others": {
+        "name": "Lit وAlpine وhtmx…",
+        "blurb": "أي شيء يستطيع طباعة HTML يستطيع استخدام وسم <code>'<'owe-editor'>'</code>: Lit وAlpine.js وhtmx وTurbo وEmber وQwik وWordPress وPHP. يطلق الحدثين <code>input</code> و<code>change</code> ويشارك في النماذج.",
+        "snippets": {
+          "loadItOnce": "حمّله مرة واحدة",
+          "wordPressAndPHP": "WordPress وPHP"
+        },
+        "notes": [
+          "حمّل سكربت CDN وملف التنسيق مرة واحدة (أو استورد <code>open-wysiwyg-editor/element</code> و<code>style.css</code>)، ثم ضع الوسم في القالب.",
+          "في Qwik استورد العنصر داخل visible task كي لا يعمل على الخادم. وفي WordPress تمنع <code>esc_attr()</code> محتوى المستخدم من الخروج من الخاصية."
+        ]
+      }
+    },
+    "installTitle": "التثبيت",
+    "usageTitle": "الاستخدام"
+  },
+  "Guides": {
+    "eyebrow": "الأدلة",
+    "title": "أطلقه بثقة",
+    "description": "إمكانية الوصول والأمان والتنسيق والمظهر واللغات: خمسة أمور يسأل عنها الفريق قبل إطلاق المحرّر. افتح أي دليل لقراءة المزيد.",
+    "a11y": {
+      "title": "إمكانية الوصول",
+      "summary": "WCAG 2.2 مستوى AA واختصارات لوحة المفاتيح والأنماط التي يتبعها.",
+      "intro": "يستهدف المحرّر معيار WCAG 2.2 مستوى AA وإرشادات ATAG 2.0 وممارسات التأليف في WAI-ARIA، ويُفحص بأداة axe-core في كل إصدار.",
+      "shortcutsTitle": "اختصارات لوحة المفاتيح",
+      "shortcutsCaption": "اختصارات لوحة المفاتيح",
+      "colShortcut": "الاختصار",
+      "colAction": "الإجراء",
+      "shortcuts": [
+        "نقل التركيز إلى شريط الأدوات",
+        "العودة من شريط الأدوات إلى النص",
+        "فتح قائمة اختصارات لوحة المفاتيح",
+        "إدراج رابط أو تعديله",
+        "بحث واستبدال",
+        "غامق / مائل / تسطير",
+        "تمييز",
+        "عنوان 1 إلى 6 / فقرة",
+        "قائمة رقمية أو نقطية أو قائمة مهام"
+      ],
+      "patternsTitle": "الأنماط التي يتبعها",
+      "patterns": [
+        {
+          "lead": "شريط الأدوات.",
+          "text": "يتبع نمط toolbar في ARIA بنقطة تبويب واحدة وroving tabindex. تنقلك مفاتيح الأسهم وHome وEnd بين الأزرار، وتتبع الأسهم اتجاه RTL. وتعلن الأزرار حالة الضغط واختصاراتها."
+        },
+        {
+          "lead": "القوائم والنوافذ الحوارية.",
+          "text": "تتبع القوائم نمط menu-button في APG. والنوافذ عناصر <code>'<'dialog'>'</code> أصلية بحقول معنونة ورسائل أخطاء مضمّنة، ويعود التركيز إلى موضعه السابق عند إغلاقها."
+        },
+        {
+          "lead": "لا فخّ للوحة المفاتيح.",
+          "text": "داخل النص يزيح Tab عناصر القوائم وينتقل بين خلايا الجدول. اضغط Esc ثم Tab للخروج من المحرّر."
+        },
+        {
+          "lead": "الإعلانات.",
+          "text": "تعلن المناطق الحيّة نتائج مثل «2 من 5 نتائج» و«أُدرج الرابط». وترسل <code>editor.announce()</code> رسائلك الخاصة."
+        },
+        {
+          "lead": "إمكانية الوصول البصرية.",
+          "text": "التركيز ظاهر دائمًا. يُراعى وضع التباين العالي في Windows (<code>forced-colors</code>) وإعداد <code>prefers-reduced-motion</code>، ويتوفر وضع داكن. وعند العروض الضيقة وتكبير 400% يلتفّ شريط الأدوات بدل التمرير الأفقي."
+        },
+        {
+          "lead": "مساعدة الكتّاب.",
+          "text": "تطلب الصور نصًّا بديلًا وتتيح خيار «زخرفية»، وتحصل الجداول افتراضيًا على صف ترويسة وعنوان، وتعرض منتقيات الألوان نسبة التباين وتحذّر إذا انخفضت عن AA."
+        }
+      ],
+      "tipTitle": "سمِّ كل محرّر",
+      "tip": "أعطِ كل محرّر اسمًا يقرؤه قارئ الشاشة: <code>'<'label for'>'</code> على textarea أو <code>'<'owe-editor'>'</code>، أو <code>ariaLabel</code> / <code>ariaLabelledBy</code>. واستخدم <code>ariaDescribedBy</code> لنص المساعدة، وعيّن <code>contentLang</code> للمحتوى بلغة أخرى، وضع <code>lang</code> و<code>dir</code> على المحتوى الذي تعرضه من التخزين."
+    },
+    "security": {
+      "title": "الأمان",
+      "summary": "CSP صارمة وTrusted Types وما يجب فعله على الخادم.",
+      "intro": "يعمل المحرّر تحت سياسة أمان محتوى (CSP) صارمة مع Trusted Types، وهذا الموقع نفسه يعمل تحت هذه السياسة.",
+      "layersTitle": "طبقات الحماية",
+      "layersCaption": "طبقات الأمان",
+      "colLayer": "الطبقة",
+      "colWhat": "ماذا تفعل",
+      "layers": [
+        {
+          "name": "المدخلات",
+          "text": "يمرّ كل مسار إدخال (المحتوى الابتدائي و<code>setContent</code> واللصق والإفلات وعرض المصدر) عبر DOMPurify. وتُزال العناصر القادرة على تنفيذ سكربت قبل التحليل."
+        },
+        {
+          "name": "النموذج",
+          "text": "لا يبقى إلا المحتوى المعروف في المخطط (schema)، ما لم تُضف <code>HtmlSupport</code>، وحتى حينها تُطبَّق قائمة الحظر الخاصة بها."
+        },
+        {
+          "name": "المخرجات",
+          "text": "تُنتَج <code>getHTML()</code> عبر مُسلسِل لا يستخدم DOM. يتحقق من أسماء الوسوم والسمات، ويهرّب كل قيمة، ويفحص كل رابط مرة أخرى."
+        },
+        {
+          "name": "الروابط",
+          "text": "المسموح افتراضيًا: <code>http</code> و<code>https</code> و<code>mailto</code> و<code>tel</code> مع الروابط النسبية. وصور <code>data:</code> معطّلة ما لم تضبط <code>urlPolicy.allowDataImages</code>."
+        },
+        {
+          "name": "CSP",
+          "text": "يعمل تحت <code>script-src ''self''; style-src ''self''; require-trusted-types-for ''script''</code>. ولا يكتب العرض الحي أي سلاسل style مضمّنة."
+        },
+        {
+          "name": "Trusted Types",
+          "text": "يضيف سياسة واحدة باسم <code>open-wysiwyg-editor</code> إلى توجيه <code>trusted-types</code> لديك، أو مرّر سياستك عبر <code>setTrustedTypesPolicy()</code>."
+        }
+      ],
+      "cspTitle": "سياسة موصى بها",
+      "csp": "أضف اسم سياسة المحرّر إلى <code>trusted-types</code>. ويستخدم اللصق أيضًا سياسة <code>ProseMirrorClipboard</code> من ProseMirror، فأضفها كذلك.",
+      "ttTitle": "Trusted Types",
+      "tt": "مع <code>require-trusted-types-for ''script''</code> يحتاج كل مصرف HTML إلى قيمة موثوقة. ينشئ المحرّر سياسة واحدة ويستخدمها في كل مكان.",
+      "serverTitle": "المتصفح ليس حدًّا أمنيًا",
+      "server": "لا تثق أبدًا في HTML القادم من العميل. ينظّف المحرّر ما يحمّله وما ينتجه، لكن يستطيع أي شخص إرسال أي نص إلى واجهتك البرمجية. عقّم مرة أخرى على الخادم بمكتبة تثق بها قبل التخزين أو العرض لمستخدمين آخرين.",
+      "serverNote": "للمحتوى الابتدائي القادم من المستخدمين، استخدم خاصية <code>value</code> أو عنصر <code>'<'template'>'</code> داخل <code>'<'owe-editor'>'</code>، ولا تضع المحتوى مباشرة كأبناء. فلا يستطيع أيٌّ منهما تنفيذ شيء قبل أن يعقّمه المحرّر.",
+      "report": "وجدت ثغرة؟ أبلغ عنها بشكل خاص، راجع <link>سياسة الأمان</link>."
+    },
+    "styling": {
+      "title": "التنسيق",
+      "summary": "طبقات CSS ورموز التصميم --owe-* والسمتان الفاتحة والداكنة.",
+      "intro": "كل قواعد المحرّر داخل <code>@layer owe</code>، فأي CSS خاص بك خارج الطبقات يتغلّب عليها دون <code>!important</code>. خصّص مظهر المحرّر بتعيين رموز التصميم (design tokens).",
+      "filesTitle": "ملفات التنسيق",
+      "files": "يحتوي <code>open-wysiwyg-editor/style.css</code> على تنسيق المحرّر وواجهته ومحتواه. أما <code>content.css</code> ففيه تنسيق المحتوى فقط للصفحات المنشورة: غلّف الـ HTML المحفوظ بـ <code>'<'div class=\"owe-content-root\"'>'</code>. وتأتي كل حزمة إطار عمل بالملفات نفسها تحت اسمها، مثل <code>@open-wysiwyg-editor/vue/style.css</code>.",
+      "tokensTitle": "رموز التصميم",
+      "tokens": "عيّن الرموز على <code>.owe</code> (أو <code>:root</code>). وهكذا يخصّص هذا الموقع مظهر المحرّر:",
+      "tokensCaption": "رموز التصميم الشائعة",
+      "colToken": "الرمز",
+      "colKind": "النوع",
+      "colWhat": "ما الذي يتحكم به",
+      "tokenRows": [
+        "خط الواجهة والمحتوى.",
+        "الحجم الأساسي للمحتوى.",
+        "استدارة زوايا المحرّر وعناصر التحكم.",
+        "خلفيات منطقة المحتوى وشريط الأدوات واللوحات.",
+        "ألوان النص.",
+        "الحدود. أبقِ <code>--owe-border</code> بنسبة تباين 3:1 مع الخلفية.",
+        "لون الهوية الواحد، واللون الثاني للحافة المتدرجة، ولون النص على أسطح الهوية. راجع المظهر أدناه.",
+        "مشتقة من لون الهوية: الروابط والنص، وتعبئة الأزرار المضغوطة، وحلقة التركيز."
+      ],
+      "themeTitle": "فاتح وداكن",
+      "theme": "يأتي المحرّر بمجموعتي رموز، فاتحة وداكنة. عيّن <code>ui.theme</code> إلى <code>light</code> أو <code>dark</code> أو <code>auto</code> (الافتراضي، ويتبع النظام)، وبدّل الرموز تحت <code>.owe[data-theme=\"dark\"]</code> لقيم مختلفة لكل سمة."
+    },
+    "theming": {
+      "title": "المظهر وألوان الهوية",
+      "summary": "لون هوية واحد، ورموز للأزرار، ووصفات لـ shadcn/ui ولوحة التحكم الخاصة بك.",
+      "intro": "عيّن لونًا واحدًا فيتبعه المحرّر كله، في الوضعين الفاتح والداكن: أزرار الشريط المضغوطة وأزرار النوافذ والروابط وحلقة التركيز ومؤشر الكتابة وتحديد النص والحافة المتدرجة للبطاقة. جرّبه بلون الهوية في منطقة التجربة أعلاه.",
+      "oneTitle": "لون واحد",
+      "one": "يقبل <code>ui.brand</code> أي لون CSS ويختار الأسود أو الأبيض لنص أزرار الهوية بحسب التباين. وتفعل السمة <code>brand</code> الشيء نفسه على <code>'<'owe-editor'>'</code>. وفي CSS العادي عيّن <code>--owe-brand</code> (و<code>--owe-on-brand</code> إذا لم يظهر الأبيض بوضوح) على <code>.owe</code> أو على غلاف أو على <code>:root</code>.",
+      "derivedTitle": "الرموز المشتقة",
+      "derived": "كل ما عدا ذلك يُشتق من لون الهوية بـ <code>color-mix()</code>. وإذا عيّنت أيًّا منها بنفسك فقيمتك هي التي تُطبَّق.",
+      "derivedCaption": "الرموز المشتقة من لون الهوية",
+      "colToken": "الرمز",
+      "colDerived": "طريقة الاشتقاق",
+      "derivedRows": [
+        "لون الهوية نفسه. للأزرار المضغوطة في الشريط وأزرار النوافذ الرئيسية.",
+        "اللون الرئيسي ممزوجًا بنسبة 15% نحو الأسود.",
+        "لون الروابط والنص: لون الهوية ممزوجًا 30% نحو الأسود في الفاتح و40% نحو الأبيض في الداكن.",
+        "لون التمييز.",
+        "لون الهوية بشفافية 22% في الفاتح و45% في الداكن.",
+        "من <code>--owe-brand</code> إلى <code>--owe-brand-2</code>. ويضبط <code>ui.brand</code> درجة أفتح لتكون اللون الثاني."
+      ],
+      "buttonsTitle": "رموز الأزرار",
+      "buttons": "تعيد هذه الرموز تنسيق الأزرار والشريط والبطاقة دون لمس أي محدِّد. عيّنها على <code>.owe</code> أو على أي عنصر يحيط به، مثل غلاف لوحة التحكم. وإن لم تعيّنها فتُستخدم القيمة الافتراضية الموضحة.",
+      "buttonsCaption": "رموز الأزرار والشريط",
+      "colDefault": "الافتراضي",
+      "colStyles": "ما تنسّقه",
+      "buttonRows": [
+        "أيقونة زر الشريط ونصه.",
+        "خلفية زر الشريط.",
+        "الزر عند تمرير المؤشر.",
+        "الزر المضغوط أو المفعَّل.",
+        "الزر الرئيسي في النوافذ (إدراج، تطبيق).",
+        "زوايا الأزرار وعناصر القوائم.",
+        "الشريط وشريط البحث وشريط الحالة.",
+        "حدّ البطاقة وزواياها."
+      ],
+      "buttonsExample": "شريط أدوات داكن فوق منطقة تحرير فاتحة، بزوايا أصغر:",
+      "dashboardTitle": "طابِق لوحة التحكم",
+      "dashboard": "اجعل الرموز تشير إلى المتغيّرات التي يعرّفها نظام التصميم لديك، مثل shadcn/ui في المثال أدناه. فـ CSS الخاص بك خارج الطبقات يتغلّب على <code>@layer owe</code>، وتقرأ الرموز متغيّراتك عند استخدامها، فيتبع المحرّر سماتك الفاتحة والداكنة دون سكربت. وعيّن <code>theme</code> إلى <code>dark</code> أيضًا إذا كانت لوحتك داكنة، لتتوافق الروابط والتحديد وعناصر التحكم الأصلية.",
+      "laterTitle": "تغيير المظهر لاحقًا",
+      "later": "يتابع <code>'<'owe-editor'>'</code> تغيّر السمتين <code>theme</code> و<code>brand</code>. أما مع <code>createEditor()</code> فاستدعِ <code>setTheme()</code> على واجهته. وهي تستبدل المظهر كله، فمرّر كل ما تريد الإبقاء عليه. وهذا ما تفعله منطقة التجربة أعلاه.",
+      "contrastTitle": "افحص التباين",
+      "contrast": "لا يستطيع المحرّر اختيار الألوان نيابةً عنك. يحافظ <code>--owe-accent</code> على تباين 4.5:1 مع الأبيض للألوان المعتادة، لكن اللون الباهت جدًّا يحتاج إلى <code>--owe-accent</code> صريح، وتحتاج الأزرار المضغوطة إلى تباين 3:1 مع الشريط."
+    },
+    "languages": {
+      "title": "اللغات والكتابة من اليمين إلى اليسار",
+      "summary": "العربية والإنجليزية مدمجتان، وأضف لغاتك، ومحتوى RTL.",
+      "intro": "العربية والإنجليزية مدمجتان. تنعكس الواجهة في لغات RTL، وتختار كل كتلة في المحتوى اتجاهها بنفسها.",
+      "arabicTitle": "العربية وRTL",
+      "arabic": "عيّن <code>language</code> للواجهة و<code>dir</code> للاتجاه الأساسي للمحتوى. وبدون <code>dir</code> تحصل كل كتلة نصية على <code>dir=\"auto\"</code>، فتُعرض الفقرات العربية والإنجليزية بشكل صحيح في المستند نفسه. ويقسّم عدّاد الكلمات والأحرف الكلمات تقسيمًا صحيحًا في العربية والصينية واليابانية والكورية.",
+      "customTitle": "أضف لغتك",
+      "custom": "مرّر <code>languages</code> لإضافة لغات للواجهة أو استبدال الموجودة. وتعود التسميات غير المترجمة إلى الإنجليزية. وبدّل بعض نصوص لغة موجودة عبر <code>labels</code>. وتُصدَّر التسميات العربية باسم <code>arabicLabels</code>، وهي نقطة انطلاق جيدة لترجمة لغة أخرى تُكتب من اليمين إلى اليسار.",
+      "displayTitle": "عرض محتوى RTL",
+      "display": "عند عرض HTML محفوظ، أبقِ سمات <code>dir</code> التي كتبها المحرّر وغلّفه بـ <code>owe-content-root</code>. وعيّن <code>lang</code> على الحاوية للمحتوى بلغة أخرى كي تستخدم قارئات الشاشة النطق الصحيح."
+    },
+    "scroll": "جدول قابل للتمرير:",
+    "read": "اقرأ الدليل"
+  },
+  "Playground": {
+    "eyebrow": "التجربة",
+    "title": "جرّبه هنا الآن",
+    "description": "هذا هو المحرّر الحقيقي من <code>@open-wysiwyg-editor/next</code>. اكتب وانسّق وبدّل اللغة واختر لون هويتك، ثم راقب المخرجات في الأسفل.",
+    "options": "خيارات التجربة",
+    "language": "لغة الواجهة",
+    "readonly": "للقراءة فقط",
+    "reset": "إعادة النموذج",
+    "brand": "لون الهوية",
+    "brandHint": "لون واحد يضبط الأزرار والروابط وحلقة التركيز والتحديد.",
+    "custom": "لون مخصص",
+    "colors": {
+      "blue": "أزرق",
+      "teal": "فيروزي",
+      "emerald": "زمردي",
+      "amber": "كهرماني",
+      "rose": "قرمزي",
+      "slate": "أردوازي"
+    },
+    "outputLabel": "صيغة المخرجات",
+    "tabs": {
+      "html": "HTML",
+      "json": "JSON",
+      "text": "نص",
+      "theme": "المظهر"
+    },
+    "words": "{count, plural, zero {{count} كلمة} one {كلمة واحدة} two {كلمتان} few {{count} كلمات} many {{count} كلمة} other {{count} كلمة}}",
+    "characters": "{count, plural, zero {{count} حرف} one {حرف واحد} two {حرفان} few {{count} أحرف} many {{count} حرفًا} other {{count} حرف}}",
+    "editorLabel": "محرّر النص",
+    "sample": "<h2>اكتب لكل الناس</h2>\n<p>هذا محرر نصوص يدعم <strong>العربية</strong> بالكامل: الواجهة، والاتجاه، والاختصارات. يمكنك استخدام <em>الخط المائل</em> و<u>التسطير</u> و<mark>التمييز</mark> و<a href=\"{repo}\">الروابط</a>.</p>\n<ul><li><p>اضغط Alt+0 لعرض اختصارات لوحة المفاتيح.</p></li><li><p>English words mix in correctly.</p></li></ul>\n<blockquote><p>إمكانية الوصول ميزة أساسية، وليست إضافة لاحقة.</p></blockquote>\n<p dir=\"ltr\">And Latin text keeps its own direction in the same document.</p>"
+  },
+  "Chooser": {
+    "choose": "اختر لغتك",
+    "language": "العربية"
+  },
+  "NotFound": {
+    "title": "الصفحة غير موجودة",
+    "body": "هذه الصفحة غير موجودة أو تم نقلها.",
+    "home": "العودة إلى الصفحة الرئيسية"
+  },
+  "Metadata": {
+    "title": "Open WYSIWYG Editor – محرر نصوص غني سهل الوصول يدعم العربية",
+    "description": "محرر نصوص غني مفتوح المصدر ومجاني. سهل الوصول (WCAG 2.2 AA)، يدعم العربية والكتابة من اليمين إلى اليسار، متوافق مع CSP، برخصة MIT. يعمل مع JavaScript وReact وNext.js وVue وAngular وSvelte وغيرها.",
+    "keywords": [
+      "محرر نصوص غني",
+      "محرر WYSIWYG",
+      "محرر نصوص",
+      "مفتوح المصدر",
+      "دعم العربية",
+      "من اليمين إلى اليسار",
+      "RTL",
+      "إمكانية الوصول",
+      "WCAG 2.2",
+      "ProseMirror",
+      "React",
+      "Next.js",
+      "Vue",
+      "Nuxt",
+      "Angular",
+      "Svelte",
+      "Solid",
+      "Astro",
+      "TypeScript",
+      "CSP",
+      "npm"
+    ],
+    "ogAlt": "Open WYSIWYG Editor: محرر نصوص غني سهل الوصول يدعم العربية ويعمل مع كل أطر العمل"
+  },
+  "LanguageSwitch": {
+    "names": {
+      "en": "English",
+      "ar": "العربية"
+    }
+  },
+  "Pages": {
+    "breadcrumb": "مسار التنقل",
+    "home": "الرئيسية",
+    "prev": "السابق",
+    "next": "التالي",
+    "allFrameworks": "كل أطر العمل",
+    "moreFrameworks": "أطر عمل أخرى",
+    "gettingStarted": {
+      "title": "البدء السريع"
+    },
+    "frameworks": {
+      "title": "أطر العمل"
+    },
+    "api": {
+      "title": "مرجع الواجهة البرمجية"
+    },
+    "guides": {
+      "title": "الأدلة"
+    },
+    "framework": {
+      "title": "محرر النصوص الغني لـ {name}",
+      "description": "استخدم Open WYSIWYG Editor مع {name}: ثبّت الحزمة {pkg}، وانسخ شيفرة الإعداد، واقرأ الملاحظات المهمة قبل النشر."
+    },
+    "guide": {
+      "description": "{summary} دليل لمستخدمي Open WYSIWYG Editor."
+    }
+  }
+}

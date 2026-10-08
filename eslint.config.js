@@ -3,7 +3,18 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["**/dist/**", "**/.angular/**", "_site/**", "playwright-report/**", "test-results/**"] },
+  {
+    ignores: [
+      "**/dist/**",
+      "**/.angular/**",
+      "_site/**",
+      "playwright-report/**",
+      "test-results/**",
+      "examples/.next/**",
+      "examples/out/**",
+      "examples/next-env.d.ts",
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

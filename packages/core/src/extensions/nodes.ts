@@ -165,7 +165,7 @@ export const HorizontalRule = defineExtension({
 const LANGUAGE = /^[a-zA-Z0-9_+#.-]{1,32}$/;
 
 export interface CodeBlockOptions {
-  /** Prefix for the language class on <code>. Default "language-" (Prism/Shiki/highlight.js compatible). */
+  /** Prefix for the language class on <code>. Default "language-", the class most syntax highlighters look for. */
   languageClassPrefix: string;
 }
 

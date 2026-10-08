@@ -9,13 +9,13 @@
     flex-direction: column;
     background: var(--owe-bg);
     color: var(--owe-text);
-    border: 1px solid var(--owe-border-subtle);
-    border-radius: var(--owe-radius);
+    border: 1px solid var(--owe-editor-border, var(--owe-border-subtle));
+    border-radius: var(--owe-editor-radius, var(--owe-radius));
     font-family: var(--owe-font);
     min-inline-size: 0;
   }
   .owe:focus-within {
-    border-color: color-mix(in srgb, var(--owe-focus) 45%, var(--owe-border-subtle));
+    border-color: color-mix(in srgb, var(--owe-focus) 45%, var(--owe-editor-border, var(--owe-border-subtle)));
   }
   /* 2px gradient edge along the bottom, following the card's curve; brighter while editing.
      Popups are positioned children, so nothing here clips them. */
