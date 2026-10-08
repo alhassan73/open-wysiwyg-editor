@@ -24,5 +24,19 @@ semver ranges — never `workspace:` — so both tools resolve them locally.
   event handlers or `style=""` strings (lint enforces most of this). Use `h()` and the CSSOM.
 - **Privacy:** no network requests, storage or telemetry by default.
 - **i18n:** every user-facing string goes through `editor.t()` and gets an Arabic translation.
-- Add a changeset for user-visible changes: `npx changeset`.
+- Add a line to `packages/editor/CHANGELOG.md` for every user-visible change.
 - Sign off your commits (DCO): `git commit -s`.
+
+## Branches and releasing
+
+`main` always holds the latest release, and every push to it deploys the demo. Each version also
+has its own branch named after it (e.g. `0.1.1`, `0.2.0`) that keeps that release's code.
+
+1. Create the next version branch from `main` (e.g. `0.2.0`). Update `version` in
+   `packages/editor/package.json` and add the version to `packages/editor/CHANGELOG.md`.
+2. When it's ready, merge it into `main`. This also deploys the demo.
+3. Tag `vX.Y.Z` on `main` and push the tag:
+   `git tag v0.2.0 && git push origin v0.2.0`. The release workflow checks that the tag matches
+   the package version, runs `npm run check`, builds, checks bundle sizes and publishes through npm
+   Trusted Publishing (no token or 2FA code; provenance included). It skips versions that are
+   already on npm. Tags keep the `v` prefix so they never share a name with a branch.

@@ -1,57 +1,76 @@
-# open-wysiwyg-editor
+# Open WYSIWYG Editor
 
-An accessible rich text editor that is RTL-first and safe under a strict CSP. It works in plain JavaScript and in any framework.
+[![npm version](https://img.shields.io/npm/v/open-wysiwyg-editor)](https://www.npmjs.com/package/open-wysiwyg-editor)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/open-wysiwyg-editor)](https://bundlephobia.com/package/open-wysiwyg-editor)
+[![license](https://img.shields.io/npm/l/open-wysiwyg-editor)](https://github.com/alhassan73/open-wysiwyg-editor/blob/main/LICENSE)
 
-- **Accessible by design.** Built against WCAG 2.2 AA, ATAG 2.0 and the WAI-ARIA Authoring Practices. You can do everything from the keyboard and never get trapped. Screen readers hear announcements, and Windows High Contrast is supported.
-- **Secure by default.** All HTML input passes through DOMPurify, URLs are checked against an allow-list, and Trusted Types are supported. It runs under `script-src 'self'; style-src 'self'` with no `unsafe-inline`.
-- **Arabic and RTL first.** It ships with English and Arabic UIs, mirrors the layout, and lets each block carry its own direction.
-- **Complete out of the box.** You get headings, lists, task lists, tables, images, links, code, text and highlight colors, alignment, find & replace, an HTML source view, word count and more.
-- **Headless if you want it.** The same engine is available with no UI, so you can build your own interface on top.
-- **MIT license.** There is no license key, no telemetry and no cloud dependency.
+**[Live demo →](https://alhassan73.github.io/open-wysiwyg-editor/)** · [GitHub](https://github.com/alhassan73/open-wysiwyg-editor) · [npm](https://www.npmjs.com/package/open-wysiwyg-editor)
 
-**[Live demo](https://alhassan73.github.io/open-wysiwyg-editor/)** · Built on [ProseMirror](https://prosemirror.net). Content is stored as HTML or JSON, and node and mark names match Tiptap's.
+An accessible rich text editor that works on **any website**: plain HTML/JS, React, Next.js, Vue, Nuxt, Angular, Svelte, Astro, WordPress and more. It's RTL-first, it runs under a strict Content Security Policy, and it ships its own TypeScript types. MIT licensed, with no license key, no telemetry and no cloud service.
 
----
+Built on [ProseMirror](https://prosemirror.net). Content is stored as HTML or JSON, and node and mark names match Tiptap's.
+
+## Features
+
+| Area | What you get |
+| --- | --- |
+| **Formatting** | Headings · Bold, italic, underline, strike, inline code · Subscript / superscript · Text and highlight colors · Alignment · Text direction per block |
+| **Blocks** | Bullet, numbered and task lists · Blockquote · Code block · Horizontal rule · Tables with caption and header rows · Images with alt text and caption · Links |
+| **Tools** | Find & replace · HTML source view · Word and character count · Element path · Keyboard shortcut help · Undo / redo · Markdown-style typing shortcuts |
+| **Accessibility** | WCAG 2.2 AA, ATAG 2.0 and WAI-ARIA patterns · Fully keyboard operable, no keyboard trap · Screen reader announcements · Windows High Contrast · Dark theme |
+| **Security** | DOMPurify on every input · URL allow-list · Trusted Types · No `unsafe-inline` needed |
+| **Languages** | English and Arabic built in (add your own) · Mirrored UI in RTL · `dir="auto"` on every block |
+| **Your way** | Full UI by default · Headless mode for your own UI · Custom toolbar buttons · Extensions API · Theme with CSS variables |
+
+Every release is tested end to end in Chromium, Firefox and WebKit, under a strict CSP with Trusted Types and with axe-core accessibility checks.
 
 ## Install
 
-```sh
+```bash
 npm install open-wysiwyg-editor
 # or
 pnpm add open-wysiwyg-editor
+# or
+yarn add open-wysiwyg-editor
 ```
 
-Without a bundler, load the browser build from a CDN:
+Or with no build step, from a CDN:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/open-wysiwyg-editor/dist/style.min.css" />
-<script src="https://unpkg.com/open-wysiwyg-editor/dist/open-wysiwyg-editor.global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@0.1/dist/style.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@0.1/dist/open-wysiwyg-editor.global.js"></script>
 ```
 
-## Quick start
+## Usage
+
+The core is one function, `createEditor(options)`. It mounts the editor inside the element you pass and returns an `editor` instance. Follow three rules in every framework:
+
+1. Load the stylesheet once: `import "open-wysiwyg-editor/style.css"` (or the `<link>` above).
+2. Call `createEditor()` **in the browser**, after the element exists. It throws during server-side rendering.
+3. Call `editor.destroy()` when the element goes away.
+
+### Plain HTML / JavaScript (no framework, no bundler)
 
 ```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@0.1/dist/style.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@0.1/dist/open-wysiwyg-editor.global.js"></script>
+
 <div id="editor"><p>Hello <strong>world</strong></p></div>
+
+<script>
+  const editor = OpenWysiwygEditor.createEditor({
+    element: document.querySelector("#editor"),
+    placeholder: "Write something…",
+  });
+  // editor.getHTML() → '<p dir="auto">Hello <strong>world</strong></p>'
+</script>
 ```
 
-```js
-import { createEditor } from "open-wysiwyg-editor";
-import "open-wysiwyg-editor/style.css";
+This also works in WordPress, Shopify, Webflow, PHP, Django and Rails templates.
 
-const editor = createEditor({ element: document.querySelector("#editor") });
+### HTML forms
 
-editor.getHTML(); // "<p dir=\"auto\">Hello <strong>world</strong></p>"
-```
-
-With the global build:
-
-```js
-const editor = OpenWysiwygEditor.createEditor({ element: document.querySelector("#editor") });
-```
-
-### Plain HTML forms
-
-If you mount the editor on a `<textarea>`, it hides the textarea and keeps its value in sync, so the form submits the HTML. It also uses the textarea's `<label>` as its accessible name.
+Mount the editor on a `<textarea>`. The editor hides the textarea and keeps its value in sync, so the form submits the HTML. The textarea's `<label>` becomes the editor's accessible name.
 
 ```html
 <form method="post">
@@ -59,40 +78,166 @@ If you mount the editor on a `<textarea>`, it hides the textarea and keeps its v
   <textarea id="body" name="body"><p>Draft…</p></textarea>
   <button>Save</button>
 </form>
-<script type="module">
-  import { createEditor } from "open-wysiwyg-editor";
-  createEditor({ element: document.querySelector("#body") });
+<script>
+  OpenWysiwygEditor.createEditor({ element: document.querySelector("#body") });
 </script>
 ```
 
-### React / Next.js
+### Any bundler (Vite, Webpack, Parcel…), JS or TS
 
-Dedicated adapters for React, Vue, Svelte and Angular, and an `<owe-editor>` web component, are on the way. Until they ship, the core works in any framework. Mount it in an effect and destroy it on cleanup:
-
-```tsx
-"use client"; // Next.js: the editor needs the DOM
-import { useEffect, useRef } from "react";
-import { createEditor, type Editor } from "open-wysiwyg-editor";
+```js
+import { createEditor } from "open-wysiwyg-editor";
 import "open-wysiwyg-editor/style.css";
 
-export function RichText({ value, onChange }: { value: string; onChange: (html: string) => void }) {
+const editor = createEditor({
+  element: document.querySelector("#editor"),
+  onUpdate: (editor) => console.log(editor.getHTML()),
+});
+```
+
+### React (Vite, CRA, Remix, Gatsby)
+
+```tsx
+import { useEffect, useRef } from "react";
+import { createEditor } from "open-wysiwyg-editor";
+import "open-wysiwyg-editor/style.css";
+
+export function RichText({ defaultValue, onChange }: { defaultValue?: string; onChange?: (html: string) => void }) {
   const host = useRef<HTMLDivElement>(null);
-  const editor = useRef<Editor | null>(null);
+  const change = useRef(onChange);
+  change.current = onChange;
 
   useEffect(() => {
-    editor.current = createEditor({
+    const editor = createEditor({
       element: host.current,
-      content: value,
-      onUpdate: (e) => onChange(e.getHTML()),
+      content: defaultValue,
+      onUpdate: (e) => change.current?.(e.getHTML()),
     });
-    return () => editor.current?.destroy();
+    return () => editor.destroy();
   }, []);
 
   return <div ref={host} />;
 }
 ```
 
-### Headless
+### Next.js (App Router)
+
+Put the component above in a file that starts with `"use client"`, then use it from any page or layout. Import the stylesheet in `app/layout.tsx` or in that client file.
+
+```tsx
+// app/editor/page.tsx
+import { RichText } from "@/components/rich-text"; // the file starts with "use client"
+
+export default function Page() {
+  return <RichText defaultValue="<p>Hello</p>" />;
+}
+```
+
+On the Pages Router, the same component works as is.
+
+### Vue 3
+
+```vue
+<script setup>
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { createEditor } from "open-wysiwyg-editor";
+import "open-wysiwyg-editor/style.css";
+
+const html = defineModel({ type: String, default: "" });
+const host = ref();
+let editor;
+
+onMounted(() => {
+  editor = createEditor({
+    element: host.value,
+    content: html.value,
+    onUpdate: (e) => (html.value = e.getHTML()),
+  });
+});
+onBeforeUnmount(() => editor?.destroy());
+</script>
+
+<template><div ref="host" /></template>
+```
+
+### Nuxt 3
+
+Use the Vue component above inside `<ClientOnly>`. The editor needs the browser DOM.
+
+```vue
+<ClientOnly><RichText v-model="article" /></ClientOnly>
+```
+
+### Angular
+
+```ts
+import { Component, ElementRef, NgZone, OnDestroy, afterNextRender, inject, output, viewChild } from "@angular/core";
+import { createEditor, type Editor } from "open-wysiwyg-editor";
+
+@Component({
+  selector: "app-rich-text",
+  template: `<div #host></div>`,
+})
+export class RichTextComponent implements OnDestroy {
+  readonly changed = output<string>();
+  private host = viewChild.required<ElementRef<HTMLElement>>("host");
+  private zone = inject(NgZone);
+  private editor?: Editor;
+
+  constructor() {
+    // afterNextRender only runs in the browser, so this is safe with Angular SSR.
+    afterNextRender(() => {
+      this.editor = this.zone.runOutsideAngular(() =>
+        createEditor({
+          element: this.host().nativeElement,
+          onUpdate: (e) => this.zone.run(() => this.changed.emit(e.getHTML())),
+        }),
+      );
+    });
+  }
+
+  ngOnDestroy() {
+    this.editor?.destroy();
+  }
+}
+```
+
+Add the stylesheet to `angular.json`, in `"styles": ["node_modules/open-wysiwyg-editor/dist/style.css"]`.
+
+### Svelte / SvelteKit
+
+```svelte
+<script>
+  import { onMount } from "svelte";
+  import { createEditor } from "open-wysiwyg-editor";
+  import "open-wysiwyg-editor/style.css";
+
+  let host;
+  let html = "<p>Hello</p>";
+
+  onMount(() => {
+    const editor = createEditor({ element: host, content: html, onUpdate: (e) => (html = e.getHTML()) });
+    return () => editor.destroy();
+  });
+</script>
+
+<div bind:this={host}></div>
+```
+
+`onMount` never runs on the server, so this is safe in SvelteKit.
+
+### Astro
+
+```astro
+<div id="editor"></div>
+<script>
+  import { createEditor } from "open-wysiwyg-editor";
+  import "open-wysiwyg-editor/style.css";
+  createEditor({ element: document.querySelector("#editor") });
+</script>
+```
+
+### Headless (bring your own UI)
 
 Use the headless entry when you want the engine and every extension without the built-in UI:
 
@@ -107,6 +252,16 @@ editor.subscribe(() => {
 ```
 
 From the main entry, `createEditor({ ui: false })` does the same thing.
+
+### Reading and saving content
+
+```js
+editor.getHTML();             // clean, sanitized HTML: save this
+editor.getJSON();             // or ProseMirror JSON
+editor.setContent("<p>…</p>"); // load new content
+```
+
+Still sanitize on the server. To display saved HTML on a page that has no editor, load `content.css` and wrap the HTML in `<div class="owe-content-root">` (see [Styling](#styling)).
 
 ---
 
@@ -189,7 +344,7 @@ Color commands accept hex, `rgb()`, `hsl()` or named colors. Anything else is re
 
 ---
 
-## Features
+## Feature guide
 
 ### Toolbar
 
@@ -392,10 +547,26 @@ createEditor({ element, extensions: [StarterKit, Timestamp] });
 
 `defineExtension` also accepts `nodes`, `marks`, `globalAttributes`, `inputRules`, `plugins` (raw ProseMirror plugins), `onCreate` and `onDestroy`. Call `.configure(options)` on any extension to change its options.
 
+## Package contents
+
+| Import | Format | Use it for |
+| --- | --- | --- |
+| `open-wysiwyg-editor` | ESM + CJS + `.d.ts` | The engine, every extension and the accessible UI |
+| `open-wysiwyg-editor/headless` | ESM + CJS + `.d.ts` | The engine and extensions without UI code |
+| `open-wysiwyg-editor/style.css` (`.min.css`) | CSS | Editor, UI and content styles |
+| `open-wysiwyg-editor/content.css` (`.min.css`) | CSS | Content styles only, for pages that display saved HTML |
+| `dist/open-wysiwyg-editor.global.js` | IIFE | `<script>` tag; exposes `window.OpenWysiwygEditor` |
+
 ## Browser support
 
-The editor targets current versions of Chrome, Edge, Firefox and Safari. Every change is tested end to end in Chromium, Firefox and WebKit, under a strict CSP with Trusted Types and with axe-core accessibility checks.
+The editor targets current versions of Chrome, Edge, Firefox and Safari, on desktop and mobile. Every change is tested end to end in Chromium, Firefox and WebKit, under a strict CSP with Trusted Types and with axe-core accessibility checks.
+
+## Links
+
+- [Live demo](https://alhassan73.github.io/open-wysiwyg-editor/)
+- [Changelog](https://github.com/alhassan73/open-wysiwyg-editor/blob/main/packages/editor/CHANGELOG.md)
+- [Contributing](https://github.com/alhassan73/open-wysiwyg-editor/blob/main/CONTRIBUTING.md) · [Security policy](https://github.com/alhassan73/open-wysiwyg-editor/blob/main/SECURITY.md)
 
 ## License
 
-[MIT](https://github.com/alhassan73/open-wysiwyg-editor/blob/main/LICENSE)
+[MIT](https://github.com/alhassan73/open-wysiwyg-editor/blob/main/LICENSE) © alhassan-ahmed

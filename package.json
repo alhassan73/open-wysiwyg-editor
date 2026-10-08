@@ -8,7 +8,7 @@
     "apps/*"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "build": "npm run build --workspaces --if-present",
@@ -20,13 +20,10 @@
     "dev": "npm run dev --workspace=playground",
     "e2e": "playwright test",
     "site": "node scripts/build-site.mjs",
-    "check": "npm run lint && npm run typecheck && npm run test",
-    "changeset": "changeset",
-    "release": "npm run build && changeset publish"
+    "check": "npm run lint && npm run typecheck && npm run test"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@changesets/cli": "^3.0.3",
     "@eslint/js": "^10.0.0",
     "@playwright/test": "^1.63.0",
     "eslint": "^10.11.0",

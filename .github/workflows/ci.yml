@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         pm: [pnpm, npm]
-        node: [20, 24]
+        node: [22, 24]
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4

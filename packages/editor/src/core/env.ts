@@ -7,7 +7,7 @@ export function assertBrowser(what: string): void {
   if (!isBrowser()) {
     throw new Error(
       `[${LIB}] ${what} needs a browser DOM. Call it on the client (e.g. in useEffect / onMounted / ` +
-        `afterNextRender), or use "${LIB}/server" helpers for server-side rendering.`,
+        `onMount / afterNextRender), never during server-side rendering.`,
     );
   }
 }

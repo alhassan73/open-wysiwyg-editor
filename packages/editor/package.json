@@ -1,6 +1,6 @@
 {
   "name": "open-wysiwyg-editor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Accessible (WCAG 2.2 AA / ATAG 2.0), RTL-first, CSP-safe rich text editor for vanilla JS and any framework (React, Next.js, Vue, Svelte, Angular). MIT, no license key, no telemetry.",
   "license": "MIT",
   "author": "alhassan-ahmed",
@@ -42,7 +42,8 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "wysiwyg",
@@ -91,8 +92,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://github.com/alhassan73/open-wysiwyg-editor/tree/main/packages/editor#readme",
-  "bugs": "https://github.com/alhassan73/open-wysiwyg-editor/issues",
+  "homepage": "https://alhassan73.github.io/open-wysiwyg-editor/",
+  "bugs": {
+    "url": "https://github.com/alhassan73/open-wysiwyg-editor/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alhassan73/open-wysiwyg-editor.git",
