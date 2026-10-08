@@ -1,6 +1,6 @@
 {
   "name": "@open-wysiwyg-editor/nuxt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nuxt module for open-wysiwyg-editor: auto-imported <RichTextEditor v-model /> and styles. Accessible (WCAG 2.2 AA), RTL-first, CSP-safe.",
   "license": "MIT",
   "author": "alhassan-ahmed",
@@ -39,7 +39,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@open-wysiwyg-editor/vue": "^1.0.0",
+    "@open-wysiwyg-editor/vue": "^1.0.1",
     "@nuxt/kit": "^4.0.0"
   },
   "peerDependencies": {

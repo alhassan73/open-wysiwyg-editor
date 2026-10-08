@@ -1,6 +1,6 @@
 {
   "name": "@open-wysiwyg-editor/react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React and Next.js component for open-wysiwyg-editor: an accessible (WCAG 2.2 AA), RTL-first, CSP-safe rich text editor. <RichTextEditor value onChange /> and useEditor().",
   "license": "MIT",
   "author": "alhassan-ahmed",
@@ -49,7 +49,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "open-wysiwyg-editor": "^1.0.0"
+    "open-wysiwyg-editor": "^1.0.1"
   },
   "peerDependencies": {
     "react": ">=18"

@@ -2,9 +2,9 @@
 
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 1.0.1
 
-Theming. Every addition is optional: with no options, the editor looks as before apart from the changes listed under "Changed".
+Theming, and a fix for dialogs in apps that use a CSS reset. Every addition is optional: with no options, the editor looks as before apart from the changes listed under "Changed".
 
 ### Added
 
@@ -22,6 +22,10 @@ Theming. Every addition is optional: with no options, the editor looks as before
 - Default link, focus-ring and caret colors are now derived from the brand: `--owe-accent` is `#003c9e` in light (was `#0057d9`, now 9.8:1 on white) and `#75a9ff` in dark (was `#4d94ff`). `--owe-focus` and `--owe-caret` follow `--owe-accent`.
 - `--owe-primary-hover` is derived from `--owe-primary`, so overriding only `--owe-primary` now also changes the hover color. The dark theme no longer re-declares `--owe-primary`, `--owe-primary-hover`, `--owe-on-accent`, `--owe-accent-soft`, `--owe-focus` or `--owe-caret`, so your override of one of them applies in both themes.
 - The stylesheet uses `color-mix()` (Chrome and Edge 111, Safari 16.2, Firefox 113).
+
+### Fixed
+
+- Dialogs (link, image, table, shortcuts) open centered in apps that use a CSS reset such as Tailwind's preflight. They relied on the browser's `margin: auto` centering of a modal `<dialog>`, which those resets remove, so they opened in the top-left corner.
 
 ## 1.0.0
 

@@ -55,7 +55,7 @@ export function Hero() {
               >
                 <span aria-hidden="true" className="size-1.5 rounded-full bg-brand-teal" />
                 <bdi dir="ltr" className="tabular-nums">
-                  v1.0.0 · MIT
+                  v1.0.1 · MIT
                 </bdi>
               </Badge>
 

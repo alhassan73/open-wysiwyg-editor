@@ -1,6 +1,6 @@
 {
   "name": "open-wysiwyg-editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Accessible (WCAG 2.2 AA / ATAG 2.0), RTL-first, CSP-safe rich text editor for any website: plain JavaScript, HTML forms, the <owe-editor> web component, and React, Next.js, Vue, Nuxt, Angular, Svelte, Solid and Astro. MIT, no license key, no telemetry.",
   "license": "MIT",
   "author": "alhassan-ahmed",

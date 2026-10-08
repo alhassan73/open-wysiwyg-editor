@@ -1,6 +1,6 @@
 {
   "name": "@open-wysiwyg-editor/next",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Next.js (App Router and Pages Router) rich text editor: <RichTextEditor> with Server Actions form support. Accessible (WCAG 2.2 AA), RTL-first, CSP-safe.",
   "license": "MIT",
   "author": "alhassan-ahmed",
@@ -51,7 +51,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@open-wysiwyg-editor/react": "^1.0.0"
+    "@open-wysiwyg-editor/react": "^1.0.1"
   },
   "peerDependencies": {
     "next": ">=13.4",

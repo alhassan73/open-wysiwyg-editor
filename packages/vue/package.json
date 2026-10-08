@@ -1,6 +1,6 @@
 {
   "name": "@open-wysiwyg-editor/vue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue 3 component for open-wysiwyg-editor: <RichTextEditor v-model />. Accessible (WCAG 2.2 AA), RTL-first, CSP-safe, SSR-safe.",
   "license": "MIT",
   "author": "alhassan-ahmed",
@@ -49,7 +49,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "open-wysiwyg-editor": "^1.0.0"
+    "open-wysiwyg-editor": "^1.0.1"
   },
   "peerDependencies": {
     "vue": ">=3.3"
