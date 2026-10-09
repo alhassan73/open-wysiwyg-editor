@@ -20,29 +20,30 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 24
           cache: npm
           registry-url: https://registry.npmjs.org
       - name: npm with Trusted Publishing support (11.5.1+)
-        run: npm install -g npm@latest
+        run: npm install -g npm@11.6.2
       - run: npm ci
       - name: Tag matches every package version
+        # The tag and file names reach node through the environment, never through the script text.
         run: |
-          version="${GITHUB_REF_NAME#v}"
-          test "$(node -p "require('./packages/core/package.json').version")" = "$version" \
-            || { echo "::error::packages/core version does not match tag $GITHUB_REF_NAME"; exit 1; }
+          export VERSION="${GITHUB_REF_NAME#v}"
           for f in packages/*/package.json; do
-            node -e "const p=require('./$f'); if(!p.private && p.version!=='$version'){console.error('::error::'+p.name+' is '+p.version+', expected $version');process.exit(1)}"
+            PKG="$f" node -e "const p=require(require('path').resolve(process.env.PKG)); if(!p.private && p.version!==process.env.VERSION){console.error('::error::'+p.name+' is '+p.version+', expected '+process.env.VERSION);process.exit(1)}"
           done
       - run: npm run check
       - name: Bundle size budget
         run: node scripts/size-check.mjs
       - name: SBOM
         run: npm sbom --sbom-format cyclonedx --workspace open-wysiwyg-editor > sbom.cdx.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: sbom
           path: sbom.cdx.json

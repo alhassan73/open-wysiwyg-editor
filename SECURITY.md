@@ -26,12 +26,21 @@ When a new major version is released, the previous major gets security fixes for
   `sanitizeHTML(html, { window })` from this package works on Node with `jsdom`/`linkedom`.
 - Every HTML input path (initial content, `setContent`, paste, drop) is parsed by DOMPurify into an
   inert document and then into a strict schema; only known nodes/attributes survive.
-- JSON input is validated against the schema; URLs are re-checked when rendering, so a malicious
-  `href` stored in JSON is never emitted.
+- JSON input is checked against the schema's node types, and attribute values are re-checked when
+  rendering: URLs, alignment, direction, list numbering, code languages, colors and HtmlSupport
+  attributes. The same checks cover nodes that ProseMirror builds from a pasted clipboard's
+  `data-pm-slice` context, which never go through the HTML parse rules. So a malicious `href` or a
+  `textAlign` carrying extra CSS, stored in JSON or smuggled in clipboard HTML, is never emitted.
 - HTML output is produced by a DOM-free serializer that validates tag/attribute names, escapes all
-  values, drops event-handler attributes and script-capable elements, and re-checks URL attributes.
+  values, drops event-handler attributes, script-capable elements and SVG/MathML, and re-checks URL
+  attributes against the editor's `urlPolicy` (`src` and `poster` as images, the rest as links).
 - Allowed URL schemes default to `http`, `https`, `mailto`, `tel` (+ relative). `javascript:`,
-  `vbscript:`, `data:` (except opt-in raster images), `file:` and `blob:` are always refused.
+  `vbscript:`, `data:` (except raster images when `urlPolicy.allowDataImages` is set), `file:` and
+  `blob:` are always refused, in the editor and in `getHTML()` output.
+- **Custom extensions** are trusted code. The serializer re-checks what their `toDOM`/`toHTML` returns,
+  but the live editing view renders `toDOM` directly. Validate stored attributes in `toDOM` (use
+  `sanitizeUrl()` for URLs, and an attribute `validate` function so ProseMirror refuses bad values in
+  pasted slice context), exactly as the built-in extensions do.
 - Works under a strict **Content-Security-Policy** (no `eval`, no inline scripts, no inline style
   attributes in the live editor) and **Trusted Types**:
 
@@ -42,10 +51,17 @@ When a new major version is released, the previous major gets security fixes for
   ```
 
   (`dompurify` is only needed if the `open-wysiwyg-editor` policy name is not allowed.)
-- No telemetry, no license checks, no network requests unless you configure upload/embed hooks.
+- No telemetry and no license checks. The editor's own code makes no network requests (an image
+  upload happens only through the `upload` function you configure). The browser does fetch URLs that
+  appear in the content, such as `https:` images in loaded or pasted HTML, so a pasted remote image
+  contacts its host, as it would on the published page. Limit this with `urlPolicy`, your CSP's
+  `img-src`, or server-side rules.
 
 ## Supply chain
 
 Releases are published from GitHub Actions using npm Trusted Publishing (OIDC) with
 [provenance](https://docs.npmjs.com/generating-provenance-statements). Verify with
 `npm audit signatures`.
+
+When loading from a CDN, pin an exact version and add Subresource Integrity (the README shows the
+current `integrity` values). A floating range such as `@1` runs whatever is published next.

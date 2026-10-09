@@ -89,14 +89,19 @@ export const OrderedList = defineExtension({
           },
         },
       ],
-      toDOM: (node) => [
-        "ol",
-        {
-          start: node.attrs.start === 1 ? null : String(node.attrs.start),
-          type: node.attrs.type,
-        },
-        0,
-      ],
+      // Re-checked here: JSON content and clipboard slice context skip getAttrs.
+      toDOM: (node) => {
+        const start = Number(node.attrs.start);
+        const type = node.attrs.type as unknown;
+        return [
+          "ol",
+          {
+            start: Number.isInteger(start) && start !== 1 ? String(start) : null,
+            type: typeof type === "string" && /^[1aAiI]$/.test(type) ? type : null,
+          },
+          0,
+        ];
+      },
     },
   }),
   commands: ({ schema }) => ({

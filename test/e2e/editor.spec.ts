@@ -92,8 +92,11 @@ test.describe("keyboard (WCAG 2.1.1 / 2.1.2, ATAG A.3.1)", () => {
     await expect(first).toBeFocused();
     await page.keyboard.press("ArrowRight");
     await expect(page.locator('[role="toolbar"] .owe-toolbar-item').nth(1)).toBeFocused();
-    await page.keyboard.press("Escape");
-    await expect(content(page)).toBeFocused();
+    // If the focused button's tooltip has appeared, the first Escape only dismisses it (WCAG 1.4.13).
+    await expect(async () => {
+      await page.keyboard.press("Escape");
+      await expect(content(page)).toBeFocused({ timeout: 500 });
+    }).toPass();
   });
 
   test("menu button: open, choose with keyboard, focus returns", async ({ page }) => {
@@ -221,6 +224,31 @@ test.describe("security in real engines", () => {
     });
     await expect(content(page)).toContainText("pasted bold");
     await page.waitForTimeout(200);
+    expect(await page.evaluate(() => (window as unknown as { __xss: number }).__xss)).toBe(0);
+    await expectNoViolations(page);
+  });
+
+  // GHSA-c8x8-7fp4-3x9w class: prosemirror-view builds wrapper nodes from the clipboard's
+  // data-pm-slice context with raw JSON attributes; the editor must re-check them when rendering.
+  test("attributes in a pasted slice context are validated", async ({ page }) => {
+    await open(page);
+    await content(page).locator("p").first().click();
+    const html = await page.evaluate(() => {
+      const context = JSON.stringify([
+        "blockquote",
+        { dir: "rtl\" onmouseover=\"window.__xss++", textAlign: "center; background: red" },
+        "orderedList",
+        { start: "2\" onclick=\"window.__xss++", type: "x" },
+      ]);
+      const editor = (window as unknown as { editor: { view: { pasteHTML(h: string): boolean }; getHTML(): string } })
+        .editor;
+      editor.view.pasteHTML(`<div><li data-pm-slice='0 0 ${context}'><p>ctx-pasted</p></li></div>`);
+      return editor.getHTML();
+    });
+    expect(html).toContain("ctx-pasted");
+    expect(html).not.toMatch(/__xss|onmouseover|onclick|background|start=|type=/);
+    const live = await content(page).evaluate((el) => el.innerHTML);
+    expect(live).not.toMatch(/__xss|onmouseover|onclick|background/);
     expect(await page.evaluate(() => (window as unknown as { __xss: number }).__xss)).toBe(0);
     await expectNoViolations(page);
   });

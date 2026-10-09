@@ -4,6 +4,13 @@ import type { TextAlign as Align, TextDirection as Dir } from "../core/types";
 import { setBlockAttrs } from "./helpers";
 
 const ALIGNMENTS: Align[] = ["start", "center", "end", "justify"];
+const DIRECTIONS: Dir[] = ["ltr", "rtl", "auto"];
+
+// Stored values are re-checked when rendering: JSON content and clipboard slice context
+// (data-pm-slice) create nodes without running parseHTML.
+const alignOf = (value: unknown): Align | null =>
+  value !== "start" && ALIGNMENTS.includes(value as Align) ? (value as Align) : null;
+const dirOf = (value: unknown): Dir | null => (DIRECTIONS.includes(value as Dir) ? (value as Dir) : null);
 
 export interface TextAlignOptions {
   types: string[];
@@ -33,9 +40,15 @@ export const TextAlign = defineExtension<TextAlignOptions>({
             }
             return ALIGNMENTS.includes(raw as Align) && raw !== "start" ? raw : null;
           },
-          renderHTML: (value): Record<string, string> | null =>
-            value ? (output === "class" ? { class: `owe-align-${value}` } : { style: `text-align: ${value}` }) : null,
-          renderDOM: (value): Record<string, string> | null => (value ? { class: `owe-align-${String(value)}` } : null),
+          renderHTML: (value): Record<string, string> | null => {
+            const align = alignOf(value);
+            if (!align) return null;
+            return output === "class" ? { class: `owe-align-${align}` } : { style: `text-align: ${align}` };
+          },
+          renderDOM: (value): Record<string, string> | null => {
+            const align = alignOf(value);
+            return align ? { class: `owe-align-${align}` } : null;
+          },
         },
       },
     },
@@ -74,13 +87,12 @@ export const TextDirection = defineExtension<TextDirectionOptions>({
     const attr = (auto: boolean) => ({
       dir: {
         default: null,
-        parseHTML: (el: HTMLElement) => {
-          const dir = el.getAttribute("dir")?.toLowerCase();
-          return dir === "ltr" || dir === "rtl" || dir === "auto" ? dir : null;
-        },
+        parseHTML: (el: HTMLElement) => dirOf(el.getAttribute("dir")?.toLowerCase()),
         // Empty blocks inherit the editor direction so the caret starts on the correct side.
-        renderHTML: (value: unknown, node: PMNode | Mark) =>
-          value ? { dir: String(value) } : auto && "content" in node && node.content.size > 0 ? { dir: "auto" } : null,
+        renderHTML: (value: unknown, node: PMNode | Mark) => {
+          const dir = dirOf(value);
+          return dir ? { dir } : auto && "content" in node && node.content.size > 0 ? { dir: "auto" } : null;
+        },
       },
     });
     return [

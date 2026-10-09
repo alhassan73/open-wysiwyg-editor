@@ -1,7 +1,32 @@
 import { describe, expect, it } from "vitest";
-import { sanitizeUrl } from "../src";
+import { defineExtension, docToHTML, sanitizeUrl, StarterKit, type JSONContent } from "../src";
 import { protectStyles } from "../src/core/sanitize";
 import { make } from "./helpers";
+
+const PNG = "data:image/png;base64,iVBORw0KGgo=";
+
+/** A deliberately careless extension: its toDOM copies stored attributes as-is. */
+const RawMedia = defineExtension({
+  name: "rawMedia",
+  nodes: () => ({
+    rawMedia: {
+      group: "block",
+      atom: true,
+      attrs: { src: { default: null }, poster: { default: null }, href: { default: null } },
+      toDOM: (node) => ["video", { src: node.attrs.src, poster: node.attrs.poster, href: node.attrs.href }],
+    },
+  }),
+});
+
+const rawMediaDoc = (attrs: Record<string, string>): JSONContent => ({
+  type: "doc",
+  content: [{ type: "rawMedia", attrs }],
+});
+
+const paragraphWith = (attrs: Record<string, unknown>): JSONContent => ({
+  type: "doc",
+  content: [{ type: "paragraph", attrs, content: [{ type: "text", text: "x" }] }],
+});
 
 describe("sanitizeUrl", () => {
   it.each([
@@ -178,5 +203,123 @@ describe("inline styles under strict CSP", () => {
     expect(html).toContain(`<span style="color: #b3261e">r</span>`);
     expect(html).toContain(`<mark style="background-color: #fff2a8">m</mark>`);
     expect(html).not.toContain("data-owe-style");
+  });
+});
+
+describe("HTML output respects the configured URL policy", () => {
+  it("drops data: images from output unless allowDataImages is set, even for careless extensions", () => {
+    const strict = make({ extensions: [StarterKit, RawMedia], content: rawMediaDoc({ src: PNG, poster: PNG }) });
+    expect(strict.getHTML()).not.toContain("data:");
+    expect(docToHTML(strict.state.doc)).not.toContain("data:");
+
+    const allowed = make({
+      extensions: [StarterKit, RawMedia],
+      urlPolicy: { allowDataImages: true },
+      content: rawMediaDoc({ src: PNG, poster: PNG }),
+    });
+    expect(allowed.getHTML()).toBe(`<video src="${PNG}" poster="${PNG}"></video>`);
+  });
+
+  it("checks poster like an image source and never allows data: in links", () => {
+    const editor = make({
+      extensions: [StarterKit, RawMedia],
+      urlPolicy: { allowDataImages: true },
+      content: rawMediaDoc({ src: "https://example.com/v.mp4", poster: "mailto:a@b.co", href: PNG }),
+    });
+    expect(editor.getHTML()).toBe(`<video src="https://example.com/v.mp4"></video>`);
+  });
+
+  it("keeps the built-in image's data: source only when allowed", () => {
+    const doc: JSONContent = { type: "doc", content: [{ type: "image", attrs: { src: PNG, alt: "a" } }] };
+    expect(make({ content: doc }).getHTML()).not.toContain("data:");
+    expect(make({ content: doc, urlPolicy: { allowDataImages: true } }).getHTML()).toContain(`src="${PNG}"`);
+  });
+
+  it("never emits SVG or MathML from an extension's toDOM (animation attributes are script sinks)", () => {
+    const Svg = defineExtension({
+      name: "svgBlock",
+      nodes: () => ({
+        svgBlock: {
+          group: "block",
+          atom: true,
+          toDOM: () => [
+            "div",
+            ["svg", ["a", ["animate", { attributeName: "href", values: "javascript:alert(1)" }], ["text", "x"]]],
+            ["math", { href: "https://example.com" }, "y"],
+          ],
+        },
+      }),
+    });
+    const editor = make({ extensions: [StarterKit, Svg], content: { type: "doc", content: [{ type: "svgBlock" }] } });
+    expect(editor.getHTML()).toBe("<div></div>");
+  });
+});
+
+describe("attribute values are validated at render time (JSON and paste context bypass parsing)", () => {
+  const INJECTED = "center; position: fixed; inset: 0; background-image: url(https://evil.example/t.png)";
+
+  it("refuses CSS smuggled through textAlign", () => {
+    const editor = make({ content: paragraphWith({ textAlign: INJECTED }) });
+    expect(editor.getHTML()).toBe(`<p dir="auto">x</p>`);
+    expect((editor.view.dom as HTMLElement).querySelector("p")!.className).toBe("");
+
+    const classes = make({
+      extensions: [StarterKit.configure({ textAlign: { output: "class" } })],
+      content: paragraphWith({ textAlign: "center evil-class" }),
+    });
+    expect(classes.getHTML()).toBe(`<p dir="auto">x</p>`);
+  });
+
+  it("still renders valid alignments", () => {
+    expect(make({ content: paragraphWith({ textAlign: "center" }) }).getHTML()).toBe(
+      `<p style="text-align: center" dir="auto">x</p>`,
+    );
+  });
+
+  it("refuses invalid dir values", () => {
+    const editor = make({ content: paragraphWith({ dir: "rtl evil" }) });
+    expect(editor.getHTML()).toBe(`<p dir="auto">x</p>`);
+  });
+
+  it("refuses invalid ordered list attributes", () => {
+    const editor = make({
+      content: {
+        type: "doc",
+        content: [
+          {
+            type: "orderedList",
+            attrs: { start: "2 x", type: "x" },
+            content: [{ type: "listItem", content: [{ type: "paragraph", content: [{ type: "text", text: "x" }] }] }],
+          },
+        ],
+      },
+    });
+    expect(editor.getHTML()).toBe(`<ol><li><p dir="auto">x</p></li></ol>`);
+  });
+
+  it("refuses attributes smuggled in a clipboard slice context (data-pm-slice)", () => {
+    // prosemirror-view creates the context's wrapper nodes from raw JSON attributes, running only
+    // the attribute validators in the schema (GHSA-c8x8-7fp4-3x9w), never the parse rules.
+    const editor = make({
+      extensions: [StarterKit.configure({ textAlign: { types: ["paragraph", "heading", "blockquote"] } })],
+      content: "<p>start</p><p></p>",
+    });
+    editor.commands.focus("end");
+    const context = JSON.stringify([
+      "blockquote",
+      { textAlign: INJECTED, dir: "rtl evil" },
+      "orderedList",
+      { start: "2 x", type: "x" },
+    ]);
+    editor.view.pasteHTML(`<div><li data-pm-slice='0 0 ${context}'><p>pasted</p></li></div>`);
+    const html = editor.getHTML();
+    expect(html).toContain("pasted");
+    expect(html).toContain("<blockquote><ol><li>"); // the context was applied …
+    expect(html).not.toMatch(/evil|position|background|start=|type=/); // … without its unsafe values
+    const live = editor.view.dom as HTMLElement;
+    for (const el of live.querySelectorAll("blockquote, ol")) {
+      expect(el.className).not.toMatch(/evil|position|background/);
+      expect(el.getAttribute("dir") ?? "auto").toMatch(/^(ltr|rtl|auto)$/);
+    }
   });
 });

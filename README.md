@@ -40,9 +40,15 @@ yarn add open-wysiwyg-editor
 Or with no build step, from a CDN:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1/dist/style.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1/dist/open-wysiwyg-editor.global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.1/dist/style.min.css"
+  integrity="sha384-b7LA9M5in6uI0RSJJZ206o3E6yH2YJdquLqriMF+32aOQjNUNH7uitvYh2CebAip" crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.1/dist/open-wysiwyg-editor.global.js"
+  integrity="sha384-lgMQAQkEkLamVrDDDizcj9JBoeaPc6DUKFiL+F/fj7KczjRHePrgrfCGRCnXGr7D" crossorigin="anonymous"></script>
 ```
+
+The URLs name an exact version and the `integrity` hashes make the browser refuse any other bytes, so a
+new release or a compromised CDN can't change the code your page runs. To upgrade, change the version and
+take the new hashes from the release notes, or compute them: `curl -s <url> | openssl dgst -sha384 -binary | openssl base64 -A`.
 
 ### Pick your framework
 
@@ -76,8 +82,10 @@ The core is one function, `createEditor(options)`. It mounts the editor inside t
 The CDN script defines the `<owe-editor>` tag, so one tag is enough:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1/dist/style.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1/dist/open-wysiwyg-editor.global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.1/dist/style.min.css"
+  integrity="sha384-b7LA9M5in6uI0RSJJZ206o3E6yH2YJdquLqriMF+32aOQjNUNH7uitvYh2CebAip" crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.1/dist/open-wysiwyg-editor.global.js"
+  integrity="sha384-lgMQAQkEkLamVrDDDizcj9JBoeaPc6DUKFiL+F/fj7KczjRHePrgrfCGRCnXGr7D" crossorigin="anonymous"></script>
 
 <owe-editor id="editor" placeholder="Write something…">
   <template><p>Hello <strong>world</strong></p></template>
@@ -712,7 +720,7 @@ Untranslated labels fall back to English, and plurals use `Intl.PluralRules`. Th
 
 Each framework package ships the same files under its own name, for example `@open-wysiwyg-editor/vue/style.css` and `@open-wysiwyg-editor/vue/content.css`, because package managers like pnpm don't expose the core package to your app.
 
-All rules are in `@layer owe`, so any of your own CSS outside a layer overrides them.
+The editor's look comes from its own API: the `brand` and `theme` options and attributes, and the design tokens below. Your page's CSS doesn't change it. Resets such as Tailwind's preflight, element rules like `button {}` or `h2 {}`, and utility classes on a wrapper don't reach into the editor, so it looks the same in any app. Inside the editor, every rule is unlayered and two classes more specific than its selector reads, so only a more specific selector or `!important` overrides one. Use tokens to theme it instead: a token you set always wins, wherever you set it.
 
 ### One color
 
@@ -751,7 +759,7 @@ The editor can't pick your colors for you. `--owe-accent` keeps 4.5:1 on white f
 
 ### Design tokens
 
-Set any token on `.owe` in your own CSS, or pass it as `ui.tokens` without the `--owe-` prefix (`tokens: { bg: "#0b0d10", radius: "8px" }`). Tokens set from JavaScript are applied through the CSSOM, so they work under a strict CSP. Unknown names are ignored, and so are values that contain `;`, `{`, `}`, `<` or `\`, or that call `url()`, `image()`, `image-set()` or `src()`. In TypeScript the names are the `ThemeToken` type.
+Set any token in your own CSS, on `.owe`, on a wrapper or on `:root`, in or out of a cascade layer, or pass it as `ui.tokens` without the `--owe-` prefix (`tokens: { bg: "#0b0d10", radius: "8px" }`). Tokens set from JavaScript are applied through the CSSOM, so they work under a strict CSP. Unknown names are ignored, and so are values that contain `;`, `{`, `}`, `<` or `\`, or that call `url()`, `image()`, `image-set()` or `src()`. In TypeScript the names are the `ThemeToken` type.
 
 | Token | Light | Dark | Styles |
 | --- | --- | --- | --- |
@@ -800,7 +808,7 @@ In dark mode the editor uses the dark column when the system prefers dark, or wh
 
 ### Button tokens
 
-These restyle the buttons, the toolbar and the card without touching any selector. They have no default value declared, so you can set them on `.owe` or on any element around it, such as `:root` or your dashboard wrapper. The default in the table is what the editor uses when you don't set them.
+These restyle the buttons, the toolbar and the card without touching any selector. Like every token, set them on `.owe` or on any element around it, such as `:root` or your dashboard wrapper. The default in the table is what the editor uses when you don't set them.
 
 | Token | Default | Styles |
 | --- | --- | --- |
@@ -838,7 +846,7 @@ Windows High Contrast (`forced-colors`) and `prefers-contrast: more` still take 
 
 ### Match your dashboard
 
-Point the tokens at the variables your design system already defines. Put the CSS after the editor's stylesheet, or anywhere, because your unlayered CSS beats `@layer owe`. Because the tokens read your variables when they are used, the colors follow your light and dark themes without any script.
+Point the tokens at the variables your design system already defines. Put the CSS anywhere, in or out of a layer: the editor never declares a token itself, so yours always wins. Because the tokens read your variables when they are used, the colors follow your light and dark themes without any script.
 
 Tell the editor when your dashboard is dark as well: set `theme` to `dark` (`<owe-editor theme="dark">`, `ui.theme` or `setTheme()`). That switches the parts that are derived from the brand for dark backgrounds (links, selection), the highlight color and `color-scheme`, so scrollbars and native controls match. With `theme` left on `auto`, the editor follows the system setting.
 

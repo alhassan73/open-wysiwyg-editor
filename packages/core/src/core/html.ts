@@ -11,8 +11,12 @@ const ATTR_NAME = /^[a-zA-Z_:][a-zA-Z0-9_.:-]*$/;
 const FORBIDDEN_OUTPUT = new Set([
   "script", "style", "base", "meta", "link", "object", "embed", "applet", "frame", "frameset",
   "template", "noscript", "form",
+  // Foreign content: SVG animation attributes (values/to/from) can set javascript: URLs.
+  "svg", "math",
 ]);
 const URL_ATTRS = new Set(["href", "src", "cite", "poster", "action", "background"]);
+/** Checked as image sources: http(s), plus raster data: images when the policy allows them. */
+const IMAGE_ATTRS = new Set(["src", "poster"]);
 const DROP_ATTRS = new Set(["srcdoc", "srcset", "formaction", "xlink:href", "ping"]);
 
 const NBSP = new RegExp(String.fromCharCode(160), "g");
@@ -32,7 +36,7 @@ function renderAttrs(raw: Record<string, unknown>, policy: UrlPolicy): string {
     const lower = name.toLowerCase();
     if (!ATTR_NAME.test(name) || lower.startsWith("on") || DROP_ATTRS.has(lower)) continue;
     if (URL_ATTRS.has(lower)) {
-      const safe = sanitizeUrl(String(value), { ...policy, allowDataImages: true }, lower === "src" ? "image" : "link");
+      const safe = sanitizeUrl(String(value), policy, IMAGE_ATTRS.has(lower) ? "image" : "link");
       if (safe !== null) attrs += ` ${name}="${escapeAttr(safe)}"`;
       continue;
     }
