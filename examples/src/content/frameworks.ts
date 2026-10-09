@@ -6,12 +6,12 @@ import type { Framework } from "@/types";
 // CDN snippets pin an exact published version with Subresource Integrity, so a later release (or a
 // compromised CDN) can't change what runs on a page. The hashes are sha384 of the files in the npm
 // tarball for CDN_VERSION, which jsDelivr serves unchanged. Update all three on each release.
-const CDN_VERSION = "1.0.1";
+const CDN_VERSION = "1.0.2";
 const CDN_BASE = `https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@${CDN_VERSION}/dist`;
 export const CDN_CSS_TAG = `<link rel="stylesheet" href="${CDN_BASE}/style.min.css"
-  integrity="sha384-b7LA9M5in6uI0RSJJZ206o3E6yH2YJdquLqriMF+32aOQjNUNH7uitvYh2CebAip" crossorigin="anonymous" />`;
+  integrity="sha384-M7pJYu9d/6az43r7DEu11V2wYVSim/wfYwQjrNdn2lOz7ZEiPSh4lW4jwhjKC4RP" crossorigin="anonymous" />`;
 export const CDN_JS_TAG = `<script src="${CDN_BASE}/open-wysiwyg-editor.global.js"
-  integrity="sha384-lgMQAQkEkLamVrDDDizcj9JBoeaPc6DUKFiL+F/fj7KczjRHePrgrfCGRCnXGr7D" crossorigin="anonymous"></script>`;
+  integrity="sha384-nj2QvSEBeAy8VfG/L3M7Hq+IbVQVrj5RyDnuO0Hy3p7EJrIaMo2Dku4YJoqUiK89" crossorigin="anonymous"></script>`;
 export const CDN_TAGS = `${CDN_CSS_TAG}
 ${CDN_JS_TAG}`;
 

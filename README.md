@@ -40,10 +40,10 @@ yarn add open-wysiwyg-editor
 Or with no build step, from a CDN:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.1/dist/style.min.css"
-  integrity="sha384-b7LA9M5in6uI0RSJJZ206o3E6yH2YJdquLqriMF+32aOQjNUNH7uitvYh2CebAip" crossorigin="anonymous" />
-<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.1/dist/open-wysiwyg-editor.global.js"
-  integrity="sha384-lgMQAQkEkLamVrDDDizcj9JBoeaPc6DUKFiL+F/fj7KczjRHePrgrfCGRCnXGr7D" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.2/dist/style.min.css"
+  integrity="sha384-M7pJYu9d/6az43r7DEu11V2wYVSim/wfYwQjrNdn2lOz7ZEiPSh4lW4jwhjKC4RP" crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.2/dist/open-wysiwyg-editor.global.js"
+  integrity="sha384-nj2QvSEBeAy8VfG/L3M7Hq+IbVQVrj5RyDnuO0Hy3p7EJrIaMo2Dku4YJoqUiK89" crossorigin="anonymous"></script>
 ```
 
 The URLs name an exact version and the `integrity` hashes make the browser refuse any other bytes, so a
@@ -82,10 +82,10 @@ The core is one function, `createEditor(options)`. It mounts the editor inside t
 The CDN script defines the `<owe-editor>` tag, so one tag is enough:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.1/dist/style.min.css"
-  integrity="sha384-b7LA9M5in6uI0RSJJZ206o3E6yH2YJdquLqriMF+32aOQjNUNH7uitvYh2CebAip" crossorigin="anonymous" />
-<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.1/dist/open-wysiwyg-editor.global.js"
-  integrity="sha384-lgMQAQkEkLamVrDDDizcj9JBoeaPc6DUKFiL+F/fj7KczjRHePrgrfCGRCnXGr7D" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.2/dist/style.min.css"
+  integrity="sha384-M7pJYu9d/6az43r7DEu11V2wYVSim/wfYwQjrNdn2lOz7ZEiPSh4lW4jwhjKC4RP" crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/open-wysiwyg-editor@1.0.2/dist/open-wysiwyg-editor.global.js"
+  integrity="sha384-nj2QvSEBeAy8VfG/L3M7Hq+IbVQVrj5RyDnuO0Hy3p7EJrIaMo2Dku4YJoqUiK89" crossorigin="anonymous"></script>
 
 <owe-editor id="editor" placeholder="Write something…">
   <template><p>Hello <strong>world</strong></p></template>
