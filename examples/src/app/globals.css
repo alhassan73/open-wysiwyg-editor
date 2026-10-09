@@ -1,5 +1,5 @@
 /*
- * Documentation site styles. Tailwind v4 + shadcn/ui tokens, dark by default, Almarai, blue/cyan/teal brand.
+ * Documentation site styles. Tailwind v4 + shadcn/ui tokens, dark by default, Plus Jakarta Sans + IBM Plex Sans Arabic, blue/cyan/teal brand.
  * No purple or magenta anywhere. Theme is `data-theme="dark|light"` on <html> (set before paint by the
  * no-flash script). RTL: use logical utilities (ms-* me-* ps-* pe-* start-* end-*), never left/right.
  *
@@ -17,9 +17,8 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 /* ------------------------------------------------------------------------------------------------
- * Type scale (root 16px, rem). Almarai (Arabic) ships only 300/400/700/800, so the site uses exactly three weights:
- * 400 running text, 700 UI and small headings, 800 display headings. Never 500/600 (the browser would fake
- * them). Arabic glyphs read smaller than Latin at the same size, so under :lang(ar) body and small text go
+ * Type scale (root 16px, rem). The site uses exactly three weights: 400 running text, 700 UI and small headings,
+ * 800 display headings (Arabic loads only Plex's 400 and 700; its 700 face also serves 800). Never 500/600. Arabic glyphs read smaller than Latin at the same size, so under :lang(ar) body and small text go
  * up one step and line heights are taller; negative tracking is never applied to Arabic.
  * Utilities (see @theme): text-display, text-h2, text-h3, text-lead, text-body, text-small, text-caption, text-mono.
  * ---------------------------------------------------------------------------------------------- */
@@ -84,9 +83,9 @@
 :root,
 [data-theme="dark"] {
   /* One font per script (app/fonts.ts): Plus Jakarta Sans covers only Latin, so Arabic text, also inside
-     mixed text, falls through to Almarai. Each variable carries its metric-matched fallback. */
+     mixed text, falls through to IBM Plex Sans Arabic. Each variable carries its metric-matched fallback. */
   --site-font:
-    var(--font-jakarta, "Plus Jakarta Sans"), var(--font-almarai, "Almarai"), system-ui, -apple-system,
+    var(--font-jakarta, "Plus Jakarta Sans"), var(--font-plex-arabic, "IBM Plex Sans Arabic"), system-ui, -apple-system,
     "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Sans", Tahoma, sans-serif;
   --site-mono:
     ui-monospace, "Cascadia Code", "JetBrains Mono", "SF Mono", Menlo, Consolas, "Liberation Mono",
@@ -120,6 +119,9 @@
   --link: #5c9dff;
   --brand-cyan: #00b8ff;
   --brand-teal: #14c8b4;
+  --scrollbar-thumb: #2f6fd6;
+  --scrollbar-thumb-hover: #5c9dff;
+  --scrollbar-track: #0f1113;
   --brand-gradient: linear-gradient(90deg, #0066ff, #00b8ff 55%, #14c8b4);
   /* Same hues, legible as text: every stop >= 6:1 on --background. */
   --gradient-text: linear-gradient(90deg, #4d94ff, #00b8ff 55%, #14c8b4);
@@ -181,6 +183,9 @@
   --link: #0050cc;
   --brand-cyan: #0090d9;
   --brand-teal: #0e9f8f;
+  --scrollbar-thumb: #6b9ef0;
+  --scrollbar-thumb-hover: #0066ff;
+  --scrollbar-track: #eef1f5;
   --gradient-text: linear-gradient(90deg, #0050cc, #00709f 55%, #0b7f73);
 
   --header-bg: rgb(247 248 250 / 0.7);
@@ -252,7 +257,7 @@
   --radius-2xl: 16px;
   --radius-3xl: 20px;
 
-  /* Only the weights Almarai ships: medium/semibold map to bold, light to regular (safety net for shadcn). */
+  /* Only the weights the site loads: medium/semibold map to bold, light to regular (safety net for shadcn). */
   --font-weight-light: 400;
   --font-weight-medium: 700;
   --font-weight-semibold: 700;
@@ -308,6 +313,25 @@
     -webkit-text-size-adjust: 100%;
     /* Room for the sticky header when a nav link scrolls to a section. */
     scroll-padding-top: 5.5rem;
+    /* Brand-blue page scrollbar (Chrome 121+, Edge, Firefox); Safari uses the ::-webkit-scrollbar rules below. */
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+  @supports not (scrollbar-color: auto) {
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--scrollbar-track);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border: 3px solid var(--scrollbar-track);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
   }
   @media (prefers-reduced-motion: no-preference) {
     html {
