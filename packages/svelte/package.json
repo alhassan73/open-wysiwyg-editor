@@ -1,6 +1,6 @@
 {
   "name": "@open-wysiwyg-editor/svelte",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Svelte and SvelteKit action for open-wysiwyg-editor: <div use:richText>. Accessible (WCAG 2.2 AA), RTL-first, CSP-safe.",
   "license": "MIT",
   "author": "alhassan-ahmed",
@@ -50,7 +50,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "open-wysiwyg-editor": "^1.0.1"
+    "open-wysiwyg-editor": "^1.0.2"
   },
   "peerDependencies": {
     "svelte": ">=3"

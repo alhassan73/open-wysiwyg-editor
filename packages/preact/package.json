@@ -1,6 +1,6 @@
 {
   "name": "@open-wysiwyg-editor/preact",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Preact component for open-wysiwyg-editor: <RichTextEditor value onChange /> and useEditor(). Accessible (WCAG 2.2 AA), RTL-first, CSP-safe.",
   "license": "MIT",
   "author": "alhassan-ahmed",
@@ -48,7 +48,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "open-wysiwyg-editor": "^1.0.1"
+    "open-wysiwyg-editor": "^1.0.2"
   },
   "peerDependencies": {
     "preact": ">=10"

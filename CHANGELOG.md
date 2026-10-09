@@ -2,6 +2,25 @@
 
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/).
 
+## 1.0.2
+
+Security hardening of the HTML output, and the editor's styles isolated from the page's CSS. If you restyled the editor with plain CSS rather than tokens, read "Changed".
+
+### Security
+
+- `getHTML()` and `docToHTML()` now apply your `urlPolicy` to `data:` URLs. Before, the HTML serializer always allowed raster `data:image/…;base64` sources in `src`, even when `urlPolicy.allowDataImages` was off. The built-in Image extension already refused them, but an attribute named `src` from a custom extension or an HtmlSupport rule did not. `poster` is now checked as an image source, like `src`.
+- Alignment, text direction and ordered-list `start`/`type` values are validated when rendering. Before, a `textAlign` value from JSON content, or from the `data-pm-slice` context of pasted clipboard HTML (when TextAlign covers container blocks), was written into `style="text-align: …"` as is. That let crafted content add CSS to `getHTML()` output, such as a full-page overlay or a remote background image. No script could run.
+- The HTML serializer drops `<svg>` and `<math>` returned by an extension's `toDOM`/`toHTML`, because SVG animation attributes can set `javascript:` URLs. The input sanitizer already removed both.
+- The README's CDN snippets pin an exact version with Subresource Integrity instead of the floating `@1`.
+- prosemirror-view [GHSA-c8x8-7fp4-3x9w](https://github.com/advisories/GHSA-c8x8-7fp4-3x9w) (paste handling, fixed in 1.42.3) never affected a release: every published version requires `prosemirror-view@^1.42.6`.
+
+### Changed
+
+- The editor is isolated from the page's CSS. Its stylesheets are no longer in `@layer owe`: every rule is unlayered and two classes more specific than its selector reads, and a scoped reset (`base.css`) clears what host CSS would otherwise set on the editor's elements. Tailwind's preflight and utilities, element rules such as `button {}` or `h2 {}`, and class rules from your app no longer change how the editor looks. Only a more specific selector or `!important` overrides an editor rule. If you restyled the editor with plain CSS, move those values to tokens, or raise their specificity.
+- Tokens always win. The editor no longer declares any public `--owe-*` token; its defaults are private (`--owe-d-*`) fallbacks. A token you set applies wherever you set it: inline (`ui.brand`, `ui.tokens`, `setTheme()`, the `brand` attribute), on `.owe`, on a wrapper or on `:root`, in any cascade layer. Before, tokens other than the brand and button tokens had to be set on `.owe` itself.
+- Lists, bold, italic, underline, strikethrough, subscript and superscript in the content are styled explicitly, so a reset that removes list markers or text styles doesn't affect them.
+- The editor adapts to its own width, not the window's: the toolbar, the editing area and the dialogs are size containers. Below 560px the toolbar is more compact (36px buttons, still above the 24px target size); below 420px a dialog stacks its side-by-side fields and stretches its buttons. The padding tokens `--owe-pad-x` and `--owe-pad-y` scale with the editor's width (`cqi`) instead of the viewport's (`vw`). Dialogs fit the visible height on mobile (`dvh`) and menus never get wider than the screen.
+
 ## 1.0.1
 
 Theming, and a fix for dialogs in apps that use a CSS reset. Every addition is optional: with no options, the editor looks as before apart from the changes listed under "Changed".

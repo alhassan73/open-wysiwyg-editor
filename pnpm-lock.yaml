@@ -38,8 +38,11 @@ importers:
       '@fontsource/almarai':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource/plus-jakarta-sans':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@open-wysiwyg-editor/next':
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../packages/next
       class-variance-authority:
         specifier: ^0.7.1
@@ -60,7 +63,7 @@ importers:
         specifier: ^4.14.9
         version: 4.14.9(@swc/helpers@0.5.23)(@types/react@19.3.0)(next@16.4.0(@playwright/test@1.63.0)(@types/node@24.19.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.105.1))(react@19.3.0)
       open-wysiwyg-editor:
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../packages/core
       radix-ui:
         specifier: ^1.7.0
@@ -103,7 +106,7 @@ importers:
   packages/angular:
     dependencies:
       open-wysiwyg-editor:
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../core
       tslib:
         specifier: ^2.8.1
@@ -140,7 +143,7 @@ importers:
         specifier: '>=4.0.0'
         version: 7.3.6(@types/node@26.6.3)(db0@0.3.4)(ioredis@5.11.1)(jiti@2.7.0)(less@4.9.1)(sass@1.105.1)(terser@5.51.2)(yaml@2.9.1)
       open-wysiwyg-editor:
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../core
 
   packages/core:
@@ -198,7 +201,7 @@ importers:
   packages/next:
     dependencies:
       '@open-wysiwyg-editor/react':
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../react
       next:
         specifier: '>=13.4'
@@ -226,7 +229,7 @@ importers:
         specifier: ^4.0.0
         version: 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.63.6)(vite@8.3.4(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1)(sass@1.105.1)(terser@5.51.2)(yaml@2.9.1)))
       '@open-wysiwyg-editor/vue':
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../vue
       nuxt:
         specifier: '>=3.0.0'
@@ -245,7 +248,7 @@ importers:
   packages/preact:
     dependencies:
       open-wysiwyg-editor:
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../core
     devDependencies:
       jsdom:
@@ -264,7 +267,7 @@ importers:
   packages/react:
     dependencies:
       open-wysiwyg-editor:
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../core
     devDependencies:
       '@types/react':
@@ -292,7 +295,7 @@ importers:
   packages/solid:
     dependencies:
       open-wysiwyg-editor:
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../core
     devDependencies:
       jsdom:
@@ -311,7 +314,7 @@ importers:
   packages/svelte:
     dependencies:
       open-wysiwyg-editor:
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../core
       svelte:
         specifier: '>=3'
@@ -330,7 +333,7 @@ importers:
   packages/vue:
     dependencies:
       open-wysiwyg-editor:
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../core
     devDependencies:
       jsdom:
@@ -1150,6 +1153,9 @@ packages:
 
   '@fontsource/almarai@5.3.0':
     resolution: {integrity: sha512-btLbQO3LSL6F6KLQeZqTFwmS3wArSDJxHdXAYJMaKLyxhp8C7ZQqTYjPFqENx+SwROzDyAyFRK5fKFWh5+uZtQ==}
+
+  '@fontsource/plus-jakarta-sans@5.3.0':
+    resolution: {integrity: sha512-9WRw3G74Ve4cyPApAZSXLPY5DiLOZXDn7Q7dIBjFBpA0Pj56ljDItEdy2UUajjJxRuTg2HkMLO5C3K2nAQORWg==}
 
   '@formatjs/fast-memoize@3.1.7':
     resolution: {integrity: sha512-zXfhLpvA6T7+efdt9JLbBwZ00tT7NsBMDVnDu8rpHeNNv8KfRZAMo2gkG0k9lK/Nzc//3kJ9pImsfuJxk3KhUA==}
@@ -7665,6 +7671,8 @@ snapshots:
   '@floating-ui/utils@0.2.12': {}
 
   '@fontsource/almarai@5.3.0': {}
+
+  '@fontsource/plus-jakarta-sans@5.3.0': {}
 
   '@formatjs/fast-memoize@3.1.7': {}
 
