@@ -1,6 +1,10 @@
 /*
- * Design tokens. Everything lives in the `owe` cascade layer, so any unlayered host CSS wins
- * without !important. Override tokens on .owe to theme the editor.
+ * Design tokens: the editor's styling API. The defaults below are written as --owe-<name>, but the
+ * build renames each declaration to a private --owe-d-<name> and every use to
+ * var(--owe-<name>, var(--owe-d-<name>)) (scripts/build-css.mjs). So the editor never declares a public
+ * --owe-* property itself, and a token you set always wins: from ui.brand / ui.tokens / setTheme(),
+ * the brand and theme attributes, or CSS on .owe, a wrapper or :root, in any cascade layer.
+ * Host CSS can't restyle the editor otherwise (see base.css).
  * Contrast: text >= 4.5:1, borders/focus/states >= 3:1 against --owe-bg (WCAG 1.4.3 / 1.4.11).
  *
  * One-color branding. Set --owe-brand (on .owe, a wrapper or :root) and the whole UI follows, in
@@ -25,7 +29,7 @@
  *   --owe-toolbar-bg (--owe-chrome)         --owe-toolbar-border (--owe-border-subtle)  toolbar, find bar, status bar
  *   --owe-editor-border (--owe-border-subtle) --owe-editor-radius (--owe-radius)  the card
  *
- * Other tokens (these are declared below, so set them on .owe):
+ * Other tokens (set them anywhere, like the ones above):
  *   --owe-radius        card radius (24px)        --owe-radius-sm   inner controls (10px)
  *   --owe-radius-md     menus (12px)              --owe-radius-lg   dialogs (16px)
  *   --owe-btn-size      toolbar button (40px)     --owe-pad-x/-y    editing-area padding
@@ -35,95 +39,75 @@
  *   --owe-icon          toolbar icon color        --owe-backdrop    dialog backdrop
  * Set --owe-font (e.g. "Almarai", system-ui) to change the typeface; no web fonts are bundled.
  * The JS options `ui.brand` and `ui.tokens` and the <owe-editor brand> attribute set these
- * properties on the editor root, so they win over this file without any CSS.
+ * properties inline on the editor root.
  */
-@layer owe {
-  .owe,
-  .owe-content-root {
-    --owe-font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Sans", Tahoma, sans-serif;
-    --owe-font-mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
-    --owe-font-size: 1rem;
-    --owe-line-height: 1.65;
-    --owe-radius: 24px;
-    --owe-radius-sm: 10px;
-    --owe-radius-md: 12px;
-    --owe-radius-lg: 16px;
-    --owe-space: 8px;
-    --owe-target: 32px; /* >= 24px (WCAG 2.5.8); 32px is comfortable */
-    --owe-btn-size: 40px;
-    --owe-pad-x: clamp(16px, 4vw, 32px);
-    --owe-pad-y: 28px;
+.owe,
+.owe-content-root {
+  --owe-font:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Sans", Tahoma,
+    sans-serif;
+  --owe-font-mono:
+    ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --owe-font-size: 1rem;
+  --owe-line-height: 1.65;
+  --owe-radius: 24px;
+  --owe-radius-sm: 10px;
+  --owe-radius-md: 12px;
+  --owe-radius-lg: 16px;
+  --owe-space: 8px;
+  --owe-target: 32px; /* >= 24px (WCAG 2.5.8); 32px is comfortable */
+  --owe-btn-size: 40px;
+  /* cqi: a share of the editor's own width (its toolbar and editing area are size containers), so the
+     padding follows the editor, also when it sits in a narrow column of a wide page. */
+  --owe-pad-x: clamp(12px, 4cqi, 32px);
+  --owe-pad-y: clamp(16px, 5cqi, 28px);
 
-    --owe-bg: #ffffff;
-    --owe-chrome: #fafbfc;
-    --owe-surface: #f4f6f8;
-    --owe-surface-2: #f1f3f5;
-    --owe-field-bg: #ffffff;
-    --owe-text: #101112;
-    --owe-body: #1b1f24;
-    --owe-text-2: #3d434a;
-    --owe-muted: #54595f; /* 7:1 on white */
-    --owe-icon: #3a3f45;
-    --owe-border: #8a929a; /* 3.2:1 on white */
-    --owe-border-subtle: #e3e6ea;
-    --owe-popup-border: #d5d9de;
-    --owe-danger: #b3261e;
-    --owe-warning: #8a5300;
-    --owe-success: #146c2e;
-    --owe-code-bg: #f4f6f8;
-    --owe-mark: #fff2a8;
-    --owe-shadow: 0 16px 40px rgb(16 17 18 / 0.16), 0 2px 8px rgb(16 17 18 / 0.08);
-    --owe-backdrop: rgb(16 17 18 / 0.45);
-    --owe-z-popover: 1000;
+  --owe-bg: #ffffff;
+  --owe-chrome: #fafbfc;
+  --owe-surface: #f4f6f8;
+  --owe-surface-2: #f1f3f5;
+  --owe-field-bg: #ffffff;
+  --owe-text: #101112;
+  --owe-body: #1b1f24;
+  --owe-text-2: #3d434a;
+  --owe-muted: #54595f; /* 7:1 on white */
+  --owe-icon: #3a3f45;
+  --owe-border: #8a929a; /* 3.2:1 on white */
+  --owe-border-subtle: #e3e6ea;
+  --owe-popup-border: #d5d9de;
+  --owe-danger: #b3261e;
+  --owe-warning: #8a5300;
+  --owe-success: #146c2e;
+  --owe-code-bg: #f4f6f8;
+  --owe-mark: #fff2a8;
+  --owe-shadow: 0 16px 40px rgb(16 17 18 / 0.16), 0 2px 8px rgb(16 17 18 / 0.08);
+  --owe-backdrop: rgb(16 17 18 / 0.45);
+  --owe-z-popover: 1000;
 
-    /* Brand-derived. --owe-brand / -brand-2 / -on-brand have no declaration here, so they can be set
-       on any ancestor; the fallbacks are the defaults. */
-    --owe-gradient: linear-gradient(90deg, var(--owe-brand, #0066ff), var(--owe-brand-2, #00b8ff));
-    --owe-on-accent: var(--owe-on-brand, #ffffff);
-    --owe-primary: var(--owe-brand, #0066ff); /* white on #0066ff: 4.8:1 */
-    --owe-primary-hover: color-mix(in oklab, var(--owe-primary) 85%, black);
-    --owe-accent: color-mix(in oklab, var(--owe-brand, #0066ff) 70%, black); /* 9.8:1 on white for #0066ff */
-    --owe-accent-soft: color-mix(in oklab, var(--owe-brand, #0066ff) 18%, var(--owe-bg));
-    --owe-focus: var(--owe-accent);
-    --owe-caret: var(--owe-accent);
-    --owe-selection: color-mix(in oklab, var(--owe-brand, #0066ff) 22%, transparent);
+  /* Brand-derived. --owe-brand / -brand-2 / -on-brand have no declaration here, so they can be set
+     on any ancestor; the fallbacks are the defaults. */
+  --owe-gradient: linear-gradient(90deg, var(--owe-brand, #0066ff), var(--owe-brand-2, #00b8ff));
+  --owe-on-accent: var(--owe-on-brand, #ffffff);
+  --owe-primary: var(--owe-brand, #0066ff); /* white on #0066ff: 4.8:1 */
+  --owe-primary-hover: color-mix(in oklab, var(--owe-primary) 85%, black);
+  --owe-accent: color-mix(
+    in oklab,
+    var(--owe-brand, #0066ff) 70%,
+    black
+  ); /* 9.8:1 on white for #0066ff */
+  --owe-accent-soft: color-mix(in oklab, var(--owe-brand, #0066ff) 18%, var(--owe-bg));
+  --owe-focus: var(--owe-accent);
+  --owe-caret: var(--owe-accent);
+  --owe-selection: color-mix(in oklab, var(--owe-brand, #0066ff) 22%, transparent);
 
-    color-scheme: light;
-  }
+  color-scheme: light;
+}
 
-  /* Dark values are listed twice (OS preference, then an explicit data-theme="dark"). Brand-derived
-     tokens that read --owe-bg or --owe-accent (accent-soft, focus, caret, hover) follow on their own. */
-  @media (prefers-color-scheme: dark) {
-    .owe:not([data-theme="light"]),
-    .owe-content-root:not([data-theme="light"]) {
-      --owe-bg: #17191b;
-      --owe-chrome: #131517;
-      --owe-surface: #1e2124;
-      --owe-surface-2: #25282b;
-      --owe-field-bg: #101214;
-      --owe-text: #ffffff;
-      --owe-body: #dcdedf;
-      --owe-text-2: #c3c7cb;
-      --owe-muted: #a1a7ad;
-      --owe-icon: #d2d4d5;
-      --owe-border: #6b7279;
-      --owe-border-subtle: #25282b;
-      --owe-popup-border: #33383d;
-      --owe-accent: color-mix(in oklab, var(--owe-brand, #0066ff) 60%, white); /* 7.5:1 on the dark card */
-      --owe-danger: #f2b8b5;
-      --owe-warning: #f6c66b;
-      --owe-success: #8bd6a0;
-      --owe-selection: color-mix(in oklab, var(--owe-brand, #0066ff) 45%, transparent);
-      --owe-code-bg: #0f1112;
-      --owe-mark: #6b4e00; /* deep amber: body text stays 5.7:1 */
-      --owe-shadow: 0 16px 40px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
-      --owe-backdrop: rgb(4 5 16 / 0.65);
-      color-scheme: dark;
-    }
-  }
-
-  .owe[data-theme="dark"],
-  .owe-content-root[data-theme="dark"] {
+/* Dark values are listed twice (OS preference, then an explicit data-theme="dark"). Brand-derived
+   tokens that read --owe-bg or --owe-accent (accent-soft, focus, caret, hover) follow on their own. */
+@media (prefers-color-scheme: dark) {
+  .owe:not([data-theme="light"]),
+  .owe-content-root:not([data-theme="light"]) {
     --owe-bg: #17191b;
     --owe-chrome: #131517;
     --owe-surface: #1e2124;
@@ -137,25 +121,56 @@
     --owe-border: #6b7279;
     --owe-border-subtle: #25282b;
     --owe-popup-border: #33383d;
-    --owe-accent: color-mix(in oklab, var(--owe-brand, #0066ff) 60%, white);
+    --owe-accent: color-mix(
+      in oklab,
+      var(--owe-brand, #0066ff) 60%,
+      white
+    ); /* 7.5:1 on the dark card */
     --owe-danger: #f2b8b5;
     --owe-warning: #f6c66b;
     --owe-success: #8bd6a0;
     --owe-selection: color-mix(in oklab, var(--owe-brand, #0066ff) 45%, transparent);
     --owe-code-bg: #0f1112;
-    --owe-mark: #6b4e00;
+    --owe-mark: #6b4e00; /* deep amber: body text stays 5.7:1 */
     --owe-shadow: 0 16px 40px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
     --owe-backdrop: rgb(4 5 16 / 0.65);
     color-scheme: dark;
   }
+}
 
-  @media (prefers-contrast: more) {
-    .owe {
-      --owe-border: currentColor;
-      --owe-border-subtle: var(--owe-border);
-      --owe-popup-border: var(--owe-border);
-      --owe-muted: var(--owe-text);
-      --owe-text-2: var(--owe-text);
-    }
+.owe[data-theme="dark"],
+.owe-content-root[data-theme="dark"] {
+  --owe-bg: #17191b;
+  --owe-chrome: #131517;
+  --owe-surface: #1e2124;
+  --owe-surface-2: #25282b;
+  --owe-field-bg: #101214;
+  --owe-text: #ffffff;
+  --owe-body: #dcdedf;
+  --owe-text-2: #c3c7cb;
+  --owe-muted: #a1a7ad;
+  --owe-icon: #d2d4d5;
+  --owe-border: #6b7279;
+  --owe-border-subtle: #25282b;
+  --owe-popup-border: #33383d;
+  --owe-accent: color-mix(in oklab, var(--owe-brand, #0066ff) 60%, white);
+  --owe-danger: #f2b8b5;
+  --owe-warning: #f6c66b;
+  --owe-success: #8bd6a0;
+  --owe-selection: color-mix(in oklab, var(--owe-brand, #0066ff) 45%, transparent);
+  --owe-code-bg: #0f1112;
+  --owe-mark: #6b4e00;
+  --owe-shadow: 0 16px 40px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
+  --owe-backdrop: rgb(4 5 16 / 0.65);
+  color-scheme: dark;
+}
+
+@media (prefers-contrast: more) {
+  .owe {
+    --owe-border: currentColor;
+    --owe-border-subtle: var(--owe-border);
+    --owe-popup-border: var(--owe-border);
+    --owe-muted: var(--owe-text);
+    --owe-text-2: var(--owe-text);
   }
 }

@@ -2,173 +2,224 @@
  * Content styles — shared by the editing area (.owe-content) and published pages
  * (wrap saved HTML in <div class="owe-content-root">), so what authors see is what readers get.
  */
-@layer owe {
-  :is(.owe-content, .owe-content-root) {
-    font-family: var(--owe-font);
-    font-size: var(--owe-font-size);
-    line-height: var(--owe-line-height);
-    color: var(--owe-body);
-    overflow-wrap: break-word;
-  }
+:is(.owe-content, .owe-content-root) {
+  font-family: var(--owe-font);
+  font-size: var(--owe-font-size);
+  line-height: var(--owe-line-height);
+  color: var(--owe-body);
+  overflow-wrap: break-word;
+}
 
-  :is(.owe-content, .owe-content-root) > :first-child {
-    margin-block-start: 0;
-  }
+:is(.owe-content, .owe-content-root) > :first-child {
+  margin-block-start: 0;
+}
 
-  :is(.owe-content, .owe-content-root) :is(p, ul, ol, blockquote, pre, table, figure, hr) {
-    margin-block: 0 0.85em;
-  }
+:is(.owe-content, .owe-content-root) :is(p, ul, ol, blockquote, pre, table, figure, hr) {
+  margin-block: 0 0.85em;
+}
 
-  :is(.owe-content, .owe-content-root) :is(h1, h2, h3, h4, h5, h6) {
-    line-height: 1.2;
-    margin-block: 1.3em 0.5em;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--owe-text);
-  }
-  /* Negative tracking breaks Arabic joining: reset for RTL / Arabic-script content. */
-  :is(.owe-content, .owe-content-root) :is(h1, h2, h3, h4, h5, h6):is([dir="rtl"], :lang(ar), :lang(fa), :lang(ur), :lang(he)),
-  :is([dir="rtl"], :lang(ar), :lang(fa), :lang(ur), :lang(he)) :is(.owe-content, .owe-content-root) :is(h1, h2, h3, h4, h5, h6),
-  :is(.owe-content, .owe-content-root):is([dir="rtl"], :lang(ar), :lang(fa), :lang(ur), :lang(he)) :is(h1, h2, h3, h4, h5, h6) {
-    letter-spacing: 0;
-  }
-  :is(.owe-content, .owe-content-root) h1 { font-size: 2.1em; }
-  :is(.owe-content, .owe-content-root) h2 { font-size: 1.5em; }
-  :is(.owe-content, .owe-content-root) h3 { font-size: 1.25em; }
-  :is(.owe-content, .owe-content-root) h4 { font-size: 1.1em; }
-  :is(.owe-content, .owe-content-root) h5 { font-size: 1em; }
-  :is(.owe-content, .owe-content-root) h6 { font-size: 0.9em; }
+:is(.owe-content, .owe-content-root) :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.2;
+  margin-block: 1.3em 0.5em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--owe-text);
+}
+/* Negative tracking breaks Arabic joining: reset for RTL / Arabic-script content. */
+:is(.owe-content, .owe-content-root)
+  :is(h1, h2, h3, h4, h5, h6):is([dir="rtl"], :lang(ar), :lang(fa), :lang(ur), :lang(he)),
+:is([dir="rtl"], :lang(ar), :lang(fa), :lang(ur), :lang(he))
+  :is(.owe-content, .owe-content-root)
+  :is(h1, h2, h3, h4, h5, h6),
+:is(.owe-content, .owe-content-root):is([dir="rtl"], :lang(ar), :lang(fa), :lang(ur), :lang(he))
+  :is(h1, h2, h3, h4, h5, h6) {
+  letter-spacing: 0;
+}
+:is(.owe-content, .owe-content-root) h1 {
+  font-size: 2.1em;
+}
+:is(.owe-content, .owe-content-root) h2 {
+  font-size: 1.5em;
+}
+:is(.owe-content, .owe-content-root) h3 {
+  font-size: 1.25em;
+}
+:is(.owe-content, .owe-content-root) h4 {
+  font-size: 1.1em;
+}
+:is(.owe-content, .owe-content-root) h5 {
+  font-size: 1em;
+}
+:is(.owe-content, .owe-content-root) h6 {
+  font-size: 0.9em;
+}
 
-  :is(.owe-content, .owe-content-root) a {
-    color: var(--owe-accent);
-    text-decoration: underline; /* never colour alone (WCAG 1.4.1) */
-    text-underline-offset: 0.15em;
-  }
+:is(.owe-content, .owe-content-root) a {
+  color: var(--owe-accent);
+  text-decoration: underline; /* never colour alone (WCAG 1.4.1) */
+  text-underline-offset: 0.15em;
+}
 
-  :is(.owe-content, .owe-content-root) :is(ul, ol) {
-    padding-inline-start: 1.6em;
-  }
-  :is(.owe-content, .owe-content-root) li > :is(p, ul, ol) {
-    margin-block: 0.15em;
-  }
+:is(.owe-content, .owe-content-root) :is(ul, ol) {
+  padding-inline-start: 1.6em;
+}
+/* Set explicitly: base.css (and resets like Tailwind's preflight) clear list markers and inline styles. */
+:is(.owe-content, .owe-content-root) ul {
+  list-style: disc;
+}
+:is(.owe-content, .owe-content-root) ol {
+  list-style: decimal;
+}
+:is(.owe-content, .owe-content-root) :is(strong, b) {
+  font-weight: 700;
+}
+:is(.owe-content, .owe-content-root) :is(em, i) {
+  font-style: italic;
+}
+:is(.owe-content, .owe-content-root) u {
+  text-decoration: underline;
+}
+:is(.owe-content, .owe-content-root) s {
+  text-decoration: line-through;
+}
+:is(.owe-content, .owe-content-root) :is(sub, sup) {
+  position: relative;
+  font-size: 0.75em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+:is(.owe-content, .owe-content-root) sup {
+  inset-block-start: -0.5em;
+}
+:is(.owe-content, .owe-content-root) sub {
+  inset-block-end: -0.25em;
+}
+:is(.owe-content, .owe-content-root) li > :is(p, ul, ol) {
+  margin-block: 0.15em;
+}
 
-  :is(.owe-content, .owe-content-root) ul[data-type="taskList"] {
-    list-style: none;
-    padding-inline-start: 0.25em;
-  }
-  :is(.owe-content, .owe-content-root) li[data-type="taskItem"] {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5em;
-  }
-  :is(.owe-content, .owe-content-root) li[data-type="taskItem"] > input,
-  .owe-task-control > input {
-    inline-size: 1.1em;
-    block-size: 1.1em;
-    margin-block-start: 0.3em;
-    accent-color: var(--owe-primary);
-    flex: none;
-  }
-  :is(.owe-content, .owe-content-root) li[data-type="taskItem"] > div {
-    flex: 1;
-    min-inline-size: 0;
-  }
-  :is(.owe-content, .owe-content-root) li[data-checked="true"] > div {
-    text-decoration: line-through;
-    color: var(--owe-muted);
-  }
+:is(.owe-content, .owe-content-root) ul[data-type="taskList"] {
+  list-style: none;
+  padding-inline-start: 0.25em;
+}
+:is(.owe-content, .owe-content-root) li[data-type="taskItem"] {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+:is(.owe-content, .owe-content-root) li[data-type="taskItem"] > input,
+.owe-task-control > input {
+  inline-size: 1.1em;
+  block-size: 1.1em;
+  margin-block-start: 0.3em;
+  accent-color: var(--owe-primary);
+  flex: none;
+}
+:is(.owe-content, .owe-content-root) li[data-type="taskItem"] > div {
+  flex: 1;
+  min-inline-size: 0;
+}
+:is(.owe-content, .owe-content-root) li[data-checked="true"] > div {
+  text-decoration: line-through;
+  color: var(--owe-muted);
+}
 
-  :is(.owe-content, .owe-content-root) blockquote {
-    margin-inline: 0;
-    padding-inline-start: 1em;
-    border-inline-start: 3px solid var(--owe-accent);
-    border-start-start-radius: 2px;
-    border-end-start-radius: 2px;
-    color: var(--owe-text-2);
-  }
+:is(.owe-content, .owe-content-root) blockquote {
+  margin-inline: 0;
+  padding-inline-start: 1em;
+  border-inline-start: 3px solid var(--owe-accent);
+  border-start-start-radius: 2px;
+  border-end-start-radius: 2px;
+  color: var(--owe-text-2);
+}
 
-  :is(.owe-content, .owe-content-root) code {
-    font-family: var(--owe-font-mono);
-    font-size: 0.9em;
-    background: var(--owe-code-bg);
-    border: 1px solid var(--owe-border-subtle);
-    border-radius: 6px;
-    padding: 0.1em 0.35em;
-  }
-  :is(.owe-content, .owe-content-root) pre {
-    font-family: var(--owe-font-mono);
-    background: var(--owe-code-bg);
-    border: 1px solid var(--owe-border-subtle);
-    border-radius: var(--owe-radius-md);
-    padding: 1em 1.25em;
-    overflow-x: auto;
-    direction: ltr; /* code is left-to-right even in RTL documents */
-    text-align: start;
-    tab-size: 2;
-  }
-  :is(.owe-content, .owe-content-root) pre code {
-    background: none;
-    border: 0;
-    padding: 0;
-    font-size: 0.9em;
-  }
+:is(.owe-content, .owe-content-root) code {
+  font-family: var(--owe-font-mono);
+  font-size: 0.9em;
+  background: var(--owe-code-bg);
+  border: 1px solid var(--owe-border-subtle);
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+}
+:is(.owe-content, .owe-content-root) pre {
+  font-family: var(--owe-font-mono);
+  background: var(--owe-code-bg);
+  border: 1px solid var(--owe-border-subtle);
+  border-radius: var(--owe-radius-md);
+  padding: 1em 1.25em;
+  overflow-x: auto;
+  direction: ltr; /* code is left-to-right even in RTL documents */
+  text-align: start;
+  tab-size: 2;
+}
+:is(.owe-content, .owe-content-root) pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 0.9em;
+}
 
-  :is(.owe-content, .owe-content-root) hr {
-    border: none;
-    border-block-start: 2px solid var(--owe-border-subtle);
-    margin-block: 1.5em;
-  }
+:is(.owe-content, .owe-content-root) hr {
+  border: none;
+  border-block-start: 2px solid var(--owe-border-subtle);
+  margin-block: 1.5em;
+}
 
-  :is(.owe-content, .owe-content-root) img {
-    max-inline-size: 100%;
-    block-size: auto;
-    display: block;
-  }
-  :is(.owe-content, .owe-content-root) figure {
-    margin-inline: 0;
-  }
-  :is(.owe-content, .owe-content-root) figcaption {
-    color: var(--owe-muted);
-    font-size: 0.9em;
-    margin-block-start: 0.4em;
-  }
+:is(.owe-content, .owe-content-root) img {
+  max-inline-size: 100%;
+  block-size: auto;
+  display: block;
+}
+:is(.owe-content, .owe-content-root) figure {
+  margin-inline: 0;
+}
+:is(.owe-content, .owe-content-root) figcaption {
+  color: var(--owe-muted);
+  font-size: 0.9em;
+  margin-block-start: 0.4em;
+}
 
-  :is(.owe-content, .owe-content-root) table {
-    border-collapse: collapse;
-    inline-size: 100%;
-    table-layout: fixed;
-  }
-  :is(.owe-content, .owe-content-root) caption {
-    caption-side: top;
-    text-align: start;
-    font-weight: 600;
-    padding-block-end: 0.4em;
-  }
-  :is(.owe-content, .owe-content-root) :is(td, th) {
-    border: 1px solid var(--owe-border-subtle);
-    padding: 0.55em 0.8em;
-    vertical-align: top;
-    text-align: start;
-    min-inline-size: 3em;
-  }
-  :is(.owe-content, .owe-content-root) th {
-    background: var(--owe-surface);
-    color: var(--owe-text);
-    font-weight: 700;
-  }
-  :is(.owe-content, .owe-content-root) :is(td, th) > :last-child {
-    margin-block-end: 0;
-  }
+:is(.owe-content, .owe-content-root) table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  table-layout: fixed;
+}
+:is(.owe-content, .owe-content-root) caption {
+  caption-side: top;
+  text-align: start;
+  font-weight: 600;
+  padding-block-end: 0.4em;
+}
+:is(.owe-content, .owe-content-root) :is(td, th) {
+  border: 1px solid var(--owe-border-subtle);
+  padding: 0.55em 0.8em;
+  vertical-align: top;
+  text-align: start;
+  min-inline-size: 3em;
+}
+:is(.owe-content, .owe-content-root) th {
+  background: var(--owe-surface);
+  color: var(--owe-text);
+  font-weight: 700;
+}
+:is(.owe-content, .owe-content-root) :is(td, th) > :last-child {
+  margin-block-end: 0;
+}
 
-  :is(.owe-content, .owe-content-root) mark {
-    background-color: var(--owe-mark);
-    color: inherit;
-    border-radius: 0.2em;
-    padding-inline: 0.15em;
-  }
+:is(.owe-content, .owe-content-root) mark {
+  background-color: var(--owe-mark);
+  color: inherit;
+  border-radius: 0.2em;
+  padding-inline: 0.15em;
+}
 
-  /* Alignment classes (used by the editor always, and by output when TextAlign output: "class"). */
-  .owe-align-center { text-align: center; }
-  .owe-align-end { text-align: end; }
-  .owe-align-justify { text-align: justify; }
+/* Alignment classes (used by the editor always, and by output when TextAlign output: "class"). */
+.owe-align-center {
+  text-align: center;
+}
+.owe-align-end {
+  text-align: end;
+}
+.owe-align-justify {
+  text-align: justify;
 }
