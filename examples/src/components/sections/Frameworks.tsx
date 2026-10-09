@@ -1,9 +1,9 @@
-import { ArrowLeft, ArrowRight, Check, ExternalLink, Layers } from "lucide-react";
+import { ArrowRight, Check, ExternalLink, Layers } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { siNpm } from "simple-icons";
 import { CodeBlock } from "@/components/code/CodeBlock";
 import { CodeTabs } from "@/components/code/CodeTabs";
-import { DocsLayout, SideNav } from "@/components/layout/DocsLayout";
+import { DocSection } from "@/components/layout/DocSection";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { FRAMEWORKS } from "@/content/frameworks";
@@ -15,10 +15,10 @@ import { Callout } from "./Callout";
 import { FrameworkLogo } from "./FrameworkLogo";
 import { Reveal } from "./Reveal";
 import { rich } from "./Rich";
-import { CONTAINER, Section, SectionHeading } from "./SectionShell";
+import { Section, SectionHeading } from "./SectionShell";
 
 const tile =
-  "group flex h-full rounded-2xl border bg-card transition-[transform,border-color,box-shadow] duration-160 ease-out hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-elevated motion-reduce:transform-none";
+  "group flex h-full rounded-2xl border bg-card transition-colors duration-150 hover:border-primary/40 hover:bg-accent/40";
 const logoBox = "grid size-12 shrink-0 place-items-center rounded-xl border bg-background";
 
 /** Home page: a logo grid that links to each framework's page. */
@@ -65,64 +65,38 @@ export function FrameworkGrid() {
 export function FrameworkCards() {
   const t = useTranslations("Frameworks");
   return (
-    <div className={cn(CONTAINER, "py-10 pb-20 md:py-14 md:pb-28")}>
-      <ul role="list" className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-        {FRAMEWORKS.map((fw, i) => (
-          <Reveal as="li" key={fw.slug} delay={(i % 3) * 40} className="flex">
-            <Link
-              href={`/frameworks/${fw.slug}/`}
-              className={cn(tile, "w-full flex-col gap-4 p-6")}
-            >
-              <span className="flex items-center gap-4">
-                <span className={logoBox}>
-                  <FrameworkLogo slug={fw.slug} decorative className="size-7" />
-                </span>
-                <h2 className="min-w-0 text-h3">{t(`items.${fw.slug}.name`)}</h2>
+    // Two columns: with the docs sidebar beside them, three would be too narrow until 2xl.
+    <ul role="list" className="grid gap-4 sm:grid-cols-2 md:gap-6 2xl:grid-cols-3">
+      {FRAMEWORKS.map((fw) => (
+        <li key={fw.slug} className="flex">
+          <Link href={`/frameworks/${fw.slug}/`} className={cn(tile, "w-full flex-col gap-4 p-6")}>
+            <span className="flex items-center gap-4">
+              <span className={logoBox}>
+                <FrameworkLogo slug={fw.slug} decorative className="size-7" />
               </span>
-              <span className="text-small text-muted-foreground">
-                {t.rich(`items.${fw.slug}.blurb`, rich)}
-              </span>
-              <code
-                dir="ltr"
-                className="mt-auto font-mono text-mono wrap-break-word text-foreground"
-              >
-                {fw.pkg}
-              </code>
-            </Link>
-          </Reveal>
-        ))}
-      </ul>
-    </div>
+              <h2 className="min-w-0 text-h3">{t(`items.${fw.slug}.name`)}</h2>
+            </span>
+            <span className="text-small text-muted-foreground">
+              {t.rich(`items.${fw.slug}.blurb`, rich)}
+            </span>
+            <code dir="ltr" className="mt-auto font-mono text-mono wrap-break-word text-foreground">
+              {fw.pkg}
+            </code>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 
-const pager =
-  "flex min-h-14 flex-col gap-0.5 rounded-2xl border bg-card px-4 py-3 transition-colors duration-160 hover:border-primary/40 hover:bg-accent";
-const pagerHint = "inline-flex items-center gap-1.5 text-caption font-bold text-muted-foreground";
-
-/** One framework's page: install, usage snippets and notes, with the other frameworks in the side nav. */
+/** One framework's page: install, usage snippets and notes. */
 export function FrameworkDetail({ fw }: { fw: Framework }) {
   const t = useTranslations("Frameworks");
-  const pages = useTranslations("Pages");
   const item = "items." + fw.slug;
   const notes = (t.raw(item + ".notes") as unknown[]).length;
-  const at = FRAMEWORKS.findIndex((f) => f.slug === fw.slug);
-  const prev = FRAMEWORKS[at - 1];
-  const next = FRAMEWORKS[at + 1];
 
   return (
-    <DocsLayout
-      side={
-        <SideNav
-          label={t("pickerLabel")}
-          items={FRAMEWORKS.map((f) => ({
-            href: `/frameworks/${f.slug}/`,
-            label: t(`items.${f.slug}.name`),
-            current: f.slug === fw.slug,
-          }))}
-        />
-      }
-    >
+    <>
       <div className="flex flex-wrap items-center gap-3 text-small">
         <span className="text-muted-foreground">{t("package")}</span>
         <a
@@ -130,7 +104,7 @@ export function FrameworkDetail({ fw }: { fw: Framework }) {
           target="_blank"
           rel="noopener noreferrer"
           dir="ltr"
-          className="inline-flex min-h-11 items-center gap-2 rounded-lg border bg-background px-3 py-1.5 font-mono text-mono text-foreground transition-colors duration-160 hover:border-primary/50 hover:bg-accent"
+          className="inline-flex min-h-11 items-center gap-2 rounded-lg border bg-background px-3 py-1.5 font-mono text-mono text-foreground transition-colors duration-150 hover:border-primary/50 hover:bg-accent"
         >
           <svg
             viewBox="0 0 24 24"
@@ -154,17 +128,12 @@ export function FrameworkDetail({ fw }: { fw: Framework }) {
         ) : null}
       </div>
 
-      <section aria-labelledby="install-title" className="space-y-4">
-        <h2 id="install-title" className="text-h3">
-          {t("installTitle")}
-        </h2>
+      {/* The package row above it stands in for a rule. */}
+      <DocSection id="install" title={t("installTitle")} className="mt-8 border-t-0 pt-0">
         <CodeBlock code={fw.install} lang="bash" title={t("terminal")} />
-      </section>
+      </DocSection>
 
-      <section aria-labelledby="usage-title" className="space-y-4">
-        <h2 id="usage-title" className="text-h3">
-          {t("usageTitle")}
-        </h2>
+      <DocSection id="usage" title={t("usageTitle")}>
         <CodeTabs
           items={fw.snippets.map((s) => ({
             label: s.label ?? t(`${item}.snippets.${s.id}`),
@@ -172,13 +141,10 @@ export function FrameworkDetail({ fw }: { fw: Framework }) {
             lang: s.lang,
           }))}
         />
-      </section>
+      </DocSection>
 
-      <section aria-labelledby="notes-title" className="space-y-4">
-        <h2 id="notes-title" className="text-h3">
-          {t("notes")}
-        </h2>
-        <ul className="measure space-y-2.5 text-muted-foreground">
+      <DocSection id="notes" title={t("notes")}>
+        <ul className="space-y-2.5">
           {Array.from({ length: notes }, (_, i) => (
             <li key={i} className="flex gap-2.5">
               <Check aria-hidden="true" className="mt-1.5 size-4 shrink-0 text-brand-teal" />
@@ -189,38 +155,7 @@ export function FrameworkDetail({ fw }: { fw: Framework }) {
         <Callout tone="security" title={t("securityTitle")}>
           {t("security")}
         </Callout>
-      </section>
-
-      <nav aria-label={pages("moreFrameworks")} className="grid gap-4 sm:grid-cols-2">
-        {prev ? (
-          <Link href={`/frameworks/${prev.slug}/`} rel="prev" className={pager}>
-            <span className={pagerHint}>
-              <ArrowLeft aria-hidden="true" className="size-3.5 rtl:-scale-x-100" />
-              {pages("prev")}
-            </span>
-            <span className="text-body font-bold text-foreground">
-              {t(`items.${prev.slug}.name`)}
-            </span>
-          </Link>
-        ) : (
-          <span aria-hidden="true" />
-        )}
-        {next ? (
-          <Link
-            href={`/frameworks/${next.slug}/`}
-            rel="next"
-            className={cn(pager, "items-end text-end")}
-          >
-            <span className={pagerHint}>
-              {pages("next")}
-              <ArrowRight aria-hidden="true" className="size-3.5 rtl:-scale-x-100" />
-            </span>
-            <span className="text-body font-bold text-foreground">
-              {t(`items.${next.slug}.name`)}
-            </span>
-          </Link>
-        ) : null}
-      </nav>
-    </DocsLayout>
+      </DocSection>
+    </>
   );
 }

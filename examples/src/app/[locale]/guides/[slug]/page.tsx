@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/layout/PageHeader";
-import { GuideIcon, GuidePage } from "@/components/sections/Guides";
+import { DocsPage } from "@/components/layout/DocsLayout";
+import { GuidePage } from "@/components/sections/Guides";
 import { GUIDES } from "@/content/guides";
 import { routing } from "@/i18n/routing";
 import { resolveLocale } from "@/lib/page";
@@ -45,20 +45,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function Page(props: Props) {
-  const { guide, nav, guides, title, summary, path } = await load(props);
+  const { guide, nav, title, summary, path } = await load(props);
   return (
-    <>
-      <PageHeader
-        crumbs={[
-          { name: nav("guides"), path: "guides/" },
-          { name: title, path },
-        ]}
-        eyebrow={guides("eyebrow")}
-        title={title}
-        lead={summary}
-        icon={<GuideIcon slug={guide.slug} />}
-      />
+    <DocsPage
+      path={path}
+      crumbs={[
+        { name: nav("guides"), path: "guides/" },
+        { name: title, path },
+      ]}
+      title={title}
+      lead={summary}
+      source="examples/src/components/sections/Guides.tsx"
+    >
       <GuidePage guide={guide} />
-    </>
+    </DocsPage>
   );
 }

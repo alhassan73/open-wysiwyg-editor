@@ -49,7 +49,7 @@ export function FrameworkPicker({
           <TabsTrigger
             key={item.value}
             value={item.value}
-            className="h-auto min-h-14 flex-none justify-start gap-3 rounded-xl px-2.5 py-2 text-start text-small transition-colors duration-160 hover:bg-accent data-[state=active]:border-primary/50 data-[state=active]:bg-primary/10 data-[state=active]:shadow-none lg:w-full"
+            className="h-auto min-h-14 flex-none justify-start gap-3 rounded-xl px-2.5 py-2 text-start text-small transition-colors duration-150 hover:bg-accent data-[state=active]:border-primary/50 data-[state=active]:bg-primary/10 data-[state=active]:shadow-none lg:w-full"
           >
             <span className="grid size-10 shrink-0 place-items-center rounded-lg border bg-background [&>svg]:size-6">
               {item.logo}
@@ -64,7 +64,7 @@ export function FrameworkPicker({
             key={item.value}
             value={item.value}
             forceMount
-            className="rounded-3xl border bg-card p-5 data-[state=active]:animate-in data-[state=active]:duration-[360ms] data-[state=active]:fade-in-0 data-[state=active]:slide-in-from-bottom-2 data-[state=inactive]:hidden sm:p-8"
+            className="rounded-3xl border bg-card p-5 data-[state=active]:animate-in data-[state=active]:duration-200 data-[state=active]:fade-in-0 data-[state=active]:slide-in-from-bottom-2 data-[state=inactive]:hidden sm:p-8"
           >
             {item.panel}
           </TabsContent>

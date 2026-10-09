@@ -203,7 +203,7 @@ export function PlaygroundClient({ text }: { text: Record<Locale, PlaygroundText
     setResets((n) => n + 1);
   };
 
-  const codeWrap = "rounded-xl";
+  const codeWrap = "rounded-[12px]";
 
   return (
     <Section labelledBy={`${id}-title`}>
@@ -279,7 +279,7 @@ export function PlaygroundClient({ text }: { text: Record<Locale, PlaygroundText
                   <span
                     aria-hidden="true"
                     style={{ backgroundColor: hex, color: onColor(hex) }}
-                    className="grid size-8 place-items-center rounded-full border border-foreground/25 transition-[transform,box-shadow] duration-160 ease-out peer-checked:ring-2 peer-checked:ring-foreground peer-checked:ring-offset-2 peer-checked:ring-offset-card peer-hover:scale-110 peer-focus-visible:outline-3 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-ring motion-reduce:peer-hover:scale-100 [&>svg]:size-4 [&>svg]:opacity-0 peer-checked:[&>svg]:opacity-100"
+                    className="grid size-8 place-items-center rounded-full border border-foreground/25 transition-[transform,box-shadow] duration-150 ease-(--ease-standard) peer-checked:ring-2 peer-checked:ring-foreground peer-checked:ring-offset-2 peer-checked:ring-offset-card peer-hover:scale-110 peer-focus-visible:outline-3 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-ring motion-reduce:peer-hover:scale-100 [&>svg]:size-4 [&>svg]:opacity-0 peer-checked:[&>svg]:opacity-100"
                   >
                     <Check />
                   </span>

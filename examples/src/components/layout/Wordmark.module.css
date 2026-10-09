@@ -1,17 +1,5 @@
-/*
- * Wordmark: "owe" on a selection highlight, the name beside it, a blinking caret.
- *
- * Each character of the name is a span (slot --i, gap = 0, letters 1..19). Collapsing a slot is a
- * font-size jump to 0, and a transition with 0s duration and a delay is a delayed step, so the letters
- * disappear one after another from the end (backspace) and come back from the start (typing). The delay
- * of the state being entered is the one that applies: --step-out when compact, --step-in otherwise.
- * The long delays are removed by the global prefers-reduced-motion rule (and again below), so with
- * reduced motion the change is instant.
- */
+/* Wordmark: "owe" on a selection highlight, the name beside it, a text caret. */
 .wm {
-  --step-in: 45ms; /* keep in sync with TYPING_MS in Wordmark.tsx */
-  --step-out: 28ms;
-  --last: 19; /* number of letters in the name */
   display: inline-flex;
   align-items: center;
   font-family: var(--site-font, inherit);
@@ -33,37 +21,13 @@
 }
 
 .name {
+  margin-inline-start: 0.5em;
   font-size: 0.72em;
   font-weight: 700;
-  letter-spacing: 0;
-  white-space: pre;
-}
-
-/* Tracking is set on the letters (in em of their own size) so a collapsed letter adds no space either. */
-.ch {
   letter-spacing: -0.01em;
 }
 
-.gap,
-.ch {
-  transition-property: font-size;
-  transition-duration: 0s;
-  transition-timing-function: linear;
-  transition-delay: calc(var(--i) * var(--step-in));
-}
-
-/* Width is in em of the gap's own font-size, so it collapses together with it. */
-.gap {
-  display: inline-block;
-  width: 0.7em;
-}
-
-.wm[data-compact] .gap,
-.wm[data-compact] .ch {
-  font-size: 0;
-  transition-delay: calc((var(--last) - var(--i)) * var(--step-out));
-}
-
+/* Opacity only (no layout change). Four blinks, then it stays on: under the 5 s of WCAG 2.2.2. */
 .caret {
   display: inline-block;
   flex: none;
@@ -72,18 +36,7 @@
   margin-inline-start: 0.12em;
   border-radius: 0.06em;
   background: linear-gradient(180deg, var(--link, #5b9dff), var(--brand-cyan, #00b8ff));
-  box-shadow: 0 0 0.35em color-mix(in srgb, var(--brand-cyan, #00b8ff) 70%, transparent);
-  animation: blink 1.1s steps(1, end) infinite;
-}
-
-.wm[data-typing] .caret,
-.still .caret {
-  animation: none;
-}
-
-.still .gap,
-.still .ch {
-  transition: none;
+  animation: blink 1.1s steps(1, end) 4;
 }
 
 @keyframes blink {
@@ -102,10 +55,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .gap,
-  .ch {
-    transition: none;
-  }
   .caret {
     animation: none;
   }

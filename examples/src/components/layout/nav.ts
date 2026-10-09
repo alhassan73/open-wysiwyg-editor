@@ -10,6 +10,7 @@ export const PAGES = [
   { key: "frameworks", href: "/frameworks/" },
   { key: "api", href: "/api/" },
   { key: "guides", href: "/guides/" },
+  { key: "changelog", href: "/changelog/" },
 ] as const;
 
 /** Whether `pathname` (without the language) is the menu page `href` or one of its sub-pages. */

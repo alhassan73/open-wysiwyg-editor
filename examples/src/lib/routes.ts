@@ -10,4 +10,5 @@ export const ROUTES: string[] = [
   "api/",
   "guides/",
   ...GUIDES.map((g) => `guides/${g.slug}/`),
+  "changelog/",
 ];

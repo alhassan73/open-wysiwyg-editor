@@ -2,11 +2,18 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DIR } from "@/i18n/config";
+import type { SearchEntry } from "@/types";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
 /** Page frame: skip link, sticky header, `<main id="main">`, footer. Provides the Radix direction. */
-export function SiteShell({ children }: { children: ReactNode }) {
+export function SiteShell({
+  children,
+  searchIndex,
+}: {
+  children: ReactNode;
+  searchIndex: SearchEntry[];
+}) {
   const t = useTranslations("Shell");
   return (
     <TooltipProvider dir={DIR[useLocale()]}>
@@ -16,7 +23,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
       >
         {t("skip")}
       </a>
-      <Header />
+      <Header searchIndex={searchIndex} />
       <main id="main" tabIndex={-1} className="outline-none">
         {children}
       </main>

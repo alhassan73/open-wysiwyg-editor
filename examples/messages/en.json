@@ -1,4 +1,20 @@
 {
+  "Docs": {
+    "sidebar": "Documentation",
+    "menu": "Menu",
+    "menuDescription": "All documentation pages",
+    "close": "Close",
+    "toc": "On this page",
+    "pager": "Previous and next page",
+    "edit": "Edit this page on GitHub",
+    "overview": "Overview",
+    "groups": {
+      "start": "Get started",
+      "frameworks": "Frameworks",
+      "guides": "Guides",
+      "reference": "Reference"
+    }
+  },
   "Header": {
     "nav": "Main",
     "home": "Open WYSIWYG Editor – home",
@@ -11,6 +27,31 @@
   },
   "Shell": {
     "skip": "Skip to content"
+  },
+  "Search": {
+    "trigger": "Search docs…",
+    "open": "Search docs",
+    "title": "Search the documentation",
+    "description": "Type to search pages, guides and the API. Use the arrow keys to choose a result and Enter to open it.",
+    "label": "Search docs",
+    "placeholder": "Search the docs…",
+    "results": "Search results",
+    "count": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "empty": "No results for “{query}”",
+    "emptyHint": "Check the spelling or try a shorter word.",
+    "close": "Close search",
+    "groups": {
+      "start": "Getting started",
+      "frameworks": "Frameworks",
+      "guides": "Guides",
+      "reference": "Reference",
+      "changelog": "Changelog"
+    },
+    "hints": {
+      "navigate": "to navigate",
+      "open": "to open",
+      "close": "to close"
+    }
   },
   "ThemeToggle": {
     "toggle": "Toggle color theme",
@@ -94,7 +135,8 @@
     "gettingStarted": "Getting started",
     "frameworks": "Frameworks",
     "api": "API",
-    "guides": "Guides"
+    "guides": "Guides",
+    "changelog": "Changelog"
   },
   "Footer": {
     "home": "Open WYSIWYG Editor – home",
@@ -132,7 +174,7 @@
       },
       {
         "title": "Load the styles",
-        "text": "Load the stylesheet once. It styles the editor, its UI and its content. All rules live in <code>@layer owe</code>, so your own unlayered CSS wins."
+        "text": "Load the stylesheet once. It styles the editor, its UI and its content. Your page's CSS, Tailwind included, doesn't change how the editor looks: theme it with its tokens."
       },
       {
         "title": "Render the editor",
@@ -587,7 +629,7 @@
     "styling": {
       "title": "Styling",
       "summary": "Cascade layers, the --owe-* design tokens and light and dark themes.",
-      "intro": "All editor rules live in <code>@layer owe</code>, so any CSS of your own outside a layer wins without <code>!important</code>. Theme the editor by setting design tokens.",
+      "intro": "The editor is isolated from your page's CSS: resets, element rules and utility classes don't reach into it, and only a more specific selector or <code>!important</code> overrides its rules. Theme the editor by setting design tokens.",
       "filesTitle": "Stylesheets",
       "files": "<code>open-wysiwyg-editor/style.css</code> has the editor, its UI and its content styles. <code>content.css</code> has only the content styles, for published pages: wrap the saved HTML in <code>'<'div class=\"owe-content-root\"'>'</code>. Each framework package ships the same files under its own name, for example <code>@open-wysiwyg-editor/vue/style.css</code>.",
       "tokensTitle": "Design tokens",
@@ -603,7 +645,7 @@
         "Backgrounds of the content area, the toolbar and panels.",
         "Text colors.",
         "Borders. Keep <code>--owe-border</code> at 3:1 against the background.",
-        "The one brand color, the second color of the gradient edge, and the text on brand fills. See Theming below.",
+        "The one brand color, the second color of the gradient edge, and the text on brand fills. See the Theming guide.",
         "Derived from the brand: links and text, the fill of pressed buttons, and the focus ring."
       ],
       "themeTitle": "Light and dark",
@@ -612,7 +654,7 @@
     "theming": {
       "title": "Theming and brand colors",
       "summary": "One brand color, button tokens, and recipes for shadcn/ui and your own dashboard.",
-      "intro": "Set one color and the whole editor follows it, in light and dark: pressed toolbar buttons, dialog buttons, links, the focus ring, the caret, the text selection and the gradient edge of the card. Try it with the brand color in the playground above.",
+      "intro": "Set one color and the whole editor follows it, in light and dark: pressed toolbar buttons, dialog buttons, links, the focus ring, the caret, the text selection and the gradient edge of the card. Try it with the brand color in the playground on the home page.",
       "oneTitle": "One color",
       "one": "<code>ui.brand</code> takes any CSS color and picks black or white for the text on brand buttons by contrast. The <code>brand</code> attribute does the same on <code>'<'owe-editor'>'</code>. In plain CSS, set <code>--owe-brand</code> (and <code>--owe-on-brand</code> if white does not read well) on <code>.owe</code>, on a wrapper or on <code>:root</code>.",
       "derivedTitle": "Derived tokens",
@@ -645,9 +687,9 @@
       ],
       "buttonsExample": "A dark toolbar over a light editing area, with smaller corners:",
       "dashboardTitle": "Match your dashboard",
-      "dashboard": "Point the tokens at the variables your design system already defines, for example shadcn/ui as below. Your CSS outside a layer beats <code>@layer owe</code>, and the tokens read your variables when they are used, so the editor follows your light and dark themes without a script. Also set <code>theme</code> to <code>dark</code> when your dashboard is dark, so links, selection and native controls match.",
+      "dashboard": "Point the tokens at the variables your design system already defines, for example shadcn/ui as below. The editor never declares a token itself, so yours wins wherever you set it, and the tokens read your variables when they are used, so the editor follows your light and dark themes without a script. Also set <code>theme</code> to <code>dark</code> when your dashboard is dark, so links, selection and native controls match.",
       "laterTitle": "Changing the theme later",
-      "later": "<code>'<'owe-editor'>'</code> follows changes to its <code>theme</code> and <code>brand</code> attributes. For <code>createEditor()</code>, call <code>setTheme()</code> on its UI. It replaces the whole theme, so pass everything you want to keep. The playground above does exactly this.",
+      "later": "<code>'<'owe-editor'>'</code> follows changes to its <code>theme</code> and <code>brand</code> attributes. For <code>createEditor()</code>, call <code>setTheme()</code> on its UI. It replaces the whole theme, so pass everything you want to keep. The playground on the home page does exactly this.",
       "contrastTitle": "Check the contrast",
       "contrast": "The editor cannot choose colors for you. <code>--owe-accent</code> keeps 4.5:1 on white for typical brands, but a very pale brand needs an explicit <code>--owe-accent</code>, and pressed buttons need 3:1 against the toolbar."
     },
@@ -764,6 +806,27 @@
     },
     "guide": {
       "description": "{summary} A guide for the Open WYSIWYG Editor."
+    }
+  },
+  "Changelog": {
+    "eyebrow": "Release notes",
+    "title": "Changelog",
+    "description": "Every release of the editor and its framework packages: what was added, what changed and what was fixed.",
+    "versions": "Versions",
+    "latest": "Latest",
+    "unreleased": "Unreleased",
+    "upcoming": "Next release",
+    "englishNote": "",
+    "source": "CHANGELOG.md on GitHub",
+    "npmVersions": "All versions on npm",
+    "kinds": {
+      "added": "Added",
+      "changed": "Changed",
+      "fixed": "Fixed",
+      "removed": "Removed",
+      "deprecated": "Deprecated",
+      "security": "Security",
+      "internal": "Internal"
     }
   }
 }

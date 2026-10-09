@@ -10,11 +10,16 @@
  *   an element or attribute anywhere, so it is inert in every HTML sink (JsonLdScript escapes "<").
  * Anything else (other script URLs, real markup, script text) is still blocked. The editor uses its own
  * named policy. The text is hashed into the CSP by scripts/export.mjs, so keep it deterministic.
+ *
+ * An allowed script URL is returned exactly as given, not rewritten as an absolute URL: Turbopack registers a
+ * loaded chunk under its `src` attribute, and a rewritten one never matches the path it waits for, so every
+ * later navigation that needs that chunk would hang. The check resolves against document.baseURI, as the
+ * browser does.
  */
 const SCRIPT =
   'if(window.trustedTypes&&trustedTypes.createPolicy)trustedTypes.createPolicy("default",{' +
-  "createScriptURL:function(u){var x=new URL(u,location.href);" +
-  'if(x.origin===location.origin&&x.pathname.indexOf("/open-wysiwyg-editor/_next/static/")===0)return x.href;' +
+  "createScriptURL:function(u){var x=new URL(u,document.baseURI);" +
+  'if(x.origin===location.origin&&x.pathname.indexOf("/open-wysiwyg-editor/_next/static/")===0)return u;' +
   'throw new TypeError("Blocked script URL: "+u)},' +
   'createHTML:function(h){if(h==="<script>\\x3c/script>"||h.indexOf("<")===-1)return h;' +
   'throw new TypeError("Blocked HTML")}})';

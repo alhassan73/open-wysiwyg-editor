@@ -5,7 +5,7 @@ import { COPYRIGHT_YEAR, OG_IMAGE, REPO, SITE_URL, npmUrl, pageUrl } from "@/lib
 import type { Crumb, Locale } from "@/types";
 
 const NAME = "Open WYSIWYG Editor";
-const VERSION = "1.0.1";
+const VERSION = "1.0.2";
 const AUTHOR = { name: "Alhassan Ahmed", url: "https://github.com/alhassan73" };
 const LICENSE_URL = "https://opensource.org/licenses/MIT";
 const FAVICON = `${SITE_URL}favicon.svg`;

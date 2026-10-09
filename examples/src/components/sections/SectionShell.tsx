@@ -20,7 +20,7 @@ export function Section({ id, labelledBy, className, children }: SectionProps) {
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={cn("relative py-20 md:py-28", className)}
+      className={cn("relative py-16 md:py-24", className)}
     >
       <div className={CONTAINER}>{children}</div>
     </section>
@@ -46,8 +46,8 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   return (
-    <Reveal className={cn("mx-auto mb-10 max-w-3xl text-center md:mb-14", className)}>
-      <p className="mb-5 inline-flex items-center gap-2 rounded-full border bg-card px-3.5 py-1.5 text-caption font-bold text-muted-foreground [&>svg]:size-3.5 [&>svg]:text-link">
+    <Reveal className={cn("mx-auto mb-10 max-w-160 text-center md:mb-14", className)}>
+      <p className="mb-4 inline-flex items-center gap-2 rounded-full border bg-card px-3.5 py-1.5 text-caption font-bold text-muted-foreground [&>svg]:size-3.5 [&>svg]:text-link">
         {icon}
         {eyebrow}
       </p>
@@ -55,7 +55,7 @@ export function SectionHeading({
         {title}
       </h2>
       {description ? (
-        <p className="mx-auto mt-4 max-w-[56ch] text-lead text-muted-foreground">{description}</p>
+        <p className="mx-auto mt-4 max-w-160 text-lead text-muted-foreground">{description}</p>
       ) : null}
     </Reveal>
   );

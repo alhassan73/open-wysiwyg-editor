@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { NoFlashScript } from "@/components/layout/NoFlashScript";
 import { viewport as siteViewport } from "@/lib/seo";
+import { fontVariables } from "../fonts";
 import "../globals.css";
 
 export const viewport = siteViewport;
@@ -18,7 +19,7 @@ const REDIRECT =
 // This is a root layout of its own: the language chooser is outside the [locale] pages.
 export default function RootChooserLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" dir="ltr" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" dir="ltr" data-theme="dark" className={fontVariables} suppressHydrationWarning>
       <head>
         <NoFlashScript />
         <script dangerouslySetInnerHTML={{ __html: REDIRECT }} />

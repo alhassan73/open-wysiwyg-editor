@@ -18,11 +18,11 @@ const PACKAGES = [
 ];
 
 const link =
-  "inline-flex min-h-8 items-center gap-1 rounded-sm text-muted-foreground underline-offset-4 transition-colors duration-160 hover:text-foreground hover:underline";
+  "inline-flex min-h-8 items-center gap-1 rounded-sm text-muted-foreground underline-offset-4 transition-colors duration-150 hover:text-foreground hover:underline";
 const title = "mb-3 text-small font-bold text-foreground";
 /** Inline link inside the credits line. */
 const inline =
-  "font-bold text-foreground underline underline-offset-4 transition-colors duration-160 hover:text-link";
+  "font-bold text-foreground underline underline-offset-4 transition-colors duration-150 hover:text-link";
 
 function External({ href, children }: { href: string; children: ReactNode }) {
   return (
@@ -39,7 +39,6 @@ export function Footer() {
   const projectLinks = [
     { href: LINKS.github, label: "GitHub" },
     { href: LINKS.npm, label: "npm" },
-    { href: LINKS.changelog, label: t("changelog") },
     { href: LINKS.license, label: t("license") },
     { href: LINKS.security, label: t("security") },
     { href: LINKS.issues, label: t("issues") },
@@ -53,7 +52,7 @@ export function Footer() {
       >
         <div className="sm:col-span-2 lg:col-span-1">
           <Link href="/" aria-label={t("home")} className="-ms-1 inline-flex rounded-lg p-1">
-            <Wordmark variant="static" />
+            <Wordmark />
           </Link>
           <p className="mt-4 max-w-sm text-small text-muted-foreground">{t("about")}</p>
         </div>
@@ -130,7 +129,7 @@ export function Footer() {
                   <a
                     href={LINKS.author}
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 font-bold text-foreground underline-offset-4 transition-colors duration-160 hover:text-link hover:underline"
+                    className="inline-flex items-center gap-1.5 font-bold text-foreground underline-offset-4 transition-colors duration-150 hover:text-link hover:underline"
                   >
                     <svg
                       viewBox="0 0 24 24"

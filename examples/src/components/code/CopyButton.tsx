@@ -32,7 +32,8 @@ export function CopyButton({ text, className }: { text: string; className?: stri
         type="button"
         onClick={onCopy}
         className={cn(
-          "inline-flex h-10 min-w-10 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-code-border bg-code-bar px-2.5 text-caption font-bold text-code-foreground transition-colors duration-160 hover:border-ring active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "inline-flex h-9 min-w-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-transparent px-2 text-caption font-bold text-code-foreground/80 transition-colors duration-(--dur-hover) ease-(--ease-standard) hover:bg-code-foreground/10 hover:text-code-foreground focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-ring",
+          copied && "text-code-foreground",
           className,
         )}
       >

@@ -15,9 +15,12 @@ import { HeroPreview } from "./HeroPreview";
 import { Marquee } from "./Marquee";
 import { CONTAINER } from "./SectionShell";
 
-/** Staggered entrance: CSS only (tw-animate-css), so the text is in the HTML and visible without JS. */
+/**
+ * Short staggered entrance (240ms, 40ms apart): CSS only (tw-animate-css), so the text is in the HTML and
+ * visible without JS; the global reduced-motion rule removes the animation, which leaves it visible.
+ */
 const enter =
-  "animate-in fade-in slide-in-from-bottom-4 duration-[360ms] ease-out-expo fill-mode-both";
+  "animate-in fade-in slide-in-from-bottom-2 duration-[240ms] ease-out-expo fill-mode-both";
 const after = (n: number) => ({ "--tw-animation-delay": `${n * 40}ms` }) as CSSProperties;
 
 const LOGOS = FRAMEWORKS.filter((fw) => fw.slug !== "others");
@@ -30,15 +33,19 @@ export function Hero() {
       <li
         key={fw.slug}
         aria-hidden={duplicate ? true : undefined}
-        className={cn(
-          "flex shrink-0 items-center gap-2.5 text-muted-foreground",
-          duplicate && "motion-reduce:hidden",
-        )}
+        className={cn("flex shrink-0", duplicate && "motion-reduce:hidden")}
       >
-        <FrameworkLogo slug={fw.slug} decorative className="size-7" />
-        <span lang="en" dir="ltr" className="text-body font-bold">
-          {fw.name}
-        </span>
+        {/* The looped copy is hidden from assistive tech, so its links must not take focus either. */}
+        <Link
+          href={`/frameworks/${fw.slug}/`}
+          tabIndex={duplicate ? -1 : undefined}
+          className="flex items-center gap-2.5 rounded-md text-muted-foreground transition-colors duration-150 ease-(--ease-standard) hover:text-foreground"
+        >
+          <FrameworkLogo slug={fw.slug} decorative className="size-7" />
+          <span lang="en" dir="ltr" className="text-body font-bold">
+            {fw.name}
+          </span>
+        </Link>
       </li>
     ));
 
@@ -55,7 +62,7 @@ export function Hero() {
               >
                 <span aria-hidden="true" className="size-1.5 rounded-full bg-brand-teal" />
                 <bdi dir="ltr" className="tabular-nums">
-                  v1.0.1 · MIT
+                  v1.0.2 · MIT
                 </bdi>
               </Badge>
 
@@ -77,10 +84,7 @@ export function Hero() {
               <div style={after(3)} className={cn(enter, "mt-9 flex flex-wrap items-center gap-3")}>
                 <Link
                   href="/getting-started/"
-                  className={cn(
-                    buttonVariants({ size: "lg" }),
-                    "shadow-[0_10px_30px_-8px_rgb(0_102_255/0.7)]",
-                  )}
+                  className={buttonVariants({ size: "lg" })}
                 >
                   {t("start")}
                   <ArrowRight aria-hidden="true" className="rtl:-scale-x-100" />
@@ -120,7 +124,7 @@ export function Hero() {
 
       {/* Below the hero's background glow, which fades out above it. */}
       <div>
-        <div style={after(6)} className={cn(CONTAINER, enter, "pb-14 md:pb-16")}>
+        <div style={after(4)} className={cn(CONTAINER, enter, "pb-14 md:pb-16")}>
           <p className="mb-6 text-center text-small font-bold text-muted-foreground">
             {t("worksWith")}
           </p>

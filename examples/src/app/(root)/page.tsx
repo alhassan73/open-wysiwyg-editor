@@ -17,7 +17,7 @@ export default function RootChooser() {
     <main className="grid min-h-dvh place-items-center px-4 py-16">
       <div className="w-full max-w-lg rounded-xl border bg-card p-8 text-center shadow-elevated sm:p-10">
         <span className="inline-flex p-1">
-          <Wordmark variant="static" />
+          <Wordmark />
         </span>
         <h1 className="mt-8 text-h2">{NAME}</h1>
         <ul role="list" className="mt-8 grid gap-4">

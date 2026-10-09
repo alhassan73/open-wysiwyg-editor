@@ -13,7 +13,6 @@ const idle = toolButton + " text-muted-foreground";
 export function HeroPreview() {
   return (
     <div aria-hidden="true" className="relative mx-auto w-full max-w-lg lg:max-w-none">
-      <div className="absolute -inset-3 -z-10 rounded-[2rem] bg-brand-gradient opacity-25 blur-2xl" />
       <div className="overflow-hidden rounded-3xl border bg-card shadow-elevated">
         <div className="flex items-center gap-1 border-b bg-background/50 p-2">
           <span className={toolButton + " bg-primary text-primary-foreground"}>

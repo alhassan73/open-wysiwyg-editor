@@ -1,7 +1,6 @@
-import { Download } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { DocsPage } from "@/components/layout/DocsLayout";
 import { Install } from "@/components/sections/Install";
 import { type LocaleParams, resolveLocale } from "@/lib/page";
 import { buildMetadata } from "@/lib/seo";
@@ -27,15 +26,14 @@ export default async function Page({ params }: LocaleParams) {
     getTranslations({ locale, namespace: "Install" }),
   ]);
   return (
-    <>
-      <PageHeader
-        crumbs={[{ name: nav("gettingStarted"), path: PATH }]}
-        eyebrow={install("eyebrow")}
-        title={install("title")}
-        lead={install("description")}
-        icon={<Download aria-hidden="true" />}
-      />
+    <DocsPage
+      path={PATH}
+      crumbs={[{ name: nav("gettingStarted"), path: PATH }]}
+      title={install("title")}
+      lead={install("description")}
+      source="examples/src/components/sections/Install.tsx"
+    >
       <Install />
-    </>
+    </DocsPage>
   );
 }

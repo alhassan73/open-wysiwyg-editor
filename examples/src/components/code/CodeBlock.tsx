@@ -22,9 +22,9 @@ const LABEL: Record<Lang, string> = {
 type Props = {
   code: string;
   lang: Lang;
-  /** Shown in a title bar above the code, next to the language label. */
+  /** Label of the title bar (a file name, say); the language name when omitted. */
   title?: string;
-  /** Drops the card border and radius, for blocks that sit inside another card (see CodeTabs). */
+  /** No bar, border or radius, for blocks that sit under another block's bar (see CodeTabs). */
   flush?: boolean;
   /** Caps the height: the code region itself scrolls (and is focusable), so keyboard users can reach all of it. */
   maxHeight?: boolean;
@@ -42,53 +42,51 @@ export function CodeBlock({
 }: Props) {
   const text = code.replace(/\n+$/, "");
   const lines = tokenize(text, lang);
+  const label = title ?? LABEL[lang];
   return (
     <figure
       dir="ltr"
       lang="en"
       className={cn(
         "m-0 min-w-0 overflow-hidden bg-code text-start text-code-foreground [font-variant-ligatures:none]",
-        !flush && "rounded-[16px] border border-code-border",
+        !flush && "rounded-[12px] border border-code-border",
         className,
       )}
     >
-      {/* Always a header bar, so the copy button never covers the code. */}
-      <figcaption className="flex items-center gap-3 border-b border-code-border bg-code-bar py-1 ps-4 pe-1 text-caption">
-        {title ? <span className="min-w-0 flex-1 truncate font-bold">{title}</span> : null}
-        <span className={cn("font-mono text-code-foreground/75", !title && "flex-1")}>
-          {LABEL[lang]}
-        </span>
-        <CopyButton text={text} />
-      </figcaption>
-      <div>
-        <div
-          role="region"
-          tabIndex={0}
-          aria-label={`${title ?? LABEL[lang]} code`}
-          className={cn(
-            "[scrollbar-color:var(--code-border)_transparent] [scrollbar-width:thin] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
-            maxHeight ? "max-h-72 overflow-auto" : "overflow-x-auto",
-          )}
-        >
-          <pre className="m-0 w-max min-w-full bg-transparent p-4 font-mono text-mono">
-            <code>
-              {lines.map((line, i) => (
-                <Fragment key={i}>
-                  {i > 0 ? "\n" : null}
-                  {line.map((t, k) =>
-                    t.type === "plain" ? (
-                      t.text
-                    ) : (
-                      <span key={k} className={`tok-${t.type}`}>
-                        {t.text}
-                      </span>
-                    ),
-                  )}
-                </Fragment>
-              ))}
-            </code>
-          </pre>
-        </div>
+      {/* One bar per block: label at the start, copy button at the end, so the button never covers code. */}
+      {flush ? null : (
+        <figcaption className="flex min-h-11 items-center gap-3 border-b border-code-border bg-code-bar py-1 ps-4 pe-1.5 text-caption">
+          <span className="min-w-0 flex-1 truncate font-mono text-code-foreground/80">{label}</span>
+          <CopyButton text={text} />
+        </figcaption>
+      )}
+      <div
+        role="region"
+        tabIndex={0}
+        aria-label={`${label} code`}
+        className={cn(
+          "[scrollbar-color:var(--code-border)_transparent] [scrollbar-width:thin] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+          maxHeight ? "max-h-72 overflow-auto" : "overflow-x-auto",
+        )}
+      >
+        <pre className="m-0 w-max min-w-full bg-transparent p-4 font-mono text-mono">
+          <code>
+            {lines.map((line, i) => (
+              <Fragment key={i}>
+                {i > 0 ? "\n" : null}
+                {line.map((t, k) =>
+                  t.type === "plain" ? (
+                    t.text
+                  ) : (
+                    <span key={k} className={`tok-${t.type}`}>
+                      {t.text}
+                    </span>
+                  ),
+                )}
+              </Fragment>
+            ))}
+          </code>
+        </pre>
       </div>
     </figure>
   );

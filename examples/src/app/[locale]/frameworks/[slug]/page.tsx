@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { DocsPage } from "@/components/layout/DocsLayout";
 import { FrameworkDetail } from "@/components/sections/Frameworks";
 import { FrameworkLogo } from "@/components/sections/FrameworkLogo";
 import { rich } from "@/components/sections/Rich";
@@ -41,18 +41,18 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function Page(props: Props) {
   const { fw, nav, fws, name, path } = await load(props);
   return (
-    <>
-      <PageHeader
-        crumbs={[
-          { name: nav("frameworks"), path: "frameworks/" },
-          { name, path },
-        ]}
-        eyebrow={fws("eyebrow")}
-        title={name}
-        lead={fws.rich("items." + fw.slug + ".blurb", rich)}
-        mark={<FrameworkLogo slug={fw.slug} decorative />}
-      />
+    <DocsPage
+      path={path}
+      crumbs={[
+        { name: nav("frameworks"), path: "frameworks/" },
+        { name, path },
+      ]}
+      title={name}
+      lead={fws.rich("items." + fw.slug + ".blurb", rich)}
+      mark={<FrameworkLogo slug={fw.slug} decorative />}
+      source="examples/src/content/frameworks.ts"
+    >
       <FrameworkDetail fw={fw} />
-    </>
+    </DocsPage>
   );
 }

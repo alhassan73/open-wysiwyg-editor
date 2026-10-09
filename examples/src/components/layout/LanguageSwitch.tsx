@@ -24,7 +24,7 @@ export function LanguageSwitch({ className }: { className?: string }) {
       hrefLang={target}
       lang={target}
       className={cn(
-        "inline-flex h-11 items-center gap-1.5 rounded-md px-3 text-small font-bold text-muted-foreground transition-colors duration-160 hover:bg-accent hover:text-accent-foreground",
+        "inline-flex h-11 items-center gap-1.5 rounded-md px-3 text-small font-bold text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-accent-foreground",
         className,
       )}
     >

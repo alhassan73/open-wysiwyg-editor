@@ -1,7 +1,6 @@
-import { Compass } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { DocsPage } from "@/components/layout/DocsLayout";
 import { GuideCards } from "@/components/sections/Guides";
 import { type LocaleParams, resolveLocale } from "@/lib/page";
 import { buildMetadata } from "@/lib/seo";
@@ -27,15 +26,15 @@ export default async function Page({ params }: LocaleParams) {
     getTranslations({ locale, namespace: "Guides" }),
   ]);
   return (
-    <>
-      <PageHeader
-        crumbs={[{ name: nav("guides"), path: PATH }]}
-        eyebrow={guides("eyebrow")}
-        title={guides("title")}
-        lead={guides("description")}
-        icon={<Compass aria-hidden="true" />}
-      />
+    <DocsPage
+      index
+      path={PATH}
+      crumbs={[{ name: nav("guides"), path: PATH }]}
+      title={guides("title")}
+      lead={guides("description")}
+      source="examples/src/content/guides.ts"
+    >
       <GuideCards />
-    </>
+    </DocsPage>
   );
 }

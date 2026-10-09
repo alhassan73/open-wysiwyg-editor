@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -9,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DocsLayout, SideNav } from "@/components/layout/DocsLayout";
+import { DocSection } from "@/components/layout/DocSection";
 import {
   CALLBACKS,
   COMMANDS,
@@ -77,46 +76,7 @@ const Code = ({ children, strong = false }: { children: ReactNode; strong?: bool
   </code>
 );
 
-function ApiCard({
-  id,
-  title,
-  description,
-  children,
-}: {
-  id: string;
-  title: string;
-  description?: ReactNode;
-  children: ReactNode;
-}) {
-  return (
-    <Card className="gap-5 rounded-3xl">
-      <CardHeader>
-        <CardTitle asChild>
-          <h2 id={id} className="text-h3">
-            {title}
-          </h2>
-        </CardTitle>
-        {description ? <CardDescription>{description}</CardDescription> : null}
-      </CardHeader>
-      <CardContent className="px-2 sm:px-4">{children}</CardContent>
-    </Card>
-  );
-}
-
-// Order of the sections on the page, and of the table of contents. Each id is a key of "Api.cards" in the messages.
-const SECTION_IDS = [
-  "options",
-  "ui",
-  "callbacks",
-  "methods",
-  "commands",
-  "attributes",
-  "properties",
-  "events",
-  "entries",
-] as const;
-
-/** Body of the API page: a table of contents beside one section per table. */
+/** Body of the API page: one section per table. Each id is a key of "Api.cards" in the messages. */
 export function Api() {
   const t = useTranslations("Api");
   const desc = (group: ApiGroup, id: string) => t.rich(`rows.${group}.${id}`, rich);
@@ -142,29 +102,15 @@ export function Api() {
     <DataTable caption={t(`captions.${caption}`)} scroll={t("scroll")} head={head} rows={rows} />
   );
   const card = (key: string, children: ReactNode) => (
-    <ApiCard
-      id={key}
-      title={t(`cards.${key}.title`)}
-      description={t.rich(`cards.${key}.description`, rich)}
-    >
+    <DocSection id={key} title={t(`cards.${key}.title`)}>
+      <p>{t.rich(`cards.${key}.description`, rich)}</p>
       {children}
-    </ApiCard>
+    </DocSection>
   );
   const col = (...keys: string[]) => keys.map((k) => t(`cols.${k}`));
 
   return (
-    <DocsLayout
-      side={
-        <SideNav
-          label={t("toc")}
-          items={SECTION_IDS.map((id) => ({
-            href: `#${id}`,
-            label: t(`cards.${id}.title`),
-            anchor: true,
-          }))}
-        />
-      }
-    >
+    <>
       {card(
         "options",
         table("options", col("option", "type", "def", "desc"), withDefault("options", OPTIONS)),
@@ -213,6 +159,6 @@ export function Api() {
         "entries",
         table("entries", col("where", "type", "desc"), noDefault("entries", ENTRY_POINTS)),
       )}
-    </DocsLayout>
+    </>
   );
 }

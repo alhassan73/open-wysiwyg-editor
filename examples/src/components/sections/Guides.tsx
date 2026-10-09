@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { CodeBlock } from "@/components/code/CodeBlock";
 import { CodeTabs } from "@/components/code/CodeTabs";
-import { DocsLayout, SideNav } from "@/components/layout/DocsLayout";
+import { DocSection } from "@/components/layout/DocSection";
 import {
   Table,
   TableBody,
@@ -23,12 +23,9 @@ import {
 import { GUIDES } from "@/content/guides";
 import { Link } from "@/i18n/navigation";
 import { REPO } from "@/lib/site";
-import { cn } from "@/lib/utils";
 import type { Guide, GuideSlug } from "@/types";
 import { Callout } from "./Callout";
-import { Reveal } from "./Reveal";
 import { rich } from "./Rich";
-import { CONTAINER } from "./SectionShell";
 
 // Language-neutral columns of the tables. The description of row `i` is `Guides.<guide>.<rows>.<i>` in the messages.
 const TOKEN_ROWS: [token: string, kind: string][] = [
@@ -180,17 +177,17 @@ function Kbd({ children }: { children: ReactNode }) {
   );
 }
 
-function Block({ title, children }: { title: string; children: ReactNode }) {
+/** An h2 section of a guide. `id` is the heading's anchor: short, English, never changes. */
+function Block({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
-    <div className="space-y-3">
-      <h2 className="text-h3">{title}</h2>
+    <DocSection id={id} title={title}>
       {children}
-    </div>
+    </DocSection>
   );
 }
 
 function Prose({ children }: { children: ReactNode }) {
-  return <p className="measure text-muted-foreground">{children}</p>;
+  return <p>{children}</p>;
 }
 
 /** Two-column table with a leading code/name cell. */
@@ -253,7 +250,7 @@ function AccessibilityGuide() {
   return (
     <>
       <Prose>{r("a11y.intro")}</Prose>
-      <Block title={t("a11y.shortcutsTitle")}>
+      <Block id="shortcuts" title={t("a11y.shortcutsTitle")}>
         <SimpleTable
           caption={t("a11y.shortcutsCaption")}
           scroll={scroll}
@@ -271,8 +268,8 @@ function AccessibilityGuide() {
           ])}
         />
       </Block>
-      <Block title={t("a11y.patternsTitle")}>
-        <ul className="measure space-y-3 text-muted-foreground">
+      <Block id="patterns" title={t("a11y.patternsTitle")}>
+        <ul className="space-y-3">
           {PATTERNS.map((i) => (
             <li key={i} className="flex gap-3">
               <span
@@ -299,7 +296,7 @@ function SecurityGuide() {
   return (
     <>
       <Prose>{r("security.intro")}</Prose>
-      <Block title={t("security.layersTitle")}>
+      <Block id="layers" title={t("security.layersTitle")}>
         <SimpleTable
           caption={t("security.layersCaption")}
           scroll={scroll}
@@ -310,11 +307,11 @@ function SecurityGuide() {
           ])}
         />
       </Block>
-      <Block title={t("security.cspTitle")}>
+      <Block id="csp" title={t("security.cspTitle")}>
         <Prose>{r("security.csp")}</Prose>
         <CodeBlock code={CSP_HEADER} lang="bash" />
       </Block>
-      <Block title={t("security.ttTitle")}>
+      <Block id="trusted-types" title={t("security.ttTitle")}>
         <Prose>{r("security.tt")}</Prose>
       </Block>
       <Callout tone="security" title={t("security.serverTitle")}>
@@ -345,10 +342,10 @@ function StylingGuide() {
   return (
     <>
       <Prose>{r("styling.intro")}</Prose>
-      <Block title={t("styling.filesTitle")}>
+      <Block id="files" title={t("styling.filesTitle")}>
         <Prose>{r("styling.files")}</Prose>
       </Block>
-      <Block title={t("styling.tokensTitle")}>
+      <Block id="tokens" title={t("styling.tokensTitle")}>
         <Prose>{r("styling.tokens")}</Prose>
         <CodeBlock code={TOKENS_SNIPPET} lang="css" />
         <SimpleTable
@@ -364,7 +361,7 @@ function StylingGuide() {
           ])}
         />
       </Block>
-      <Block title={t("styling.themeTitle")}>
+      <Block id="theme" title={t("styling.themeTitle")}>
         <Prose>{r("styling.theme")}</Prose>
       </Block>
     </>
@@ -376,11 +373,11 @@ function ThemingGuide() {
   return (
     <>
       <Prose>{r("theming.intro")}</Prose>
-      <Block title={t("theming.oneTitle")}>
+      <Block id="one-color" title={t("theming.oneTitle")}>
         <Prose>{r("theming.one")}</Prose>
         <CodeTabs items={ONE_COLOR_TABS} />
       </Block>
-      <Block title={t("theming.derivedTitle")}>
+      <Block id="derived" title={t("theming.derivedTitle")}>
         <Prose>{r("theming.derived")}</Prose>
         <SimpleTable
           caption={t("theming.derivedCaption")}
@@ -392,7 +389,7 @@ function ThemingGuide() {
           ])}
         />
       </Block>
-      <Block title={t("theming.buttonsTitle")}>
+      <Block id="buttons" title={t("theming.buttonsTitle")}>
         <Prose>{r("theming.buttons")}</Prose>
         <SimpleTable
           caption={t("theming.buttonsCaption")}
@@ -407,11 +404,11 @@ function ThemingGuide() {
         <Prose>{t("theming.buttonsExample")}</Prose>
         <CodeBlock code={BUTTONS_SNIPPET} lang="css" />
       </Block>
-      <Block title={t("theming.dashboardTitle")}>
+      <Block id="dashboard" title={t("theming.dashboardTitle")}>
         <Prose>{r("theming.dashboard")}</Prose>
         <CodeBlock code={SHADCN_SNIPPET} lang="css" />
       </Block>
-      <Block title={t("theming.laterTitle")}>
+      <Block id="later" title={t("theming.laterTitle")}>
         <Prose>{r("theming.later")}</Prose>
         <CodeBlock code={SET_THEME_SNIPPET} lang="ts" />
       </Block>
@@ -425,15 +422,15 @@ function LanguagesGuide() {
   return (
     <>
       <Prose>{r("languages.intro")}</Prose>
-      <Block title={t("languages.arabicTitle")}>
+      <Block id="arabic" title={t("languages.arabicTitle")}>
         <Prose>{r("languages.arabic")}</Prose>
         <CodeBlock code={ARABIC_SNIPPET} lang="ts" />
       </Block>
-      <Block title={t("languages.customTitle")}>
+      <Block id="custom" title={t("languages.customTitle")}>
         <Prose>{r("languages.custom")}</Prose>
         <CodeBlock code={CUSTOM_LANGUAGE_SNIPPET} lang="ts" />
       </Block>
-      <Block title={t("languages.displayTitle")}>
+      <Block id="display" title={t("languages.displayTitle")}>
         <Prose>{r("languages.display")}</Prose>
         <CodeBlock code={DISPLAY_SNIPPET} lang="html" />
       </Block>
@@ -457,64 +454,42 @@ const ICONS: Record<GuideSlug, LucideIcon> = {
   i18n: Languages,
 };
 
-/** Eyebrow icon of a guide page. */
-export const GuideIcon = ({ slug }: { slug: GuideSlug }) => {
-  const Icon = ICONS[slug];
-  return <Icon aria-hidden="true" />;
-};
-
 /** Guides page: a card for every guide. */
 export function GuideCards() {
   const t = useTranslations("Guides");
   return (
-    <div className={cn(CONTAINER, "py-10 pb-20 md:py-14 md:pb-28")}>
-      <ul role="list" className="grid gap-4 md:grid-cols-2 md:gap-6">
-        {GUIDES.map((g, i) => {
-          const Icon = ICONS[g.slug];
-          return (
-            <Reveal as="li" key={g.slug} delay={(i % 2) * 40} className="flex">
-              <Link
-                href={`/guides/${g.slug}/`}
-                className="group flex h-full w-full flex-col gap-4 rounded-3xl border bg-card p-6 transition-[transform,border-color,box-shadow] duration-160 ease-out hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-elevated motion-reduce:transform-none"
-              >
-                <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-link ring-1 ring-primary/20">
-                  <Icon aria-hidden="true" className="size-6" strokeWidth={1.75} />
-                </span>
-                <h2 className="text-h3">{t(`${g.key}.title`)}</h2>
-                <span className="text-small text-muted-foreground">{t(`${g.key}.summary`)}</span>
-                <span className="mt-auto inline-flex items-center gap-1.5 text-small font-bold text-link">
-                  {t("read")}
-                  <ArrowRight aria-hidden="true" className="size-4 rtl:-scale-x-100" />
-                </span>
-              </Link>
-            </Reveal>
-          );
-        })}
-      </ul>
-    </div>
+    <ul role="list" className="grid gap-4 sm:grid-cols-2 md:gap-6">
+      {GUIDES.map((g) => {
+        const Icon = ICONS[g.slug];
+        return (
+          <li key={g.slug} className="flex">
+            <Link
+              href={`/guides/${g.slug}/`}
+              className="group flex h-full w-full flex-col gap-4 rounded-3xl border bg-card p-6 transition-colors duration-150 hover:border-primary/40 hover:bg-accent/40"
+            >
+              <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-link ring-1 ring-primary/20">
+                <Icon aria-hidden="true" className="size-6" strokeWidth={1.75} />
+              </span>
+              <h2 className="text-h3">{t(`${g.key}.title`)}</h2>
+              <span className="text-small text-muted-foreground">{t(`${g.key}.summary`)}</span>
+              <span className="mt-auto inline-flex items-center gap-1.5 text-small font-bold text-link">
+                {t("read")}
+                <ArrowRight aria-hidden="true" className="size-4 rtl:-scale-x-100" />
+              </span>
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
-/** One guide's page: its sections, with the other guides in the side nav. */
+/** One guide's sections. Block-level siblings are 24px apart; each h2 section brings its own 48px. */
 export function GuidePage({ guide }: { guide: Guide }) {
-  const t = useTranslations("Guides");
   const Body = BODIES[guide.slug];
   return (
-    <DocsLayout
-      side={
-        <SideNav
-          label={t("eyebrow")}
-          items={GUIDES.map((g) => ({
-            href: `/guides/${g.slug}/`,
-            label: t(`${g.key}.title`),
-            current: g.slug === guide.slug,
-          }))}
-        />
-      }
-    >
-      <div className="space-y-8 text-body">
-        <Body />
-      </div>
-    </DocsLayout>
+    <div className="space-y-6">
+      <Body />
+    </div>
   );
 }

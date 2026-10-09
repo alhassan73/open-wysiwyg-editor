@@ -35,6 +35,7 @@ const ROUTES = [
   "api/",
   "guides/",
   "guides/theming/",
+  "changelog/",
 ] as const;
 /** Every route of the site; the sitemap lists all of them in both languages. */
 const ALL_ROUTES = [
@@ -241,6 +242,19 @@ test("sitemap.xml, robots.txt, manifest and the social image are served", async 
   expect((await request.get(`${BASE}en/frameworks/nope/`)).status()).toBe(404);
 });
 
+test("the 404 page shows only the language of the missing URL", async ({ page }) => {
+  await page.goto(`${BASE}ar/nope/`);
+  await expect(page.locator("html")).toHaveAttribute("lang", "ar");
+  await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("الصفحة غير موجودة");
+  await expect(page.getByText("Page not found", { exact: true })).toBeHidden();
+
+  await page.goto(`${BASE}en/nope/`);
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page not found");
+  await expect(page.getByText("الصفحة غير موجودة", { exact: true })).toBeHidden();
+});
+
 test("en: the live editor types, bolds and updates the HTML and JSON output", async ({ page }) => {
   test.slow();
   await open(page, `${BASE}en/`);
@@ -299,13 +313,12 @@ test("nav: the header links are real pages and the current one is marked", async
   await open(page, `${BASE}en/`);
   const nav = mainNav(page);
   const link = (name: string) => nav.getByRole("link", { name, exact: true });
-  await expect(link("Home")).toHaveAttribute("aria-current", "page");
-  await expect(link("Frameworks")).not.toHaveAttribute("aria-current", "page");
+  // Home is the logo, not a nav item; on the home page no nav item is current.
+  await expect(nav.locator('[aria-current="page"]')).toHaveCount(0);
 
   await link("Frameworks").click();
   await expect(page).toHaveURL(/\/open-wysiwyg-editor\/en\/frameworks\/$/);
   await expect(link("Frameworks")).toHaveAttribute("aria-current", "page");
-  await expect(link("Home")).not.toHaveAttribute("aria-current", "page");
   await expect(page.locator("h1")).toBeVisible();
 
   await link("API").click();
@@ -321,12 +334,25 @@ test("nav: the header links are real pages and the current one is marked", async
   await expect(link("Guides")).toHaveAttribute("aria-current", "page");
 });
 
+// Regression: under Trusted Types, a chunk the first page already loaded must not stall a later navigation
+// that needs it (the default policy once rewrote chunk URLs, so Turbopack never saw them as loaded).
+test("nav: a client-side navigation that reuses an already loaded chunk completes", async ({
+  page,
+}) => {
+  await open(page, `${BASE}en/api/`);
+  await page.waitForLoadState("networkidle");
+  await mainNav(page).getByRole("link", { name: "Frameworks", exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/frameworks\/$/);
+  await expect(page.locator("h1")).toHaveText("Pick your framework");
+});
+
 test("frameworks: the Vue card opens the Vue page, which marks Frameworks as current", async ({
   page,
 }) => {
   await open(page, `${BASE}en/frameworks/`);
+  // The cards, not the sidebar (which lists Vue too).
   await page
-    .getByRole("main")
+    .locator("#docs-content")
     .getByRole("link", { name: /^Vue\b/ })
     .click();
   await expect(page).toHaveURL(/\/en\/frameworks\/vue\/$/);
@@ -335,18 +361,64 @@ test("frameworks: the Vue card opens the Vue page, which marks Frameworks as cur
   await expect(
     mainNav(page).getByRole("link", { name: "Frameworks", exact: true }),
   ).toHaveAttribute("aria-current", "page");
-  // The side nav marks the current framework; next/previous link to its neighbours.
+  // The docs sidebar marks the current framework; next/previous link to its neighbours.
   await expect(
-    page.getByRole("navigation", { name: "Framework" }).getByRole("link", { name: "Vue" }),
+    page.getByRole("navigation", { name: "Documentation" }).getByRole("link", {
+      name: "Vue",
+      exact: true,
+    }),
   ).toHaveAttribute("aria-current", "page");
   await page.getByRole("link", { name: /^Next\s*Nuxt/ }).click();
   await expect(page).toHaveURL(/\/en\/frameworks\/nuxt\/$/);
 });
 
+test("docs pages: sidebar, on-this-page list that follows the scroll, and previous/next", async ({
+  page,
+}) => {
+  await open(page, `${BASE}en/guides/theming/`);
+  const sidebar = page.getByRole("navigation", { name: "Documentation" });
+  await expect(sidebar.getByRole("link", { name: "Theming" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  // Every docs page is in the one sidebar, not only the guides.
+  await expect(sidebar.getByRole("link", { name: "Getting started" })).toBeVisible();
+  await expect(sidebar.getByRole("link", { name: "Changelog" })).toBeVisible();
+
+  const toc = page.getByRole("navigation", { name: "On this page" });
+  await expect(toc.getByRole("link").first()).toBeVisible();
+  const last = toc.getByRole("link").last();
+  await last.click();
+  await expect(last).toHaveAttribute("aria-current", "location");
+
+  const pager = page.getByRole("navigation", { name: "Previous and next page" });
+  await expect(pager.getByRole("link", { name: /^Previous/ })).toBeVisible();
+  await expect(pager.getByRole("link", { name: /^Next/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Edit this page on GitHub" })).toHaveAttribute(
+    "href",
+    /github\.com\/.+\/edit\/main\//,
+  );
+});
+
+test("docs pages on a phone: the sidebar opens from a bar in a sheet", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 800 });
+  await open(page, `${BASE}en/api/`);
+  await expect(page.getByRole("navigation", { name: "Documentation" })).toBeHidden();
+  await page.getByRole("button", { name: "Menu", exact: true }).click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByRole("link", { name: "Getting started" })).toBeVisible();
+  await expect(dialog.getByRole("link", { name: "API" })).toHaveAttribute("aria-current", "page");
+  // The list of sections is a collapsible at the top of the page.
+  await page.keyboard.press("Escape");
+  await page.locator("summary", { hasText: "On this page" }).click();
+  await expect(page.getByRole("navigation", { name: "On this page" })).toBeVisible();
+});
+
 test("home: the framework grid links to a framework page", async ({ page }) => {
   await open(page, `${BASE}en/`);
+  // The grid, not the marquee above it (which links to the framework pages too).
   await page
-    .getByRole("main")
+    .locator("#frameworks")
     .getByRole("link", { name: /^Svelte$/ })
     .click();
   await expect(page).toHaveURL(/\/en\/frameworks\/svelte\/$/);

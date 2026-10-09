@@ -61,14 +61,14 @@ export function Features() {
             >
               <Card
                 className={cn(
-                  "group h-full w-full gap-4 rounded-3xl transition-[transform,border-color,box-shadow] duration-160 ease-out hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-elevated motion-reduce:transform-none",
+                  "group h-full w-full gap-4 rounded-3xl transition-colors duration-150 ease-(--ease-standard) hover:border-primary/40",
                   large && "gap-5 bg-linear-to-br from-primary/10 via-card to-card py-8",
                 )}
               >
                 <CardHeader className={large ? "px-8" : undefined}>
                   <span
                     className={cn(
-                      "mb-2 grid place-items-center rounded-2xl bg-primary/10 text-link ring-1 ring-primary/20 transition-colors duration-160 group-hover:bg-primary/15",
+                      "mb-2 grid place-items-center rounded-2xl bg-primary/10 text-link ring-1 ring-primary/20 transition-colors duration-150 group-hover:bg-primary/15",
                       large ? "size-14" : "size-12",
                     )}
                   >

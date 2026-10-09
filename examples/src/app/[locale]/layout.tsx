@@ -7,7 +7,9 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { TrustedTypesScript } from "@/components/layout/TrustedTypesScript";
 import { DIR } from "@/i18n/config";
 import { routing } from "@/i18n/routing";
+import { buildSearchIndex } from "@/lib/search-index";
 import { viewport as siteViewport } from "@/lib/seo";
+import { fontVariables } from "../fonts";
 import "../globals.css";
 
 // Only these namespaces are used by client components, so only these are sent to the browser.
@@ -18,6 +20,7 @@ const CLIENT_NAMESPACES = [
   "ThemeToggle",
   "CodeBlock",
   "Playground",
+  "Search",
 ];
 
 type Props = { children: ReactNode; params: Promise<{ locale: string }> };
@@ -38,15 +41,23 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
   const all = await getMessages();
   const messages = Object.fromEntries(CLIENT_NAMESPACES.map((ns) => [ns, all[ns]]));
+  // The search index of this language, built while prerendering: the browser never fetches it.
+  const searchIndex = buildSearchIndex(all);
   return (
-    <html lang={locale} dir={DIR[locale]} data-theme="dark" suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={DIR[locale]}
+      data-theme="dark"
+      className={fontVariables}
+      suppressHydrationWarning
+    >
       <head>
         <TrustedTypesScript />
         <NoFlashScript />
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <SiteShell>{children}</SiteShell>
+          <SiteShell searchIndex={searchIndex}>{children}</SiteShell>
         </NextIntlClientProvider>
       </body>
     </html>

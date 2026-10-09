@@ -3,25 +3,21 @@
  * No purple or magenta anywhere. Theme is `data-theme="dark|light"` on <html> (set before paint by the
  * no-flash script). RTL: use logical utilities (ms-* me-* ps-* pe-* start-* end-*), never left/right.
  *
- * Layer order is declared first so the editor's own `owe` layer sits above Tailwind's reset (base) but
- * below the site's components and utilities: a utility on a wrapper can always beat the editor's defaults.
+ * The editor's stylesheet is unlayered and isolated from the site's CSS: the site themes it only through
+ * its --owe-* tokens (see "editor" below), never by restyling its elements.
  */
-@layer theme, base, owe, components, utilities;
+@layer theme, base, components, utilities;
 
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@import "@fontsource/almarai/400.css";
-@import "@fontsource/almarai/700.css";
-@import "@fontsource/almarai/800.css";
-
-/* The editor stylesheet (all rules live in @layer owe). Keep this the last import. */
+/* The editor stylesheet (unlayered; Tailwind's preflight and utilities don't reach into the editor). */
 @import "@open-wysiwyg-editor/next/style.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 /* ------------------------------------------------------------------------------------------------
- * Type scale (root 16px, rem). Almarai ships only 300/400/700/800, so the site uses exactly three weights:
+ * Type scale (root 16px, rem). Almarai (Arabic) ships only 300/400/700/800, so the site uses exactly three weights:
  * 400 running text, 700 UI and small headings, 800 display headings. Never 500/600 (the browser would fake
  * them). Arabic glyphs read smaller than Latin at the same size, so under :lang(ar) body and small text go
  * up one step and line heights are taller; negative tracking is never applied to Arabic.
@@ -48,11 +44,13 @@
   --ls-display: -0.025em;
   --ls-h2: -0.02em;
 
-  /* Motion: enter 360ms ease-out-expo, exit 220ms ease-in, hover 160ms. */
+  /* Motion: hover/colour changes 150ms on the standard curve (colour, background, border only, never
+     layout); entrances 240ms ease-out-expo; exits 150ms. */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-enter: 360ms;
-  --dur-exit: 220ms;
-  --dur-hover: 160ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-enter: 240ms;
+  --dur-exit: 150ms;
+  --dur-hover: 150ms;
 }
 @media (max-width: 639px) {
   :root {
@@ -85,15 +83,17 @@
  * ---------------------------------------------------------------------------------------------- */
 :root,
 [data-theme="dark"] {
+  /* One font per script (app/fonts.ts): Plus Jakarta Sans covers only Latin, so Arabic text, also inside
+     mixed text, falls through to Almarai. Each variable carries its metric-matched fallback. */
   --site-font:
-    "Almarai", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Sans",
-    Tahoma, sans-serif;
+    var(--font-jakarta, "Plus Jakarta Sans"), var(--font-almarai, "Almarai"), system-ui, -apple-system,
+    "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Sans", Tahoma, sans-serif;
   --site-mono:
     ui-monospace, "Cascadia Code", "JetBrains Mono", "SF Mono", Menlo, Consolas, "Liberation Mono",
     monospace;
 
   --radius: 10px; /* controls: buttons, inputs */
-  --radius-card: 24px;
+  --radius-card: 18px; /* cards and panels (16-20px) */
 
   --background: #101112;
   --foreground: #f7f8fa; /* headings and strong text */
@@ -127,7 +127,8 @@
   --wm-grad: linear-gradient(90deg, #0057d9, #0073c2 55%, #008276);
 
   --header-bg: rgb(16 17 18 / 0.6);
-  --shadow-elevated: 0 24px 60px rgb(0 0 0 / 0.45);
+  /* Dark: surfaces are told apart by borders, shadows stay faint. */
+  --shadow-elevated: 0 12px 32px rgb(0 0 0 / 0.28);
   --glow:
     radial-gradient(55% 60% at 12% 0%, rgb(0 102 255 / 0.3), transparent 70%),
     radial-gradient(50% 55% at 92% 8%, rgb(0 184 255 / 0.2), transparent 70%),
@@ -183,7 +184,7 @@
   --gradient-text: linear-gradient(90deg, #0050cc, #00709f 55%, #0b7f73);
 
   --header-bg: rgb(247 248 250 / 0.7);
-  --shadow-elevated: 0 24px 60px rgb(30 40 80 / 0.12);
+  --shadow-elevated: 0 8px 24px rgb(30 40 80 / 0.07);
   --glow:
     radial-gradient(55% 60% at 12% 0%, rgb(0 102 255 / 0.16), transparent 70%),
     radial-gradient(50% 55% at 92% 8%, rgb(0 184 255 / 0.13), transparent 70%),
@@ -242,14 +243,14 @@
   --color-code-border: var(--code-border);
   --color-header: var(--header-bg);
 
-  /* Controls (buttons, inputs) are rounded-md = 10px, cards are rounded-xl = 24px. */
+  /* Controls (buttons, inputs) are rounded-md = 10px; cards and panels are rounded-xl / rounded-3xl =
+     18px / 20px; rounded-2xl = 16px (icon tiles, inner panels). Code blocks use 12px. */
   --radius-sm: 6px;
   --radius-md: var(--radius);
   --radius-lg: 14px;
   --radius-xl: var(--radius-card);
-  --radius-2xl: 32px;
-
-  --animate-glow-drift: glow-drift 18s ease-in-out infinite;
+  --radius-2xl: 16px;
+  --radius-3xl: 20px;
 
   /* Only the weights Almarai ships: medium/semibold map to bold, light to regular (safety net for shadcn). */
   --font-weight-light: 400;
@@ -277,7 +278,7 @@
   --text-caption: var(--fs-caption);
   --text-caption--line-height: var(--lh-ui);
   --text-mono: var(--fs-mono);
-  --text-mono--line-height: 1.7;
+  --text-mono--line-height: 1.6;
   --text-xs: var(--fs-caption);
   --text-xs--line-height: var(--lh-ui);
   --text-sm: var(--fs-small);
@@ -286,15 +287,6 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes glow-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(2.5%, 3%, 0) scale(1.06);
-  }
-}
 /* The track holds its content twice; moving by half its width loops seamlessly. */
 @keyframes marquee {
   to {
@@ -440,30 +432,44 @@
 }
 
 @layer components {
-  /* Scroll reveal: the IntersectionObserver hook adds .is-visible. Without JS, or with reduced motion,
-     content is shown immediately (the no-flash script adds the `js` class to <html>). */
+  /* Reveal: content is visible by default. Reveal.tsx adds .reveal-pending only to elements that start
+     below the fold and removes it when they scroll into view, so nothing is hidden without JS, for
+     elements on screen at load, when printing or with reduced motion. */
   .reveal {
-    opacity: 0;
-    transform: translateY(16px);
     transition:
       opacity var(--dur-enter) var(--ease-out-expo),
       transform var(--dur-enter) var(--ease-out-expo);
     transition-delay: var(--reveal-delay, 0ms);
   }
-  .reveal.is-visible {
-    opacity: 1;
-    transform: none;
+  .reveal-pending {
+    opacity: 0;
+    transform: translateY(8px);
   }
-  html:not(.js) .reveal {
-    opacity: 1;
-    transform: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal {
+  @media print, (prefers-reduced-motion: reduce) {
+    .reveal-pending {
       opacity: 1;
       transform: none;
-      transition: none;
     }
+  }
+
+  /* Links inside running text (paragraphs, definitions, table cells): underlined with a brand-coloured
+     line that gets solid on hover. Buttons opt out with [data-slot] / .no-underline; `.prose-link` opts in
+     anywhere else (list items are not matched, because navigation lists are <li><a> too). Utilities such as
+     `underline-offset-4` still win, being in a later layer. */
+  main :is(p, dd, td) a:not([class*="no-underline"], [data-slot], [role="button"], [role="tab"]),
+  .prose-link {
+    color: var(--link);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in oklab, var(--link) 50%, transparent);
+    transition: text-decoration-color var(--dur-hover) var(--ease-standard);
+  }
+  main
+    :is(p, dd, td)
+    a:not([class*="no-underline"], [data-slot], [role="button"], [role="tab"]):hover,
+  .prose-link:hover {
+    text-decoration-color: var(--link);
   }
 
   /* ---------- editor ---------- */
