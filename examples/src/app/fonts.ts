@@ -6,7 +6,9 @@ import localFont from "next/font/local";
 // IBM Plex Sans Arabic for Arabic (only its Arabic subset; it isn't preloaded, so English pages don't download
 // it). Plex has no 800: its 700 face serves the 800 headings too, so the browser never fakes a heavier weight.
 // The unicode ranges are the subsets' own (from @fontsource). next/font needs every option as a literal.
-// Put both variables on <html> (`fontVariables`) and use --site-font, which lists them in that order.
+// Put both variables on <html> (`fontVariables`) and use --site-font, which lists the Arabic font first: its
+// unicode-range limits it to Arabic, while Jakarta's fallback face (Arial, no unicode-range, has Arabic glyphs)
+// would otherwise draw the Arabic text before the Arabic font is ever reached.
 
 const jakarta = localFont({
   src: [
@@ -49,7 +51,8 @@ const plexArabic = localFont({
   variable: "--font-plex-arabic",
   display: "swap",
   preload: false,
-  adjustFontFallback: "Arial",
+  // No generated fallback face: it would have no unicode-range, so listed first it would take the Latin text too.
+  adjustFontFallback: false,
   declarations: [
     {
       prop: "unicode-range",

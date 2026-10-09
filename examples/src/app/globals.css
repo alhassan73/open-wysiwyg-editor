@@ -82,10 +82,11 @@
  * ---------------------------------------------------------------------------------------------- */
 :root,
 [data-theme="dark"] {
-  /* One font per script (app/fonts.ts): Plus Jakarta Sans covers only Latin, so Arabic text, also inside
-     mixed text, falls through to IBM Plex Sans Arabic. Each variable carries its metric-matched fallback. */
+  /* One font per script (app/fonts.ts). IBM Plex Sans Arabic comes first and covers only Arabic (unicode-range),
+     so Latin text falls through to Plus Jakarta Sans. Jakarta's variable carries its metric-matched fallback,
+     which must come after the Arabic font: it is Arial, which has Arabic glyphs. */
   --site-font:
-    var(--font-jakarta, "Plus Jakarta Sans"), var(--font-plex-arabic, "IBM Plex Sans Arabic"), system-ui, -apple-system,
+    var(--font-plex-arabic, "IBM Plex Sans Arabic"), var(--font-jakarta, "Plus Jakarta Sans"), system-ui, -apple-system,
     "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Sans", Tahoma, sans-serif;
   --site-mono:
     ui-monospace, "Cascadia Code", "JetBrains Mono", "SF Mono", Menlo, Consolas, "Liberation Mono",
