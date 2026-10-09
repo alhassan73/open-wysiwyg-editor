@@ -3,7 +3,8 @@ import localFont from "next/font/local";
 // The site fonts, self-hosted from the @fontsource packages through next/font: the Latin files are preloaded,
 // and each family gets a fallback with matching metrics (size-adjust, ascent and descent overrides), so the
 // text doesn't reflow when the web font arrives. One font per script: Plus Jakarta Sans for Latin text,
-// Cairo for Arabic (only its Arabic subset; it isn't preloaded, so English pages don't download it).
+// IBM Plex Sans Arabic for Arabic (only its Arabic subset; it isn't preloaded, so English pages don't download
+// it). Plex has no 800: its 700 face serves the 800 headings too, so the browser never fakes a heavier weight.
 // The unicode ranges are the subsets' own (from @fontsource). next/font needs every option as a literal.
 // Put both variables on <html> (`fontVariables`) and use --site-font, which lists the Arabic font first: its
 // unicode-range limits it to Arabic, while Jakarta's fallback face (Arial, no unicode-range, has Arabic glyphs)
@@ -36,13 +37,18 @@ const jakarta = localFont({
   ],
 });
 
-const cairo = localFont({
+const plexArabic = localFont({
   src: [
-    { path: "../../../node_modules/@fontsource/cairo/files/cairo-arabic-400-normal.woff2", weight: "400" },
-    { path: "../../../node_modules/@fontsource/cairo/files/cairo-arabic-700-normal.woff2", weight: "700" },
-    { path: "../../../node_modules/@fontsource/cairo/files/cairo-arabic-800-normal.woff2", weight: "800" },
+    {
+      path: "../../../node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-400-normal.woff2",
+      weight: "400",
+    },
+    {
+      path: "../../../node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-700-normal.woff2",
+      weight: "700",
+    },
   ],
-  variable: "--font-cairo",
+  variable: "--font-plex-arabic",
   display: "swap",
   preload: false,
   // No generated fallback face: it would have no unicode-range, so listed first it would take the Latin text too.
@@ -56,4 +62,4 @@ const cairo = localFont({
   ],
 });
 
-export const fontVariables = `${jakarta.variable} ${cairo.variable}`;
+export const fontVariables = `${jakarta.variable} ${plexArabic.variable}`;
