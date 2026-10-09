@@ -88,7 +88,7 @@ export async function savePost(formData: FormData) {
 
 const TOKENS_SNIPPET = `.owe {
   --owe-brand: #0066ff;
-  --owe-font: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --owe-font: "Cairo", system-ui, sans-serif;
   --owe-radius: 24px;
 }`;
 
