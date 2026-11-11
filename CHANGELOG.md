@@ -10,7 +10,7 @@ Dependency security update. No API or behavior changes.
 
 - DOMPurify is now required at `^3.4.17` (was `^3.4.16`), which fixes [GHSA-cg2g-xh64-v4q7](https://github.com/advisories/GHSA-cg2g-xh64-v4q7), [GHSA-mrv2-3pqr-j5jr](https://github.com/advisories/GHSA-mrv2-3pqr-j5jr) and [GHSA-c6gr-qvv4-5v3f](https://github.com/advisories/GHSA-c6gr-qvv4-5v3f). The editor's sanitizer does not use the affected options (`SAFE_FOR_TEMPLATES`, `IN_PLACE` with hooks, `PARSER_MEDIA_TYPE: "application/xhtml+xml"`). The update stops dependency audits from flagging the package. It also updates the copy of DOMPurify bundled into the script-tag build (`open-wysiwyg-editor.global.js`).
 - The framework packages now require `open-wysiwyg-editor@^1.0.3`, so installing any of them pulls in the patched DOMPurify.
-- Development and build tooling only, not shipped to users: next, undici, zod, seroval, fast-uri, minimatch and esbuild were updated to versions without known advisories. `npm audit` reports 0 vulnerabilities.
+- Development and build tooling only, not shipped to users: next, undici, zod, seroval, fast-uri and minimatch were updated to versions without known advisories.
 
 ## 1.0.2
 
